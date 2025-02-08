@@ -19,5 +19,15 @@
       <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://38boss38.github.io/posts/post-lite-one/cover.jpg" />
     </item>
     
+    <item>
+      <title>上传自动更新测试</title>
+      <link>https://38boss38.github.io/posts/post-lite-two/</link>
+      <pubDate>Fri, 07 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://38boss38.github.io/posts/post-lite-two/</guid>
+      <description>77777777777</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://38boss38.github.io/posts/post-lite-two/cover.png" />
+    </item>
+    
   </channel>
 </rss>
