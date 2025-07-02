@@ -12,11 +12,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>这是一个测试 &middot; ==》Lickbaの秘密基地《==</title>
-  <meta name="title" content="这是一个测试 &middot; ==》Lickbaの秘密基地《==" />
+  <title>C#学习加固笔记 &middot; ==》Lickbaの秘密基地《==</title>
+  <meta name="title" content="C#学习加固笔记 &middot; ==》Lickbaの秘密基地《==" />
   
-  <meta name="description" content="管你看没看懂，看就完了！" />
-  <meta name="keywords" content="文章, 测试, " />
+  <meta name="description" content="个人用记录C#学习过程笔记" />
+  <meta name="keywords" content="文章, 学习, C#, " />
   
   
   <link rel="canonical" href="https://38boss38.github.io/posts/post-lite-one/" />
@@ -75,20 +75,21 @@
   
   <meta property="og:url" content="https://38boss38.github.io/posts/post-lite-one/">
   <meta property="og:site_name" content="==》Lickbaの秘密基地《==">
-  <meta property="og:title" content="这是一个测试">
-  <meta property="og:description" content="管你看没看懂，看就完了！">
+  <meta property="og:title" content="C#学习加固笔记">
+  <meta property="og:description" content="个人用记录C#学习过程笔记">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2022-09-04T00:00:00+00:00">
-    <meta property="article:modified_time" content="2022-09-04T00:00:00+00:00">
+    <meta property="article:published_time" content="2025-07-02T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-07-02T00:00:00+00:00">
     <meta property="article:tag" content="文章">
-    <meta property="article:tag" content="测试">
+    <meta property="article:tag" content="学习">
+    <meta property="article:tag" content="C#">
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="这是一个测试">
-  <meta name="twitter:description" content="管你看没看懂，看就完了！">
+  <meta name="twitter:title" content="C#学习加固笔记">
+  <meta name="twitter:description" content="个人用记录C#学习过程笔记">
 
     
   
@@ -98,26 +99,26 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "文章",
-    "name": "这是一个测试",
-    "headline": "这是一个测试",
+    "name": "C#学习加固笔记",
+    "headline": "C#学习加固笔记",
     
-    "abstract": "管你看没看懂，看就完了！",
+    "abstract": "个人用记录C#学习过程笔记",
     "inLanguage": "zh-cn",
     "url" : "https:\/\/38boss38.github.io\/posts\/post-lite-one\/",
     "author" : {
       "@type": "Person",
       "name": "Lickba"
     },
-    "copyrightYear": "2022",
-    "dateCreated": "2022-09-04T00:00:00\u002b00:00",
-    "datePublished": "2022-09-04T00:00:00\u002b00:00",
+    "copyrightYear": "2025",
+    "dateCreated": "2025-07-02T00:00:00\u002b00:00",
+    "datePublished": "2025-07-02T00:00:00\u002b00:00",
     
-    "dateModified": "2022-09-04T00:00:00\u002b00:00",
+    "dateModified": "2025-07-02T00:00:00\u002b00:00",
     
-    "keywords": ["文章","测试"],
+    "keywords": ["文章","学习","C#"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "6"
+    "wordCount": "1178"
   }]
   </script>
 
@@ -613,7 +614,7 @@
   
   <li class="hidden">
     <a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href="/posts/post-lite-one/"
-      >这是一个测试</a
+      >C#学习加固笔记</a
     ><span class="px-1 text-primary-500">/</span>
   </li>
 
@@ -622,7 +623,7 @@
 
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        这是一个测试
+        C#学习加固笔记
       </h1>
       <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -671,7 +672,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2022-09-04T00:00:00&#43;00:00">2022-09-04</time>
+      <time datetime="2025-07-02T00:00:00&#43;00:00">2025-07-02</time>
     
 
     
@@ -827,8 +828,27 @@
     class="min-w-[220px] py-2 border-dotted ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#你的你的">你的你的</a></li>
-    <li><a href="#我的我的">我的我的</a></li>
+    <li><a href="#作用域">作用域</a></li>
+    <li><a href="#常量">常量</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#注意事项">注意事项</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#语法">语法：</a></li>
+    <li><a href="#对比if语句">对比if语句</a></li>
+    <li><a href="#break">break</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#语法-1">语法</a></li>
+    <li><a href="#运行步骤">运行步骤：</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#函数的基本使用">函数的基本使用</a></li>
   </ul>
 </nav>
   </div>
@@ -842,8 +862,27 @@
     class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#你的你的">你的你的</a></li>
-    <li><a href="#我的我的">我的我的</a></li>
+    <li><a href="#作用域">作用域</a></li>
+    <li><a href="#常量">常量</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#注意事项">注意事项</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#语法">语法：</a></li>
+    <li><a href="#对比if语句">对比if语句</a></li>
+    <li><a href="#break">break</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#语法-1">语法</a></li>
+    <li><a href="#运行步骤">运行步骤：</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#函数的基本使用">函数的基本使用</a></li>
   </ul>
 </nav>
   </div>
@@ -865,27 +904,1116 @@
 
         <div class="article-content max-w-prose mb-20">
           
-<h2 class="relative group">你的你的 
-    <div id="你的你的" class="anchor"></div>
+<h1 class="relative group">C#学习加固笔记 
+    <div id="c学习加固笔记" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
-        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e4%bd%a0%e7%9a%84%e4%bd%a0%e7%9a%84" aria-label="锚点">#</a>
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#c%e5%ad%a6%e4%b9%a0%e5%8a%a0%e5%9b%ba%e7%ac%94%e8%ae%b0" aria-label="锚点">#</a>
     </span>        
     
-</h2>
-<p>你你你你你你你你你</p>
+</h1>
 
-<h2 class="relative group">我的我的 
-    <div id="我的我的" class="anchor"></div>
+<h1 class="relative group">1.注释以及 log 
+    <div id="1注释以及-log" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
-        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%88%91%e7%9a%84%e6%88%91%e7%9a%84" aria-label="锚点">#</a>
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#1%e6%b3%a8%e9%87%8a%e4%bb%a5%e5%8f%8a-log" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 注释是写给人看的</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;这是一个普通日志。&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">LogWarning</span><span class="p">(</span><span class="s">&#34;这是一个警告日志。&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">LogError</span><span class="p">(</span><span class="s">&#34;这是一个错误日志。&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>‍</p>
+
+<h1 class="relative group">2.变量以及常用类型 
+    <div id="2变量以及常用类型" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#2%e5%8f%98%e9%87%8f%e4%bb%a5%e5%8f%8a%e5%b8%b8%e7%94%a8%e7%b1%bb%e5%9e%8b" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<ol>
+<li>
+<p>变量是什么？</p>
+<ul>
+<li>数据的抽象表示，类似数学中的变量</li>
+<li>可以变化的，值可以变</li>
+<li>除了整数、小数等以外还可以表示玩家的攻击力，生命值，等级，游戏昵称或者其他我们自定义的信息</li>
+</ul>
+</li>
+<li>
+<p>常用的变量类型<br>
+start（字符串）：用来存储用户名、密码、角色名称、技能名称等文本信息</p>
+<p>int（整数）：存角色等级、纯数字ID等</p>
+<p>float（浮点数）：小数，用来存时间这类对精度要求更高的数值</p>
+<p>整数、浮点数等数值类型都有取值范围，但是大多情况下以及目前情况下，可以忽视这个问题，感兴趣点链接了解：</p>
+<p><a
+  href="https:/learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/integral-numeric-types"title="https:/learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/integral-numeric-types"
+    target="_blank"
+  >https:/learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/integral-numeric-types</a>
+</p>
+</li>
+<li>
+<p>变量的申明<br>
+类型 变量名 = 变量初始值;</p>
+</li>
+<li>
+<p>驼峰命名法</p>
+<ul>
+<li>大驼峰：首字母大写，之后每个单次的首字母也大写，其余字母小写，如：GameOver、Home、MyGameID</li>
+<li>小驼峰：首字母小写，之后每个单次的首字母也大写，其余字母小写，如：gameOver、home、myGameID</li>
+</ul>
+</li>
+<li>
+<p>命名约束</p>
+<ul>
+<li>首字母不能是数字，但是后续可以是数字</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//变量的声明：类型 变量名 = 初始值;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">myName</span> <span class="p">=</span> <span class="s">&#34;Lickba&#34;</span><span class="p">;</span> <span class="c1">//字符串的使用，需要加双引号</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">age</span> <span class="p">=</span> <span class="m">18</span><span class="p">;</span>           <span class="c1">//非字符串的使用，不需要加引号</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">float</span> <span class="n">num</span> <span class="p">=</span> <span class="m">15.654787354f</span><span class="p">;</span> <span class="c1">//浮点数的使用，后面加f表示这是一个浮点数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//使用或输出变量的时候，不需要加双引号,f等</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">myName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">age</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>   
+</span></span></code></pre></div>
+<h1 class="relative group">3.转义字符 
+    <div id="3转义字符" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#3%e8%bd%ac%e4%b9%89%e5%ad%97%e7%ac%a6" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<ol>
+<li>
+<p>转义字符</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">转义字符</th>
+          <th style="text-align: center">\</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">单引号</td>
+          <td style="text-align: center">'</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">双引号</td>
+          <td style="text-align: center">&quot;</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">退格符 (unity不支持)</td>
+          <td style="text-align: center">\b</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">换页符(unity不支持)</td>
+          <td style="text-align: center">\f</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">换行符</td>
+          <td style="text-align: center">\n</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">回车</td>
+          <td style="text-align: center">\r</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">表格 水平</td>
+          <td style="text-align: center">\t</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">表格 垂直</td>
+          <td style="text-align: center">\v</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+<li>
+<p>原义符</p>
+<p>用来取消转义字符的特殊意义，要写在双引号外面</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 转义字符是针对字符串的</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">myName</span> <span class="p">=</span> <span class="s">&#34;张三\t李四\t王五&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 特殊需求：我们希望输出 双引号</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 程序认为 双引号是特殊符号，包括起来的就是字符串</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// \：转义字符，它本身也是一个特殊符号</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">str</span> <span class="p">=</span> <span class="s">&#34;\&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">myName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 输出转义字符的方式，就是用转义字符去修饰它</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;\\\\&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// @:原义符，取消转义字符的作用</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 不能直接输出双引号，两个双引号会被认为是一个双引号</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">names2</span> <span class="p">=</span> <span class="s">@&#34;张三\t李四\t王五&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">names3</span> <span class="p">=</span> <span class="s">@&#34;张三\t李四\t王五&#34;&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">names2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">names3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>   
+</span></span></code></pre></div></li>
+</ol>
+
+<h1 class="relative group">4.字符串拼接 
+    <div id="4字符串拼接" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#4%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%8b%bc%e6%8e%a5" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>+号拼接</p>
+<p>$号格式化</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// +号拼接</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 我是AA，我今年18岁</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">name</span> <span class="p">=</span> <span class="s">&#34;AA&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">age</span> <span class="p">=</span> <span class="m">18</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// int类型和字符串相加时，int会自动转换为字符串</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">info</span> <span class="p">=</span> <span class="s">&#34;我是&#34;</span> <span class="p">+</span> <span class="n">name</span> <span class="p">+</span> <span class="s">&#34;，我今年&#34;</span> <span class="p">+</span> <span class="n">age</span> <span class="p">+</span> <span class="s">&#34;岁&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">info</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// $格式化输出，用{}去包裹变量</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// $格式化输出时，@符号会对整体进行取消转义</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">info2</span> <span class="p">=</span> <span class="s">$&#34;我是{name}，我今年{age}岁&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">info2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>   
+</span></span></code></pre></div>
+<h1 class="relative group">5.变量的类型转换 
+    <div id="5变量的类型转换" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#5%e5%8f%98%e9%87%8f%e7%9a%84%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<ol>
+<li>
+<p>重新学习变量的定义方式</p>
+<ul>
+<li>
+<p>定义但是没有赋值，这种情况下无法使用变量</p>
+</li>
+<li>
+<p>定义并且赋值</p>
+</li>
+<li>
+<p>同类型变量批量定义</p>
+<ul>
+<li>
+<p>全部赋值</p>
+</li>
+<li>
+<p>部分赋值</p>
+</li>
+<li>
+<p>全部不赋值</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 批量定义，只需要写一次类型，变量名用逗号分隔</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">num1</span> <span class="p">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">num2</span> <span class="p">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">num3</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>=式的理解</p>
+<ul>
+<li>等式右边的结果会赋值给左边，所以左边只能是变量，不能是数值</li>
+<li>等式两边类型一直，不能int a = &ldquo;123&rdquo;</li>
+<li>变量可以在等式两边任何一边</li>
+</ul>
+</li>
+<li>
+<p>数值也有类型</p>
+<p>C#内置的类型背后都有一个实际类型，鼠标放在类型关键字或数值上都能看到</p>
+<ul>
+<li>string: String</li>
+<li>int: Int32</li>
+<li>float: Single</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">age</span> <span class="p">=</span> <span class="m">25</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Int32</span> <span class="n">age2</span> <span class="p">=</span> <span class="m">30</span><span class="p">;</span> <span class="c1">// Int32 等于 int</span>
+</span></span></code></pre></div><ol start="4">
+<li>
+<p>类型的转换方式</p>
+<ul>
+<li>
+<p>隐式类型转换：无需人为干涉的自动转换</p>
+<ol>
+<li>
+<p>类型上的兼容</p>
+</li>
+<li>
+<p>精度小的转为精度大的</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">num</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">float</span> <span class="n">fnum</span> <span class="p">=</span> <span class="n">num</span><span class="p">;</span> <span class="c1">// 把num的数值转为float类型</span>
+</span></span></code></pre></div></li>
+</ol>
+</li>
+<li>
+<p>显式类型转换：人为干涉的强制转换</p>
+<ol>
+<li>
+<p>类型上的兼容</p>
+</li>
+<li>
+<p>如果将精度大的转为精度小的，会丢失那些无法保存的精度</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"> <span class="c1">// 显式转换，丢失精度</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">float</span> <span class="n">fnum3</span> <span class="p">=</span> <span class="m">10.01f</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">int</span> <span class="n">num3</span> <span class="p">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">fnum3</span><span class="p">;</span> <span class="c1">// 将float转换为int，丢失小数部分</span>
+</span></span></code></pre></div></li>
+</ol>
+</li>
+<li>
+<p>Convert强行转换（支持不兼容的类型）</p>
+<p>本身对放进去的变量类型没什么限制，但是如果完全不具备转换的可能性，会报错</p>
+<ul>
+<li>
+<p>转换为Init：   Convert.ToInt32</p>
+</li>
+<li>
+<p>转换为float:   Convert.ToSingle</p>
+</li>
+<li>
+<p>转换为string: Convert.ToString</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> <span class="n">Convert</span><span class="p">.</span><span class="n">ToSingle</span><span class="p">(</span><span class="s">&#34;1233.45&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> <span class="n">Convert</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="m">123</span><span class="p">);</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>字符串转换</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"> <span class="c1">// ToString(),转为字符串</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">int</span> <span class="n">age</span> <span class="p">=</span> <span class="m">19</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">string</span> <span class="n">ageStr1</span> <span class="p">=</span> <span class="n">age</span> <span class="p">+</span> <span class="s">&#34;&#34;</span><span class="p">;</span> <span class="c1">// 不推荐的做法</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">string</span> <span class="n">ageStr2</span> <span class="p">=</span> <span class="n">age</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span> <span class="c1">// 推荐的做法</span>
+</span></span></code></pre></div></li>
+</ol>
+
+<h1 class="relative group">6.作用域和常量 
+    <div id="6作用域和常量" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#6%e4%bd%9c%e7%94%a8%e5%9f%9f%e5%92%8c%e5%b8%b8%e9%87%8f" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+
+<h2 class="relative group">作用域 
+    <div id="作用域" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e4%bd%9c%e7%94%a8%e5%9f%9f" aria-label="锚点">#</a>
     </span>        
     
 </h2>
-<p>我我我我我我我我我</p>
+<p>C#中用大括号{}表示语句块、层次关系</p>
+<p>而变量具备一个有效范围，这个范围就是他的作用域</p>
+<ol>
+<li>
+<p>变量只能在定义之后使用</p>
+</li>
+<li>
+<p>变量只在它所在的“范围内有效”，这个范围可以简单的理解成大括号{}内</p>
+</li>
+<li>
+<p>但是大括号{}有嵌套的情况时</p>
+<p>“父级”的变量可以用在“子级”中</p>
+<p>“子级”的变量不可以用在父级中</p>
+</li>
+</ol>
+
+<h2 class="relative group">常量 
+    <div id="常量" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%b8%b8%e9%87%8f" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<ol>
+<li>
+<p>常量是固定的值，程序运行时不会修改的值，比如圆周率π就不会因任何原因而修改</p>
+</li>
+<li>
+<p>非常类似变量，但是它在定义时必须赋值，其他时刻无法改变</p>
+</li>
+<li>
+<p>常量同样有作用域</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"> <span class="kd">const</span> <span class="kt">float</span> <span class="n">pi</span> <span class="p">=</span> <span class="m">3.1415926f</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+</ol>
+
+<h1 class="relative group">7.算数运算符 
+    <div id="7算数运算符" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#7%e7%ae%97%e6%95%b0%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<table>
+  <thead>
+      <tr>
+          <th>运算符</th>
+          <th>描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>+</td>
+          <td>加</td>
+      </tr>
+      <tr>
+          <td>-</td>
+          <td>减</td>
+      </tr>
+      <tr>
+          <td>*</td>
+          <td>乘</td>
+      </tr>
+      <tr>
+          <td>/</td>
+          <td>除</td>
+      </tr>
+      <tr>
+          <td>%</td>
+          <td>取余</td>
+      </tr>
+      <tr>
+          <td>++</td>
+          <td>自增1</td>
+      </tr>
+      <tr>
+          <td>&ndash;</td>
+          <td>自减1</td>
+      </tr>
+  </tbody>
+</table>
+<p>‍</p>
+<p>前++、后++的区别（&ndash;同理）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">b</span> <span class="p">=</span> <span class="n">a</span><span class="p">++;</span> <span class="c1">// b = 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">b</span> <span class="p">=</span> <span class="p">++</span><span class="n">a</span><span class="p">;</span> <span class="c1">// b = 2</span>
+</span></span></code></pre></div><p>前++是先自加再使用</p>
+<p>而后++是先使用再自加</p>
+
+<h1 class="relative group">8.赋值运算符 
+    <div id="8赋值运算符" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#8%e8%b5%8b%e5%80%bc%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<table>
+  <thead>
+      <tr>
+          <th>运算符</th>
+          <th>描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>=</td>
+          <td>等号</td>
+      </tr>
+      <tr>
+          <td>+=</td>
+          <td>A+=B相当于A = A + B</td>
+      </tr>
+      <tr>
+          <td>-=</td>
+          <td>A-=B相当于A = A - B</td>
+      </tr>
+      <tr>
+          <td>*=</td>
+          <td>A*=B相当于A = A * B</td>
+      </tr>
+      <tr>
+          <td>/=</td>
+          <td>A/=B相当于A = A / B</td>
+      </tr>
+      <tr>
+          <td>%=</td>
+          <td>A%=B相当于A = A % B</td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="p">+=</span> <span class="m">4</span><span class="p">;</span> <span class="c1">// 7  等同于a = a + 4;</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="p">-=</span> <span class="m">2</span><span class="p">;</span> <span class="c1">// 5  等同于a = a - 2;</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="p">*=</span> <span class="m">2</span><span class="p">;</span> <span class="c1">// 10 等同于a = a * 2;</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="p">/=</span> <span class="m">5</span><span class="p">;</span> <span class="c1">// 2  等同于a = a / 5;</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="p">%=</span> <span class="m">3</span><span class="p">;</span> <span class="c1">// 2  等同于a = a % 3;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">a</span><span class="p">);</span> <span class="c1">// 输出结果为2</span>
+</span></span></code></pre></div>
+<h1 class="relative group">9.bool类型与关系运算符 
+    <div id="9bool类型与关系运算符" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#9bool%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%85%b3%e7%b3%bb%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>bool：布尔类型一般用来描述“是与否”、“真与假”、“能与不能”、“正确与错误”等情况</p>
+<p>有两个值：</p>
+<ol>
+<li>True：代表是</li>
+<li>False：代表否</li>
+</ol>
+
+<h1 class="relative group">10.关系运算符 
+    <div id="10关系运算符" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#10%e5%85%b3%e7%b3%bb%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<table>
+  <thead>
+      <tr>
+          <th>运算符</th>
+          <th>描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>==</td>
+          <td>检查两个值是否相等</td>
+      </tr>
+      <tr>
+          <td>!=</td>
+          <td>检查两个值是否不相等</td>
+      </tr>
+      <tr>
+          <td>&gt;</td>
+          <td>左边是否大于右边</td>
+      </tr>
+      <tr>
+          <td>&lt;</td>
+          <td>左边是否小于右边</td>
+      </tr>
+      <tr>
+          <td>&gt;=</td>
+          <td>左边是否大于或等于右边</td>
+      </tr>
+      <tr>
+          <td>&lt;=</td>
+          <td>左边是否小于或等于右边</td>
+      </tr>
+  </tbody>
+</table>
+
+<h1 class="relative group">11.逻辑运算符 
+    <div id="11逻辑运算符" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#11%e9%80%bb%e8%be%91%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<table>
+  <thead>
+      <tr>
+          <th>运算符</th>
+          <th>描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&amp;</td>
+          <td>同时，左右都是true返回true，一个为false就返回false</td>
+      </tr>
+      <tr>
+          <td>|</td>
+          <td>或，左右都是false返回false，一个为true就返回true</td>
+      </tr>
+      <tr>
+          <td>&amp;&amp;</td>
+          <td>同时，左右都是true返回true，一个为false就返回false</td>
+      </tr>
+      <tr>
+          <td>||</td>
+          <td>或，左右都是false返回false，一个为true就返回true</td>
+      </tr>
+      <tr>
+          <td>!</td>
+          <td>取反，true转为false，false转为true</td>
+      </tr>
+  </tbody>
+</table>
+<p>&amp;：实际上是按位与，但是目前如果深究这块，会比较复杂，所以可以按照上面的理解</p>
+<p>|：实际上是按位或，但是目前如果深究这块，会比较复杂，所以可以按照上面的理解</p>
+<p>&amp;&amp;、||都会发生短路机制，也就是如果左边已经为false则不会执行右边，实际开发中使用较多</p>
+<p>短路机制：一但确定了结论，后面就不执行，确定的顺序是从左往右（性能会更好）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"> <span class="kt">string</span> <span class="n">userName</span> <span class="p">=</span> <span class="s">&#34;User2&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">string</span> <span class="n">password</span> <span class="p">=</span> <span class="s">&#34;Password123&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="kt">bool</span> <span class="n">checkUserName</span> <span class="p">=</span> <span class="n">userName</span> <span class="p">==</span> <span class="s">&#34;User&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">bool</span> <span class="n">checkPassword</span> <span class="p">=</span> <span class="n">password</span> <span class="p">==</span> <span class="s">&#34;Password123&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="kt">bool</span> <span class="n">online</span> <span class="p">=</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// 当前网络在线</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="kt">bool</span> <span class="n">canLogin</span> <span class="p">=</span> <span class="n">checkUserName</span> <span class="p">&amp;</span> <span class="n">checkPassword</span> <span class="p">&amp;</span> <span class="n">online</span><span class="p">;</span> <span class="c1">// 能登录 = 用户名正确 同时 密码正确</span>
+</span></span><span class="line"><span class="cl"> <span class="c1">// bool canLogin = (checkUserName &amp; checkPassword) &amp; online;</span>
+</span></span><span class="line"><span class="cl"> <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;玩家可以登录: {canLogin}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="kt">bool</span> <span class="n">admin</span> <span class="p">=</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// 是否是管理员</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">bool</span> <span class="n">adminCanLogin</span> <span class="p">=</span> <span class="n">checkUserName</span> <span class="p">|</span> <span class="n">admin</span><span class="p">;</span> <span class="c1">// 管理员可以登录 = 用户名正确 或者 是管理员</span>
+</span></span><span class="line"><span class="cl"> <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;管理员可以登录: {adminCanLogin}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(!</span><span class="kc">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(!</span><span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"> <span class="c1">// ! 是逻辑非运算符，用于取反布尔值。</span>
+</span></span><span class="line"><span class="cl"> <span class="c1">// 它会将 true 变为 false，将 false 变为 true。</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// &amp;  // 按位与运算符</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &amp;&amp; // 逻辑与运算符</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// |  // 按位或运算符</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// || // 逻辑或运算符</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &amp; 跟 &amp;&amp; 的区别：</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &amp; 是按位与运算符，会对每一位进行比较，只有当两个操作数的对应位都为1时，结果才为1。</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &amp;&amp; 是逻辑与运算符，只有当两个操作数都为true时，结果才为true，并且如果第一个操作数为false，则不会计算第二个操作数（短路求值）。</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// | 跟 || 的区别：</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// | 是按位或运算符，会对每一位进行比较，只要有一个操作数的对应位为1，结果就为1。</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// || 是逻辑或运算符，只要有一个操作数为true，结果就为true，并且如果第一个操作数为true，则不会计算第二个操作数（短路求值）。</span>
+</span></span></code></pre></div>
+<h1 class="relative group">12.三目运算符 
+    <div id="12三目运算符" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#12%e4%b8%89%e7%9b%ae%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>也被称为条件运算符</p>
+<p>三目运算符并不是一种必要的运算符，是为了方便</p>
+<p>结果 = 如果条件为真 ？则为X ：否则为Y</p>
+<p>
+
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="image" src="#ZgotmplZ">
+
+  
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">int</span> <span class="k">value</span> <span class="p">=</span> <span class="p">-</span><span class="m">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">num</span> <span class="p">=</span> <span class="k">value</span> <span class="p">&lt;</span> <span class="m">0</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="k">value</span><span class="p">;</span> <span class="c1">// 如果num小于0，则num赋值为0，否则不变</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 最多是100</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">num2</span> <span class="p">=</span> <span class="k">value</span> <span class="p">&gt;</span> <span class="m">100</span> <span class="p">?</span> <span class="m">100</span> <span class="p">:</span> <span class="k">value</span><span class="p">;</span> <span class="c1">// 如果num大于100，则num2赋值为100，否则num2赋值为num</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">num2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 控制在0到100之间</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">num3</span> <span class="p">=</span> <span class="k">value</span> <span class="p">&lt;</span> <span class="m">0</span> <span class="p">?</span> <span class="m">0</span> <span class="p">:</span> <span class="k">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">num3</span> <span class="p">=</span> <span class="n">num3</span> <span class="p">&gt;</span> <span class="m">100</span> <span class="p">?</span> <span class="m">100</span> <span class="p">:</span> <span class="n">num3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">num3</span><span class="p">);</span>
+</span></span></code></pre></div>
+<h1 class="relative group">13.if判断语句 
+    <div id="13if判断语句" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#13if%e5%88%a4%e6%96%ad%e8%af%ad%e5%8f%a5" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p><strong>if</strong>（如果）：用来判断条件是否成立，即是否为true</p>
+<p>分支语句：不能单独使用</p>
+<p><strong>else if</strong>  （其他可能性）：if不成立，但是满足我的条件，则执行。</p>
+<p><strong>else</strong>：以上条件都不满足则执行</p>
+
+<h2 class="relative group">注意事项 
+    <div id="注意事项" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<ol>
+<li><strong>短路机制</strong>，if如果执行成功则不会执行else if 或 else 的语句，短路机制不只是不执行{}中的代码，判断条件本身也不会运行（因为判断条件有时候本身是有计算过程的）</li>
+<li>if语句中大括号也存在变量的作用域问题</li>
+</ol>
+
+<h1 class="relative group">14.枚举类型 
+    <div id="14枚举类型" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#14%e6%9e%9a%e4%b8%be%e7%b1%bb%e5%9e%8b" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>特别适合用来描述状态、阶段</p>
+<p>当某个数据可以预期有确定性的几种结构时，我们可以使用枚举类型来保存，比如</p>
+<ol>
+<li>
+<p>AI：待机、攻击、死亡</p>
+</li>
+<li>
+<p>时间：周一、周二、周三</p>
+</li>
+<li>
+<p>游戏状态：选择英雄、加载界面、战斗中、游戏结束</p>
+<p>‍</p>
+</li>
+</ol>
+<p>枚举是一种由我们自己去创建的类型，也是我们首次去创建我们自己的类型</p>
+<ol>
+<li>
+<p>定义枚举类型，一般我们会将它定义在class同级中或单独新建一个脚本文件去保存，不要定义在函数中</p>
+</li>
+<li>
+<p>定义这个枚举类型的变量</p>
+</li>
+<li>
+<p>使用这个变量</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"> <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// AI状态</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">enum</span> <span class="n">AIState</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 待机</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Idle</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 攻击</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Attack</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 死亡</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Die</span> <span class="p">=</span> <span class="m">1000</span> <span class="c1">// 自定义状态对应的值</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+</ol>
+
+<h1 class="relative group">15.Switch语句 
+    <div id="15switch语句" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#15switch%e8%af%ad%e5%8f%a5" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>switch语句和if else if 非常接近，甚至理论上不存在也没有任何关系，不过是特定情况下会更加方便</p>
+
+<h2 class="relative group">语法： 
+    <div id="语法" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e8%af%ad%e6%b3%95" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>
+
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="image" src="#ZgotmplZ">
+
+  
+</figure>
+</p>
+
+<h2 class="relative group">对比if语句 
+    <div id="对比if语句" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%af%b9%e6%af%94if%e8%af%ad%e5%8f%a5" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>if else if的特点是判断的因素可以完全不相关，只要条件都是bool类型即可，比如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="m">3</span><span class="p">==</span><span class="m">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a2</span> <span class="p">&gt;</span> <span class="n">a3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>但是Switch一般用在围绕一个因素去做判断，比如当前是星期几，AI处于什么状态，所以和枚举类型特别搭配</p>
+<p>‍</p>
+
+<h2 class="relative group">break 
+    <div id="break" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#break" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>并不是每一个case都需要break，如果case 语句后面没有要执行的代码，则可以不包含 break 关键字， 这时程序会继续执行后续的case语句，直至遇到break关键字为止；</p>
+<p>这种情况的目的一般在于，如果我们希望当AI状态为巡逻、待机时候要做的事情是一样的</p>
+<p>
+
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="image" src="#ZgotmplZ">
+
+  
+</figure>
+</p>
+
+<h1 class="relative group">16.for循环 
+    <div id="16for循环" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#16for%e5%be%aa%e7%8e%af" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>一般用于循环固定次数的情况</p>
+
+<h2 class="relative group">语法 
+    <div id="语法-1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e8%af%ad%e6%b3%95-1" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>
+
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="image" src="#ZgotmplZ">
+
+  
+</figure>
+</p>
+
+<h2 class="relative group">运行步骤： 
+    <div id="运行步骤" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e8%bf%90%e8%a1%8c%e6%ad%a5%e9%aa%a4" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<ol>
+<li>
+<p>初始化代码，只会执行一次，也可以不写</p>
+</li>
+<li>
+<p>判断条件是否满足</p>
+<ol>
+<li>
+<p>满足则执行{}中的主代码片段</p>
+<ul>
+<li>执行更新时间</li>
+<li>判断条件，满足则继续执行&hellip;（后续循环）</li>
+</ul>
+</li>
+<li>
+<p>不满足则退出循环</p>
+</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 案例：1+2+3+4+5....+100</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">res</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">100</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="p">+=</span> <span class="n">i</span><span class="p">;</span> <span class="c1">// 将i的值累加到res中</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;i = {i}, res = {res}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;1+2+3+4+5....+100 = {res}&#34;</span><span class="p">);</span>
+</span></span></code></pre></div>
+<h1 class="relative group">17.while循环语句 
+    <div id="17while循环语句" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#17while%e5%be%aa%e7%8e%af%e8%af%ad%e5%8f%a5" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>基于条件的循环，也就是条件满足就一直循环</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 避免死循环</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 从1加到100</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">num</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">res</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">num</span><span class="p">&lt;=</span><span class="m">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="p">+=</span> <span class="n">num</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;当前num={num}, res={res}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+</span></span></code></pre></div><p>还有一个变种 do while，但是用的少</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 至少执行一次</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 首先执行一次</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 循环体</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;至少执行一次&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="kc">false</span><span class="p">);</span> <span class="c1">// 如果条件满足才会执行下一次</span>
+</span></span></code></pre></div>
+<h1 class="relative group">18.函数的基本使用 
+    <div id="18函数的基本使用" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#18%e5%87%bd%e6%95%b0%e7%9a%84%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+
+<h2 class="relative group">函数的基本使用 
+    <div id="函数的基本使用" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%87%bd%e6%95%b0%e7%9a%84%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>函数一般也叫方法，将可以复用的代码包装起来，方便之后调用</p>
+<p>
+
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="image" src="#ZgotmplZ">
+
+  
+</figure>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">num</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Function</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="s">&#34;Test&#34;</span><span class="p">);</span> <span class="c1">//调用函数</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;实参num = {num}&#34;</span><span class="p">);</span> <span class="c1">//输出 num 的值</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">num2</span> <span class="p">=</span> <span class="m">33</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num2</span> <span class="p">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">num2</span><span class="p">,</span> <span class="m">333</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;Add(100, 333) = {num2}&#34;</span><span class="p">);</span> <span class="c1">// 输出 Add 函数的返回值</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 函数的参数名称理论是无所谓是什么的，但是还是要见名知意</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 函数的参数叫做形参，也就是形式参数，和外部调用处的函数变量名称没有关系</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 实参和形参没有关系：一方改变不影响另外一方，相当于变成了两个类型一致但是数值没有关联的变量</span>
+</span></span><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Function</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">,</span><span class="kt">string</span> <span class="n">info</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num</span> <span class="p">+=</span> <span class="m">200</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">100</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//Debug.Log($&#34;{i}&#34;);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;形参num : {num}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 一个返回值类型为int的函数</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span> <span class="c1">// return的结果要跟函数的返回值类型一致</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h1 class="relative group">19.函数重载 
+    <div id="19函数重载" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#19%e5%87%bd%e6%95%b0%e9%87%8d%e8%bd%bd" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>同名函数不同参数称之为重载</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="p">=</span> <span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res2</span> <span class="p">=</span> <span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res3</span> <span class="p">=</span> <span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="s">&#34;2&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span> <span class="c1">// return的结果要跟函数的返回值类型一致</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// int.Parse：转为int类型</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">string</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span> <span class="p">+</span> <span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h1 class="relative group">20.函数的ref和out关键字 
+    <div id="20函数的ref和out关键字" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#20%e5%87%bd%e6%95%b0%e7%9a%84ref%e5%92%8cout%e5%85%b3%e9%94%ae%e5%ad%97" aria-label="锚点">#</a>
+    </span>        
+    
+</h1>
+<p>ref：通常情况下，形参和实参只是值一样，但是并不是同一个变量。如果通过ref则可以视为一个变量</p>
+<p>out：函数的返回值只有一个，如果希望有两个及以上，则可以使用</p>
+<p>函数的参数可以有默认值，在定义的时候直接=即可</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">RefFunction</span><span class="p">(</span><span class="k">ref</span> <span class="n">a</span><span class="p">);</span>    <span class="c1">// 实参</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;实参： {a}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 需求：</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1.请求登录，提供一个账号</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">///2.如果有此账号，返回true，并且返回密码</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">CheckLogin</span><span class="p">(</span><span class="s">&#34;user123&#34;</span><span class="p">,</span> <span class="k">out</span> <span class="kt">string</span> <span class="n">password</span><span class="p">))</span> <span class="c1">// 相当于定义在if的外面</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;登录成功，密码是：{password}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;登录失败，账号不存在&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">TestFunction</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="m">200</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TestFunction</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TestFunction</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">void</span> <span class="n">RefFunction</span><span class="p">(</span><span class="k">ref</span> <span class="kt">int</span> <span class="n">a</span><span class="p">)</span>    <span class="c1">// 形参</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="p">+=</span> <span class="m">1000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;形参： {a}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 检查登录</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;account&#34;&gt;用户名&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;password&#34;&gt;密码&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;是否登录成功&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">CheckLogin</span><span class="p">(</span><span class="kt">string</span> <span class="n">account</span><span class="p">,</span> <span class="k">out</span> <span class="kt">string</span> <span class="n">password</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 模拟账号和密码</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">account</span> <span class="p">==</span> <span class="s">&#34;user123&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">password</span> <span class="p">=</span> <span class="s">&#34;password123&#34;</span><span class="p">;</span> <span class="c1">// 返回密码</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// 登录成功</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">password</span> <span class="p">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">// 无效账号</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// 登录失败</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 测试可选参数（默认参数）</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 如果你传递，则使用传递的值；如果不传递，则使用默认值</span>
+</span></span><span class="line"><span class="cl"><span class="k">void</span> <span class="n">TestFunction</span><span class="p">(</span><span class="kt">int</span> <span class="n">c</span><span class="p">,</span><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">10099</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span> <span class="p">=</span> <span class="m">9999</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">a</span><span class="p">+</span><span class="n">b</span><span class="p">+</span><span class="n">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>‍</p>
 
           
           
@@ -904,7 +2032,7 @@
         <a
           target="_blank"
           class="m-1 rounded bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
-          href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://38boss38.github.io/posts/post-lite-one/&amp;title=%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e6%b5%8b%e8%af%95"
+          href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://38boss38.github.io/posts/post-lite-one/&amp;title=C#%e5%ad%a6%e4%b9%a0%e5%8a%a0%e5%9b%ba%e7%ac%94%e8%ae%b0"
           title="分享到 LinkedIn"
           aria-label="分享到 LinkedIn">
           
@@ -922,7 +2050,7 @@
         <a
           target="_blank"
           class="m-1 rounded bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
-          href="https://twitter.com/intent/tweet/?url=https://38boss38.github.io/posts/post-lite-one/&amp;text=%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e6%b5%8b%e8%af%95"
+          href="https://twitter.com/intent/tweet/?url=https://38boss38.github.io/posts/post-lite-one/&amp;text=C#%e5%ad%a6%e4%b9%a0%e5%8a%a0%e5%9b%ba%e7%ac%94%e8%ae%b0"
           title="分享到 Twitter"
           aria-label="分享到 Twitter">
           
@@ -939,7 +2067,7 @@
         <a
           target="_blank"
           class="m-1 rounded bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
-          href="https://api.whatsapp.com/send?text=https://38boss38.github.io/posts/post-lite-one/&amp;resubmit=true&amp;title=%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e6%b5%8b%e8%af%95"
+          href="https://api.whatsapp.com/send?text=https://38boss38.github.io/posts/post-lite-one/&amp;resubmit=true&amp;title=C#%e5%ad%a6%e4%b9%a0%e5%8a%a0%e5%9b%ba%e7%ac%94%e8%ae%b0"
           title=""
           aria-label="">
           
@@ -957,7 +2085,7 @@
         <a
           target="_blank"
           class="m-1 rounded bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
-          href="https://pinterest.com/pin/create/bookmarklet/?url=https://38boss38.github.io/posts/post-lite-one/&amp;description=%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e6%b5%8b%e8%af%95"
+          href="https://pinterest.com/pin/create/bookmarklet/?url=https://38boss38.github.io/posts/post-lite-one/&amp;description=C#%e5%ad%a6%e4%b9%a0%e5%8a%a0%e5%9b%ba%e7%ac%94%e8%ae%b0"
           title="钉到 Pinterest"
           aria-label="钉到 Pinterest">
           
@@ -975,7 +2103,7 @@
         <a
           target="_blank"
           class="m-1 rounded bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
-          href="https://reddit.com/submit/?url=https://38boss38.github.io/posts/post-lite-one/&amp;resubmit=true&amp;title=%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e6%b5%8b%e8%af%95"
+          href="https://reddit.com/submit/?url=https://38boss38.github.io/posts/post-lite-one/&amp;resubmit=true&amp;title=C#%e5%ad%a6%e4%b9%a0%e5%8a%a0%e5%9b%ba%e7%ac%94%e8%ae%b0"
           title="提交到 Reddit"
           aria-label="提交到 Reddit">
           
@@ -993,7 +2121,7 @@
         <a
           target="_blank"
           class="m-1 rounded bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
-          href="https://www.facebook.com/sharer/sharer.php?u=https://38boss38.github.io/posts/post-lite-one/&amp;quote=%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e6%b5%8b%e8%af%95"
+          href="https://www.facebook.com/sharer/sharer.php?u=https://38boss38.github.io/posts/post-lite-one/&amp;quote=C#%e5%ad%a6%e4%b9%a0%e5%8a%a0%e5%9b%ba%e7%ac%94%e8%ae%b0"
           title="分享到 Facebook"
           aria-label="分享到 Facebook">
           
@@ -1011,7 +2139,7 @@
         <a
           target="_blank"
           class="m-1 rounded bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
-          href="mailto:?body=https://38boss38.github.io/posts/post-lite-one/&amp;subject=%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e6%b5%8b%e8%af%95"
+          href="mailto:?body=https://38boss38.github.io/posts/post-lite-one/&amp;subject=C#%e5%ad%a6%e4%b9%a0%e5%8a%a0%e5%9b%ba%e7%ac%94%e8%ae%b0"
           title="通过电子邮件发送"
           aria-label="通过电子邮件发送">
           
