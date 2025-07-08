@@ -118,7 +118,7 @@
     "keywords": ["文章","学习","C#"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "1178"
+    "wordCount": "1516"
   }]
   </script>
 
@@ -828,27 +828,65 @@
     class="min-w-[220px] py-2 border-dotted ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#作用域">作用域</a></li>
-    <li><a href="#常量">常量</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#注意事项">注意事项</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#语法">语法：</a></li>
-    <li><a href="#对比if语句">对比if语句</a></li>
-    <li><a href="#break">break</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#语法-1">语法</a></li>
-    <li><a href="#运行步骤">运行步骤：</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#函数的基本使用">函数的基本使用</a></li>
+    <li><a href="#1注释以及-log">1.注释以及 log</a></li>
+    <li><a href="#2变量以及常用类型">2.变量以及常用类型</a></li>
+    <li><a href="#3转义字符">3.转义字符</a></li>
+    <li><a href="#4字符串拼接">4.字符串拼接</a></li>
+    <li><a href="#5变量的类型转换">5.变量的类型转换</a></li>
+    <li><a href="#6作用域和常量">6.作用域和常量</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#作用域">作用域</a></li>
+            <li><a href="#常量">常量</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#7算数运算符">7.算数运算符</a></li>
+    <li><a href="#8赋值运算符">8.赋值运算符</a></li>
+    <li><a href="#9bool类型与关系运算符">9.bool类型与关系运算符</a></li>
+    <li><a href="#10关系运算符">10.关系运算符</a></li>
+    <li><a href="#11逻辑运算符">11.逻辑运算符</a></li>
+    <li><a href="#12三目运算符">12.三目运算符</a></li>
+    <li><a href="#13if判断语句">13.if判断语句</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#注意事项">注意事项</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#14枚举类型">14.枚举类型</a></li>
+    <li><a href="#15switch语句">15.Switch语句</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#语法">语法：</a></li>
+            <li><a href="#对比if语句">对比if语句</a></li>
+            <li><a href="#break">break</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#16for循环">16.for循环</a>
+      <ul>
+        <li><a href="#语法-1">语法</a></li>
+        <li><a href="#运行步骤">运行步骤：</a></li>
+      </ul>
+    </li>
+    <li><a href="#17while循环语句">17.while循环语句</a></li>
+    <li><a href="#18函数的基本使用">18.函数的基本使用</a>
+      <ul>
+        <li><a href="#函数的基本使用">函数的基本使用</a></li>
+      </ul>
+    </li>
+    <li><a href="#19函数重载">19.函数重载</a></li>
+    <li><a href="#20函数的ref和out关键字">20.函数的ref和out关键字</a></li>
+    <li><a href="#21结构体">21.结构体</a></li>
+    <li><a href="#22结构体使用细节">22.结构体使用细节</a></li>
+    <li><a href="#23面向对象概念">23.面向对象概念</a></li>
   </ul>
 </nav>
   </div>
@@ -862,27 +900,65 @@
     class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#作用域">作用域</a></li>
-    <li><a href="#常量">常量</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#注意事项">注意事项</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#语法">语法：</a></li>
-    <li><a href="#对比if语句">对比if语句</a></li>
-    <li><a href="#break">break</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#语法-1">语法</a></li>
-    <li><a href="#运行步骤">运行步骤：</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#函数的基本使用">函数的基本使用</a></li>
+    <li><a href="#1注释以及-log">1.注释以及 log</a></li>
+    <li><a href="#2变量以及常用类型">2.变量以及常用类型</a></li>
+    <li><a href="#3转义字符">3.转义字符</a></li>
+    <li><a href="#4字符串拼接">4.字符串拼接</a></li>
+    <li><a href="#5变量的类型转换">5.变量的类型转换</a></li>
+    <li><a href="#6作用域和常量">6.作用域和常量</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#作用域">作用域</a></li>
+            <li><a href="#常量">常量</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#7算数运算符">7.算数运算符</a></li>
+    <li><a href="#8赋值运算符">8.赋值运算符</a></li>
+    <li><a href="#9bool类型与关系运算符">9.bool类型与关系运算符</a></li>
+    <li><a href="#10关系运算符">10.关系运算符</a></li>
+    <li><a href="#11逻辑运算符">11.逻辑运算符</a></li>
+    <li><a href="#12三目运算符">12.三目运算符</a></li>
+    <li><a href="#13if判断语句">13.if判断语句</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#注意事项">注意事项</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#14枚举类型">14.枚举类型</a></li>
+    <li><a href="#15switch语句">15.Switch语句</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#语法">语法：</a></li>
+            <li><a href="#对比if语句">对比if语句</a></li>
+            <li><a href="#break">break</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#16for循环">16.for循环</a>
+      <ul>
+        <li><a href="#语法-1">语法</a></li>
+        <li><a href="#运行步骤">运行步骤：</a></li>
+      </ul>
+    </li>
+    <li><a href="#17while循环语句">17.while循环语句</a></li>
+    <li><a href="#18函数的基本使用">18.函数的基本使用</a>
+      <ul>
+        <li><a href="#函数的基本使用">函数的基本使用</a></li>
+      </ul>
+    </li>
+    <li><a href="#19函数重载">19.函数重载</a></li>
+    <li><a href="#20函数的ref和out关键字">20.函数的ref和out关键字</a></li>
+    <li><a href="#21结构体">21.结构体</a></li>
+    <li><a href="#22结构体使用细节">22.结构体使用细节</a></li>
+    <li><a href="#23面向对象概念">23.面向对象概念</a></li>
   </ul>
 </nav>
   </div>
@@ -914,7 +990,7 @@
     
 </h1>
 
-<h1 class="relative group">1.注释以及 log 
+<h2 class="relative group">1.注释以及 log 
     <div id="1注释以及-log" class="anchor"></div>
     
     <span
@@ -922,7 +998,7 @@
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#1%e6%b3%a8%e9%87%8a%e4%bb%a5%e5%8f%8a-log" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// 注释是写给人看的</span>
@@ -937,7 +1013,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>‍</p>
 
-<h1 class="relative group">2.变量以及常用类型 
+<h2 class="relative group">2.变量以及常用类型 
     <div id="2变量以及常用类型" class="anchor"></div>
     
     <span
@@ -945,7 +1021,7 @@
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#2%e5%8f%98%e9%87%8f%e4%bb%a5%e5%8f%8a%e5%b8%b8%e7%94%a8%e7%b1%bb%e5%9e%8b" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <ol>
 <li>
 <p>变量是什么？</p>
@@ -1003,7 +1079,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>   
 </span></span></code></pre></div>
-<h1 class="relative group">3.转义字符 
+<h2 class="relative group">3.转义字符 
     <div id="3转义字符" class="anchor"></div>
     
     <span
@@ -1011,7 +1087,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#3%e8%bd%ac%e4%b9%89%e5%ad%97%e7%ac%a6" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <ol>
 <li>
 <p>转义字符</p>
@@ -1090,7 +1166,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span></code></pre></div></li>
 </ol>
 
-<h1 class="relative group">4.字符串拼接 
+<h2 class="relative group">4.字符串拼接 
     <div id="4字符串拼接" class="anchor"></div>
     
     <span
@@ -1098,7 +1174,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#4%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%8b%bc%e6%8e%a5" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>+号拼接</p>
 <p>$号格式化</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
@@ -1123,7 +1199,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>   
 </span></span></code></pre></div>
-<h1 class="relative group">5.变量的类型转换 
+<h2 class="relative group">5.变量的类型转换 
     <div id="5变量的类型转换" class="anchor"></div>
     
     <span
@@ -1131,7 +1207,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#5%e5%8f%98%e9%87%8f%e7%9a%84%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <ol>
 <li>
 <p>重新学习变量的定义方式</p>
@@ -1240,7 +1316,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span></code></pre></div></li>
 </ol>
 
-<h1 class="relative group">6.作用域和常量 
+<h2 class="relative group">6.作用域和常量 
     <div id="6作用域和常量" class="anchor"></div>
     
     <span
@@ -1248,9 +1324,9 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#6%e4%bd%9c%e7%94%a8%e5%9f%9f%e5%92%8c%e5%b8%b8%e9%87%8f" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 
-<h2 class="relative group">作用域 
+<h4 class="relative group">作用域 
     <div id="作用域" class="anchor"></div>
     
     <span
@@ -1258,7 +1334,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e4%bd%9c%e7%94%a8%e5%9f%9f" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h4>
 <p>C#中用大括号{}表示语句块、层次关系</p>
 <p>而变量具备一个有效范围，这个范围就是他的作用域</p>
 <ol>
@@ -1275,7 +1351,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </li>
 </ol>
 
-<h2 class="relative group">常量 
+<h4 class="relative group">常量 
     <div id="常量" class="anchor"></div>
     
     <span
@@ -1283,7 +1359,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%b8%b8%e9%87%8f" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h4>
 <ol>
 <li>
 <p>常量是固定的值，程序运行时不会修改的值，比如圆周率π就不会因任何原因而修改</p>
@@ -1297,7 +1373,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span></code></pre></div></li>
 </ol>
 
-<h1 class="relative group">7.算数运算符 
+<h2 class="relative group">7.算数运算符 
     <div id="7算数运算符" class="anchor"></div>
     
     <span
@@ -1305,7 +1381,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#7%e7%ae%97%e6%95%b0%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <table>
   <thead>
       <tr>
@@ -1354,7 +1430,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span></code></pre></div><p>前++是先自加再使用</p>
 <p>而后++是先使用再自加</p>
 
-<h1 class="relative group">8.赋值运算符 
+<h2 class="relative group">8.赋值运算符 
     <div id="8赋值运算符" class="anchor"></div>
     
     <span
@@ -1362,7 +1438,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#8%e8%b5%8b%e5%80%bc%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <table>
   <thead>
       <tr>
@@ -1406,7 +1482,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">a</span><span class="p">);</span> <span class="c1">// 输出结果为2</span>
 </span></span></code></pre></div>
-<h1 class="relative group">9.bool类型与关系运算符 
+<h2 class="relative group">9.bool类型与关系运算符 
     <div id="9bool类型与关系运算符" class="anchor"></div>
     
     <span
@@ -1414,7 +1490,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#9bool%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%85%b3%e7%b3%bb%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>bool：布尔类型一般用来描述“是与否”、“真与假”、“能与不能”、“正确与错误”等情况</p>
 <p>有两个值：</p>
 <ol>
@@ -1422,7 +1498,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 <li>False：代表否</li>
 </ol>
 
-<h1 class="relative group">10.关系运算符 
+<h2 class="relative group">10.关系运算符 
     <div id="10关系运算符" class="anchor"></div>
     
     <span
@@ -1430,7 +1506,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#10%e5%85%b3%e7%b3%bb%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <table>
   <thead>
       <tr>
@@ -1466,7 +1542,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
   </tbody>
 </table>
 
-<h1 class="relative group">11.逻辑运算符 
+<h2 class="relative group">11.逻辑运算符 
     <div id="11逻辑运算符" class="anchor"></div>
     
     <span
@@ -1474,7 +1550,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#11%e9%80%bb%e8%be%91%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <table>
   <thead>
       <tr>
@@ -1541,7 +1617,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl"><span class="c1">// | 是按位或运算符，会对每一位进行比较，只要有一个操作数的对应位为1，结果就为1。</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// || 是逻辑或运算符，只要有一个操作数为true，结果就为true，并且如果第一个操作数为true，则不会计算第二个操作数（短路求值）。</span>
 </span></span></code></pre></div>
-<h1 class="relative group">12.三目运算符 
+<h2 class="relative group">12.三目运算符 
     <div id="12三目运算符" class="anchor"></div>
     
     <span
@@ -1549,7 +1625,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#12%e4%b8%89%e7%9b%ae%e8%bf%90%e7%ae%97%e7%ac%a6" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>也被称为条件运算符</p>
 <p>三目运算符并不是一种必要的运算符，是为了方便</p>
 <p>结果 = 如果条件为真 ？则为X ：否则为Y</p>
@@ -1579,7 +1655,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl"><span class="n">num3</span> <span class="p">=</span> <span class="n">num3</span> <span class="p">&gt;</span> <span class="m">100</span> <span class="p">?</span> <span class="m">100</span> <span class="p">:</span> <span class="n">num3</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">num3</span><span class="p">);</span>
 </span></span></code></pre></div>
-<h1 class="relative group">13.if判断语句 
+<h2 class="relative group">13.if判断语句 
     <div id="13if判断语句" class="anchor"></div>
     
     <span
@@ -1587,13 +1663,13 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#13if%e5%88%a4%e6%96%ad%e8%af%ad%e5%8f%a5" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p><strong>if</strong>（如果）：用来判断条件是否成立，即是否为true</p>
 <p>分支语句：不能单独使用</p>
 <p><strong>else if</strong>  （其他可能性）：if不成立，但是满足我的条件，则执行。</p>
 <p><strong>else</strong>：以上条件都不满足则执行</p>
 
-<h2 class="relative group">注意事项 
+<h4 class="relative group">注意事项 
     <div id="注意事项" class="anchor"></div>
     
     <span
@@ -1601,13 +1677,13 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h4>
 <ol>
 <li><strong>短路机制</strong>，if如果执行成功则不会执行else if 或 else 的语句，短路机制不只是不执行{}中的代码，判断条件本身也不会运行（因为判断条件有时候本身是有计算过程的）</li>
 <li>if语句中大括号也存在变量的作用域问题</li>
 </ol>
 
-<h1 class="relative group">14.枚举类型 
+<h2 class="relative group">14.枚举类型 
     <div id="14枚举类型" class="anchor"></div>
     
     <span
@@ -1615,7 +1691,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#14%e6%9e%9a%e4%b8%be%e7%b1%bb%e5%9e%8b" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>特别适合用来描述状态、阶段</p>
 <p>当某个数据可以预期有确定性的几种结构时，我们可以使用枚举类型来保存，比如</p>
 <ol>
@@ -1661,7 +1737,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span></code></pre></div></li>
 </ol>
 
-<h1 class="relative group">15.Switch语句 
+<h2 class="relative group">15.Switch语句 
     <div id="15switch语句" class="anchor"></div>
     
     <span
@@ -1669,10 +1745,10 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#15switch%e8%af%ad%e5%8f%a5" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>switch语句和if else if 非常接近，甚至理论上不存在也没有任何关系，不过是特定情况下会更加方便</p>
 
-<h2 class="relative group">语法： 
+<h4 class="relative group">语法： 
     <div id="语法" class="anchor"></div>
     
     <span
@@ -1680,7 +1756,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e8%af%ad%e6%b3%95" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h4>
 <p>
 
 
@@ -1695,7 +1771,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </figure>
 </p>
 
-<h2 class="relative group">对比if语句 
+<h4 class="relative group">对比if语句 
     <div id="对比if语句" class="anchor"></div>
     
     <span
@@ -1703,7 +1779,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%af%b9%e6%af%94if%e8%af%ad%e5%8f%a5" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h4>
 <p>if else if的特点是判断的因素可以完全不相关，只要条件都是bool类型即可，比如：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="m">3</span><span class="p">==</span><span class="m">3</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -1716,7 +1792,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span></code></pre></div><p>但是Switch一般用在围绕一个因素去做判断，比如当前是星期几，AI处于什么状态，所以和枚举类型特别搭配</p>
 <p>‍</p>
 
-<h2 class="relative group">break 
+<h4 class="relative group">break 
     <div id="break" class="anchor"></div>
     
     <span
@@ -1724,7 +1800,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#break" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h4>
 <p>并不是每一个case都需要break，如果case 语句后面没有要执行的代码，则可以不包含 break 关键字， 这时程序会继续执行后续的case语句，直至遇到break关键字为止；</p>
 <p>这种情况的目的一般在于，如果我们希望当AI状态为巡逻、待机时候要做的事情是一样的</p>
 <p>
@@ -1741,7 +1817,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </figure>
 </p>
 
-<h1 class="relative group">16.for循环 
+<h2 class="relative group">16.for循环 
     <div id="16for循环" class="anchor"></div>
     
     <span
@@ -1749,10 +1825,10 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#16for%e5%be%aa%e7%8e%af" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>一般用于循环固定次数的情况</p>
 
-<h2 class="relative group">语法 
+<h3 class="relative group">语法 
     <div id="语法-1" class="anchor"></div>
     
     <span
@@ -1760,7 +1836,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e8%af%ad%e6%b3%95-1" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h3>
 <p>
 
 
@@ -1775,7 +1851,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </figure>
 </p>
 
-<h2 class="relative group">运行步骤： 
+<h3 class="relative group">运行步骤： 
     <div id="运行步骤" class="anchor"></div>
     
     <span
@@ -1783,7 +1859,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e8%bf%90%e8%a1%8c%e6%ad%a5%e9%aa%a4" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h3>
 <ol>
 <li>
 <p>初始化代码，只会执行一次，也可以不写</p>
@@ -1814,7 +1890,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;1+2+3+4+5....+100 = {res}&#34;</span><span class="p">);</span>
 </span></span></code></pre></div>
-<h1 class="relative group">17.while循环语句 
+<h2 class="relative group">17.while循环语句 
     <div id="17while循环语句" class="anchor"></div>
     
     <span
@@ -1822,7 +1898,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#17while%e5%be%aa%e7%8e%af%e8%af%ad%e5%8f%a5" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>基于条件的循环，也就是条件满足就一直循环</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 避免死循环</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 从1加到100</span>
@@ -1844,7 +1920,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;至少执行一次&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="kc">false</span><span class="p">);</span> <span class="c1">// 如果条件满足才会执行下一次</span>
 </span></span></code></pre></div>
-<h1 class="relative group">18.函数的基本使用 
+<h2 class="relative group">18.函数的基本使用 
     <div id="18函数的基本使用" class="anchor"></div>
     
     <span
@@ -1852,9 +1928,9 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#18%e5%87%bd%e6%95%b0%e7%9a%84%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 
-<h2 class="relative group">函数的基本使用 
+<h3 class="relative group">函数的基本使用 
     <div id="函数的基本使用" class="anchor"></div>
     
     <span
@@ -1862,7 +1938,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%87%bd%e6%95%b0%e7%9a%84%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" aria-label="锚点">#</a>
     </span>        
     
-</h2>
+</h3>
 <p>函数一般也叫方法，将可以复用的代码包装起来，方便之后调用</p>
 <p>
 
@@ -1909,7 +1985,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span> <span class="c1">// return的结果要跟函数的返回值类型一致</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div>
-<h1 class="relative group">19.函数重载 
+<h2 class="relative group">19.函数重载 
     <div id="19函数重载" class="anchor"></div>
     
     <span
@@ -1917,7 +1993,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#19%e5%87%bd%e6%95%b0%e9%87%8d%e8%bd%bd" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>同名函数不同参数称之为重载</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -1945,7 +2021,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div>
-<h1 class="relative group">20.函数的ref和out关键字 
+<h2 class="relative group">20.函数的ref和out关键字 
     <div id="20函数的ref和out关键字" class="anchor"></div>
     
     <span
@@ -1953,7 +2029,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#20%e5%87%bd%e6%95%b0%e7%9a%84ref%e5%92%8cout%e5%85%b3%e9%94%ae%e5%ad%97" aria-label="锚点">#</a>
     </span>        
     
-</h1>
+</h2>
 <p>ref：通常情况下，形参和实参只是值一样，但是并不是同一个变量。如果通过ref则可以视为一个变量</p>
 <p>out：函数的返回值只有一个，如果希望有两个及以上，则可以使用</p>
 <p>函数的参数可以有默认值，在定义的时候直接=即可</p>
@@ -2013,7 +2089,185 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">a</span><span class="p">+</span><span class="n">b</span><span class="p">+</span><span class="n">c</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>‍</p>
+</span></span></code></pre></div>
+<h2 class="relative group">21.结构体 
+    <div id="21结构体" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#21%e7%bb%93%e6%9e%84%e4%bd%93" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>结构体是一种自定义类型，用于创建我们游戏或者实际业务中的<strong>自定义类型</strong></p>
+<p>比如Moba游戏中的英雄角色，那必然存在英雄的血量、攻击力、等级等关键属性，这些属性我们可以用int、float等类型来描述，但是往往我们需要打包来使用，因为我们往往需要“这个英雄的攻击力”、“这个英雄的防御力”、我们会可以抽象出“英雄”这个数据概念。所以我们可以创建一个“英雄类型”。</p>
+<p>同时也为我们之后学习非常重要的“类”做一个铺垫</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">tanke</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">();</span> <span class="c1">// 构造一个结构体</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tanke</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s">&#34;超级坦克&#34;</span><span class="p">;</span> <span class="c1">// 修改结构体的成员变量</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;英雄: {tanke.Name}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tanke</span><span class="p">.</span><span class="n">Show</span><span class="p">();</span> <span class="c1">// 调用结构体的成员函数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">tanke2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">(</span><span class="s">&#34;X刺客&#34;</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">500</span><span class="p">);</span> <span class="c1">// 构造另一个结构体</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tanke2</span><span class="p">.</span><span class="n">Show</span><span class="p">();</span> <span class="c1">// 调用另一个结构体的成员函数</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 英雄结构体</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Hero</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 成员</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 成员字段（变量）</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 访问修饰符</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1. public: 公共的，可以被外部访问</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2. private: 私有的，只能在结构体内部访问</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span> <span class="c1">// 默认值是 null</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Attack</span><span class="p">;</span>  <span class="c1">// 成员存在默认值，数值类型（int, float, double）默认值是 0</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Hp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 默认有一个无参构造函数</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 构造函数</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Hero</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">int</span> <span class="n">attack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">hp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Attack</span> <span class="p">=</span> <span class="n">attack</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hp</span> <span class="p">=</span> <span class="n">hp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 成员函数</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;英雄: {Name}, 攻击力: {Attack}, 生命值: {Hp}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">22.结构体使用细节 
+    <div id="22结构体使用细节" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#22%e7%bb%93%e6%9e%84%e4%bd%93%e4%bd%bf%e7%94%a8%e7%bb%86%e8%8a%82" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<ol>
+<li>
+<p>构造函数也可以重载</p>
+</li>
+<li>
+<p>this关键字</p>
+<p>代表着当前对象，也就是在外部声明的变量</p>
+</li>
+<li>
+<p>访问修饰符详解</p>
+<p>private修饰的成员外界无法访问，只能在结构体内部使用</p>
+<p>public修饰的成员，外界和内部都可以随意使用</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">tanke2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">(</span><span class="s">&#34;X刺客&#34;</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">500</span><span class="p">);</span> <span class="c1">// 构造另一个结构体</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tanke2</span><span class="p">.</span><span class="n">Show</span><span class="p">();</span> <span class="c1">// 调用另一个结构体的成员函数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">HeroClass</span> <span class="n">mage</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HeroClass</span><span class="p">(</span><span class="s">&#34;法师&#34;</span><span class="p">,</span> <span class="m">50</span><span class="p">);</span> <span class="c1">// 构造一个类</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mage</span><span class="p">.</span><span class="n">Show</span><span class="p">();</span> <span class="c1">// 调用类的成员函数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 结构体和类的区别</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 1. 结构体是值类型，类是引用类型</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 2. 结构体的实例在栈上分配内存，类的实例在堆上分配内存</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 3. 结构体的实例在赋值时会复制所有成员，类的实例在赋值时只复制引用</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 4. 结构体不能继承其他结构体或类，但可以实现接口</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 英雄结构体</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Hero</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 成员</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 成员字段（变量）</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 访问修饰符</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1. public: 公共的，可以被外部访问</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2. private: 私有的，只能在结构体内部访问</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span> <span class="c1">// 默认值是 null</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Attack</span><span class="p">;</span>  <span class="c1">// 成员存在默认值，数值类型（int, float, double）默认值是 0</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Hp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 默认有一个无参构造函数</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 构造函数</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Hero</span><span class="p">(</span><span class="kt">string</span> <span class="n">Name</span><span class="p">,</span> <span class="kt">int</span> <span class="n">attack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">hp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 同名变量的就近原则，就近：定义的位置</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Name</span> <span class="p">=</span> <span class="n">Name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="n">Name</span><span class="p">;</span> <span class="c1">// this 关键字指代当前结构体实例</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Attack</span> <span class="p">=</span> <span class="n">attack</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hp</span> <span class="p">=</span> <span class="n">hp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Hero</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span><span class="kt">int</span> <span class="n">attack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">hp</span><span class="p">,</span><span class="kt">int</span> <span class="n">attackBuff</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hp</span> <span class="p">=</span> <span class="n">hp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Attack</span> <span class="p">=</span> <span class="n">attack</span> <span class="p">+</span> <span class="n">attackBuff</span><span class="p">;</span> <span class="c1">// 攻击力加上攻击增益</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 成员函数</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;英雄: {Name}, 攻击力: {Attack}, 生命值: {Hp}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 英雄类</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">HeroClass</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Attack</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">HeroClass</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">int</span> <span class="n">attack</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Attack</span> <span class="p">=</span> <span class="n">attack</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;英雄: {Name}, 攻击力: {Attack}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">23.面向对象概念 
+    <div id="23面向对象概念" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#23%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1%e6%a6%82%e5%bf%b5" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>面向对象是最主流的编程思想</p>
+<p>核心就是把相关数据和行为组织成一个整体来看待</p>
+<p>比如我们学习的结构体，我们将英雄的数据（攻击力、生命值等）与英雄的行为（移动、攻击等）包装到一个结构体中，这个过程就是抽象</p>
+<p>其中“英雄”是类型，而具体的某个英雄“大法师”是对象，所以我们下节课就会学习非常重要的概念：“类与对象”</p>
+<p>‍</p>
+<p>所以最重要的两件事情要明白：</p>
+<ol>
+<li>分类：对游戏中很多食物进行分类包装，比如小兵、英雄等等，大多情况下我们将较为相同的单位归为同一个类型</li>
+<li>对象：生活中“狗”是一个类型，而具体的“大黄”才是实体，也就是对象，所以生成对象也叫“实例化”</li>
+</ol>
+<p>‍</p>
 
           
           
