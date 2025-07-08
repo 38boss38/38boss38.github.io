@@ -63,13 +63,19 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://38boss38.github.io/tags/%E6%B5%8B%E8%AF%95/</loc>
+    <loc>https://38boss38.github.io/posts/post-lite-two/</loc>
     <lastmod>2017-07-01T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://38boss38.github.io/posts/post-lite-two/</loc>
+    <loc>https://38boss38.github.io/tags/%E5%83%8F%E7%B4%A0/</loc>
+    <lastmod>2017-07-01T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://38boss38.github.io/tags/%E6%B8%B8%E6%88%8F%E4%BD%93%E9%AA%8C/</loc>
     <lastmod>2017-07-01T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
