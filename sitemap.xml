@@ -4,13 +4,55 @@
 
   <url>
     <loc>https://38boss38.github.io/</loc>
-    <lastmod>2025-07-02T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://38boss38.github.io/categories/blog/</loc>
-    <lastmod>2025-07-02T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://38boss38.github.io/categories/</loc>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://38boss38.github.io/categories/post/</loc>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://38boss38.github.io/tags/</loc>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://38boss38.github.io/tags/%E6%96%87%E7%AB%A0/</loc>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://38boss38.github.io/posts/post-lite-two/</loc>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://38boss38.github.io/tags/%E5%83%8F%E7%B4%A0/</loc>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://38boss38.github.io/tags/%E6%B8%B8%E6%88%8F%E4%BD%93%E9%AA%8C/</loc>
+    <lastmod>2025-07-08T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -27,30 +69,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://38boss38.github.io/categories/</loc>
-    <lastmod>2025-07-02T00:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://38boss38.github.io/categories/post/</loc>
-    <lastmod>2025-07-02T00:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://38boss38.github.io/tags/</loc>
-    <lastmod>2025-07-02T00:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://38boss38.github.io/tags/%E6%96%87%E7%AB%A0/</loc>
-    <lastmod>2025-07-02T00:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://38boss38.github.io/tags/%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2025-07-02T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
@@ -59,24 +77,6 @@
   <url>
     <loc>https://38boss38.github.io/posts/</loc>
     <lastmod>2022-06-13T20:55:37+01:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://38boss38.github.io/posts/post-lite-two/</loc>
-    <lastmod>2017-07-01T00:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://38boss38.github.io/tags/%E5%83%8F%E7%B4%A0/</loc>
-    <lastmod>2017-07-01T00:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://38boss38.github.io/tags/%E6%B8%B8%E6%88%8F%E4%BD%93%E9%AA%8C/</loc>
-    <lastmod>2017-07-01T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

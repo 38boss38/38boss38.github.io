@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>© 2025 Lickba</copyright>
-    <lastBuildDate>Wed, 02 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://38boss38.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 08 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://38boss38.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>武士零</title>
+      <link>https://38boss38.github.io/posts/post-lite-two/</link>
+      <pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://38boss38.github.io/posts/post-lite-two/</guid>
+      <description>以为是一个杀杀杀动作游戏结果发现是一个讲故事还带点解题要素的像素艺术品</description>
+      
+    </item>
     
     <item>
       <title>C#学习加固笔记</title>
@@ -16,16 +26,6 @@
       
       <guid>https://38boss38.github.io/posts/post-lite-one/</guid>
       <description>个人用记录C#学习过程笔记</description>
-      
-    </item>
-    
-    <item>
-      <title>武士零</title>
-      <link>https://38boss38.github.io/posts/post-lite-two/</link>
-      <pubDate>Sat, 01 Jul 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://38boss38.github.io/posts/post-lite-two/</guid>
-      <description>以为是一个杀杀杀动作游戏结果发现是一个讲故事还带点解题要素的像素艺术品</description>
       
     </item>
     
