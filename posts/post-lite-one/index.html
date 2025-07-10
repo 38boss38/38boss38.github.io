@@ -118,7 +118,7 @@
     "keywords": ["文章","学习","C#"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "1516"
+    "wordCount": "2648"
   }]
   </script>
 
@@ -887,6 +887,62 @@
     <li><a href="#21结构体">21.结构体</a></li>
     <li><a href="#22结构体使用细节">22.结构体使用细节</a></li>
     <li><a href="#23面向对象概念">23.面向对象概念</a></li>
+    <li><a href="#24类与对象基本语法">24.类与对象基本语法</a></li>
+    <li><a href="#25继承">25.继承</a>
+      <ul>
+        <li><a href="#封装">封装</a></li>
+        <li><a href="#继承">继承</a></li>
+      </ul>
+    </li>
+    <li><a href="#26继承后的构造函数">26.继承后的构造函数</a>
+      <ul>
+        <li><a href="#this">this</a></li>
+        <li><a href="#base">base</a></li>
+      </ul>
+    </li>
+    <li><a href="#27多态-虚函数">27.多态-虚函数</a>
+      <ul>
+        <li><a href="#多态">多态</a></li>
+      </ul>
+    </li>
+    <li><a href="#28多态-抽象类与抽象函数">28.多态-抽象类与抽象函数</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#抽象类">抽象类</a></li>
+          </ul>
+        </li>
+        <li><a href="#抽象函数">抽象函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#29里氏转换">29.里氏转换</a>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+        <li><a href="#应用场景">应用场景</a></li>
+        <li><a href="#结论">结论</a></li>
+      </ul>
+    </li>
+    <li><a href="#30访问修饰符和类中类">30.访问修饰符和类中类</a>
+      <ul>
+        <li><a href="#类中类嵌套类内部类">类中类/嵌套类/内部类</a></li>
+      </ul>
+    </li>
+    <li><a href="#31万物基类object">31.万物基类Object</a>
+      <ul>
+        <li><a href="#tostring">ToString()</a></li>
+      </ul>
+    </li>
+    <li><a href="#32命名空间">32.命名空间</a>
+      <ul>
+        <li><a href="#分文件编写">分文件编写</a></li>
+        <li><a href="#命名空间">命名空间</a></li>
+      </ul>
+    </li>
+    <li><a href="#33接口">33.接口</a>
+      <ul>
+        <li><a href="#接口">接口</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -959,6 +1015,62 @@
     <li><a href="#21结构体">21.结构体</a></li>
     <li><a href="#22结构体使用细节">22.结构体使用细节</a></li>
     <li><a href="#23面向对象概念">23.面向对象概念</a></li>
+    <li><a href="#24类与对象基本语法">24.类与对象基本语法</a></li>
+    <li><a href="#25继承">25.继承</a>
+      <ul>
+        <li><a href="#封装">封装</a></li>
+        <li><a href="#继承">继承</a></li>
+      </ul>
+    </li>
+    <li><a href="#26继承后的构造函数">26.继承后的构造函数</a>
+      <ul>
+        <li><a href="#this">this</a></li>
+        <li><a href="#base">base</a></li>
+      </ul>
+    </li>
+    <li><a href="#27多态-虚函数">27.多态-虚函数</a>
+      <ul>
+        <li><a href="#多态">多态</a></li>
+      </ul>
+    </li>
+    <li><a href="#28多态-抽象类与抽象函数">28.多态-抽象类与抽象函数</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#抽象类">抽象类</a></li>
+          </ul>
+        </li>
+        <li><a href="#抽象函数">抽象函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#29里氏转换">29.里氏转换</a>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+        <li><a href="#应用场景">应用场景</a></li>
+        <li><a href="#结论">结论</a></li>
+      </ul>
+    </li>
+    <li><a href="#30访问修饰符和类中类">30.访问修饰符和类中类</a>
+      <ul>
+        <li><a href="#类中类嵌套类内部类">类中类/嵌套类/内部类</a></li>
+      </ul>
+    </li>
+    <li><a href="#31万物基类object">31.万物基类Object</a>
+      <ul>
+        <li><a href="#tostring">ToString()</a></li>
+      </ul>
+    </li>
+    <li><a href="#32命名空间">32.命名空间</a>
+      <ul>
+        <li><a href="#分文件编写">分文件编写</a></li>
+        <li><a href="#命名空间">命名空间</a></li>
+      </ul>
+    </li>
+    <li><a href="#33接口">33.接口</a>
+      <ul>
+        <li><a href="#接口">接口</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -2261,14 +2373,825 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 <p>核心就是把相关数据和行为组织成一个整体来看待</p>
 <p>比如我们学习的结构体，我们将英雄的数据（攻击力、生命值等）与英雄的行为（移动、攻击等）包装到一个结构体中，这个过程就是抽象</p>
 <p>其中“英雄”是类型，而具体的某个英雄“大法师”是对象，所以我们下节课就会学习非常重要的概念：“类与对象”</p>
-<p>‍</p>
 <p>所以最重要的两件事情要明白：</p>
 <ol>
 <li>分类：对游戏中很多食物进行分类包装，比如小兵、英雄等等，大多情况下我们将较为相同的单位归为同一个类型</li>
 <li>对象：生活中“狗”是一个类型，而具体的“大黄”才是实体，也就是对象，所以生成对象也叫“实例化”</li>
 </ol>
-<p>‍</p>
 
+<h2 class="relative group">24.类与对象基本语法 
+    <div id="24类与对象基本语法" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#24%e7%b1%bb%e4%b8%8e%e5%af%b9%e8%b1%a1%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>和结构体非常类似，但是struct要改为class，后期我们会详细介绍结构体与类的区别</p>
+
+<h2 class="relative group">25.继承 
+    <div id="25继承" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#25%e7%bb%a7%e6%89%bf" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+<h3 class="relative group">封装 
+    <div id="封装" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%b0%81%e8%a3%85" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>将事物的数据、行为抽象成类，这个过程就是封装。并且我们自由的决定哪些成员对外公开或隐藏，所以上节课我们的行为其实叫封装</p>
+<p>也可以理解为：类的产生过程就是封装</p>
+
+<h3 class="relative group">继承 
+    <div id="继承" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e7%bb%a7%e6%89%bf" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<ol>
+<li>
+<p>继承的核心意义是在结构上获得父类中的所有成员</p>
+<p>比如，动物都可以吃，猫、狗等继承动物后，也具备了吃的能力</p>
+</li>
+<li>
+<p>父类也叫基类，子类也叫派生类</p>
+</li>
+<li>
+<p>支持多层继承，但是一个类只能有一个父类（比如动物-狗-柯基）</p>
+</li>
+</ol>
+
+<h2 class="relative group">26.继承后的构造函数 
+    <div id="26继承后的构造函数" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#26%e7%bb%a7%e6%89%bf%e5%90%8e%e7%9a%84%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>*<em><font color="red"><em>基类中存在的构造函数，子类必须也做对应的实现</font></em></em></p>
+
+<h3 class="relative group">this 
+    <div id="this" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#this" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<ol>
+<li>this表示当前类型的对象</li>
+</ol>
+
+<h3 class="relative group">base 
+    <div id="base" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#base" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<ol>
+<li>base也是当前类型的对象</li>
+<li>但是在程序上他的类型的基类，所以一般用来<font color="red">专门访问基类成员的</font></li>
+<li>一般情况下，是不需要用base的，因为默认就可以访问基类成员</li>
+</ol>
+<p>*但是实际上在执行上this和base是同一个对象</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Animal</span> <span class="n">animal</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Animal</span><span class="p">(</span><span class="s">&#34;动物&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">animal</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s">&#34;小动物&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">animal</span><span class="p">.</span><span class="n">Eat</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Dog</span> <span class="n">daHuang</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="p">(</span><span class="s">&#34;大黄&#34;</span><span class="p">,</span><span class="s">&#34;柯基&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">daHuang</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">daHuang</span><span class="p">.</span><span class="n">Eat</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Cat</span> <span class="n">xiaoBai</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">(</span><span class="s">&#34;小白&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">xiaoBai</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">xiaoBai</span><span class="p">.</span><span class="n">Eat</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 基类/父类</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Animal</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 函数也是对象的成员</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="k">void</span> <span class="n">Eat</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}Eating&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 派生类/子类</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">Animal</span> <span class="c1">// 获得 Animal 的所有属性和方法</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">dogType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 我们已经约束了，实例化一个Animal必须有名字</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 但是这里出现了冲突，因为实例化一个Dog却没有名字</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// this:谁调用了这个函数，谁就是this</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// base:当前类的基类</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// this和base都是对象，但是程序上认为这个结构（类）不一样</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 要调用当前类型的成员，用this</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 要调用父类的成员，用base，但是一般不太会用，除非需要特别声明是基类中</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Dog</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span><span class="kt">string</span> <span class="n">dogType</span><span class="p">):</span><span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// base.dogType 不能通过base访问当前类的成员</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;名字：{name}，品种：{dogType}诞生了！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">dogType</span> <span class="p">=</span> <span class="n">dogType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Cat</span> <span class="p">:</span> <span class="n">Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Cat</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">)</span> <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">27.多态-虚函数 
+    <div id="27多态-虚函数" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#27%e5%a4%9a%e6%80%81-%e8%99%9a%e5%87%bd%e6%95%b0" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+<h3 class="relative group">多态 
+    <div id="多态" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%a4%9a%e6%80%81" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>先有封装，才有继承</p>
+<p>先有继承，才有多态</p>
+<p>多态：字面意思，多种形态，同一操作的不同行为，这里的操作可以理解为函数，举例：</p>
+<p>父类类动物中有一个“叫”函数，子类猫，狗当然也可以叫，但是实际上猫狗的叫声并不相同，但是也许他们具备一些共同点，比如张嘴、闭嘴</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Dog</span> <span class="n">daHuang</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="p">(</span><span class="s">&#34;大黄&#34;</span><span class="p">,</span><span class="s">&#34;汪汪汪！&#34;</span><span class="p">,</span><span class="s">&#34;柯基&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Cat</span> <span class="n">xiaoBai</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">(</span><span class="s">&#34;小白&#34;</span><span class="p">,</span><span class="s">&#34;喵喵喵~&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">daHuang</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">xiaoBai</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 基类/父类</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">CryString</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Animal</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">string</span> <span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">CryString</span> <span class="p">=</span> <span class="n">cryString</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 虚函数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 1.提供默认逻辑，因为有一些子类不想要重写可以不重写</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 2.提供可选的逻辑</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 下列是可选的</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 可选的：就是子类想要就可以要，不想要也可以不要</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}张嘴了！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 派生类/子类</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">Animal</span> <span class="c1">// 获得 Animal 的所有属性和方法</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">dogType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Dog</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span><span class="kt">string</span> <span class="n">cryString</span><span class="p">,</span><span class="kt">string</span> <span class="n">dogType</span><span class="p">):</span><span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;名字：{name}，品种：{dogType}诞生了！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">dogType</span> <span class="p">=</span> <span class="n">dogType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重写</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重载：是同名函数，但是不同参数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重写：是同名函数，参数相同，但是实现不同</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}开始蓄力！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span> <span class="c1">// 调用基类的 Cry 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}：{CryString}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;它是一只狗！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Cat</span> <span class="p">:</span> <span class="n">Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Cat</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span><span class="kt">string</span> <span class="n">cryString</span><span class="p">)</span> <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span> <span class="c1">// 调用基类的 Cry 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}：{CryString}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;它是一只猫！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">28.多态-抽象类与抽象函数 
+    <div id="28多态-抽象类与抽象函数" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#28%e5%a4%9a%e6%80%81-%e6%8a%bd%e8%b1%a1%e7%b1%bb%e4%b8%8e%e6%8a%bd%e8%b1%a1%e5%87%bd%e6%95%b0" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+<h4 class="relative group">抽象类 
+    <div id="抽象类" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%8a%bd%e8%b1%a1%e7%b1%bb" aria-label="锚点">#</a>
+    </span>        
+    
+</h4>
+<p>抽象：从许多事物中，舍弃个别的、非本质的属性，抽出共同的、本质的属性，叫抽象，是<font color="red">形成概念</font>的必要手段</p>
+<p>我们学习了类与对象，过程中我们会发现一些问题：</p>
+<p>类是一种结构/概念，对象是一个实体，比如英雄是类，而大魔法师是对象。</p>
+<p>我们之前学习的案例中有两种情况：</p>
+<p>第一种：我们认为Animal是个类，基于这个类去实例化对象，也就是没有使用继承，是一种比较简单的结构</p>
+<p>第二种：Animal是最上层，Cat和Dog继承Animal，最终我们实例化对象时其实是使用Cat、Dog这种类，因为我们认为如果产生一个具体的猫，我们使用猫的结构，但是我们不去直接实例化一个动物，因为动物是一个更加抽象的概念。他就应该停在概念层面。</p>
+<p>第二种情况下，实际上是我们依然可以new一个动物，但是往往我们不希望如此，所以我们需要一种技术去避免如此，但是要注意，这种避免不是必然，而是由程序员去决定是否需要避免</p>
+<p><font color="red">避免的方式就是抽象类</font></p>
+<p>抽象类：高度抽象，不需要实例化的类型，但是其子类可以实例化，一般处于继承链的上端，需要实例化对象的类型不能使用抽象类</p>
+
+<h3 class="relative group">抽象函数 
+    <div id="抽象函数" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%8a%bd%e8%b1%a1%e5%87%bd%e6%95%b0" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>抽象类除了无法直接实例化外，还具备定义抽象函数的功能</p>
+<p>抽象函数：我不知道我的子类会怎么实现，所以不会像虚函数那样提供一个基本/默认实现，因为事实上我都不知道我的子类有哪些，但是我认为继承我的一定要有这些功能</p>
+<p><font color="red">先知道语法、特点，后面我们会研究这些东西的妙用</font></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Animal animal = new Animal(&#34;小动物&#34;, &#34;吱吱吱~&#34;); // 不允许实例化抽象类</span>
+</span></span><span class="line"><span class="cl">        <span class="n">KeJiDog</span> <span class="n">daHuang</span> <span class="p">=</span> <span class="k">new</span> <span class="n">KeJiDog</span><span class="p">(</span><span class="s">&#34;大黄&#34;</span><span class="p">,</span><span class="s">&#34;汪汪汪！&#34;</span><span class="p">,</span><span class="s">&#34;柯基&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Cat</span> <span class="n">xiaoBai</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">(</span><span class="s">&#34;小白&#34;</span><span class="p">,</span><span class="s">&#34;喵喵喵~&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">daHuang</span><span class="p">.</span><span class="n">Move</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">xiaoBai</span><span class="p">.</span><span class="n">Move</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 基类/父类</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 抽象类</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="k">class</span> <span class="nc">Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">CryString</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Animal</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">string</span> <span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">CryString</span> <span class="p">=</span> <span class="n">cryString</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 虚函数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 1.提供默认逻辑，因为有一些子类不想要重写可以不重写</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 2.提供可选的逻辑</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 下列是可选的</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 可选的：就是子类想要就可以要，不想要也可以不要</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}张嘴了！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 抽象函数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 业务上存在飞翔、跑步、游泳等各种情况，我们并不知道具体的子类如何实现</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 没有函数体</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">abstract</span> <span class="k">void</span> <span class="n">Move</span><span class="p">();</span> <span class="c1">// 抽象方法，子类必须实现</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 派生类/子类</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 第二层，Dog也是抽象类</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 抽象类不需要实现基类中的抽象函数（我也不知道我下面的子类会怎么实现）</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">Animal</span> <span class="c1">// 获得 Animal 的所有属性和方法</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">dogType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Dog</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span><span class="kt">string</span> <span class="n">cryString</span><span class="p">,</span><span class="kt">string</span> <span class="n">dogType</span><span class="p">):</span><span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;名字：{name}，品种：{dogType}诞生了！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">dogType</span> <span class="p">=</span> <span class="n">dogType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重写</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重载：是同名函数，但是不同参数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重写：是同名函数，参数相同，但是实现不同</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}开始蓄力！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span> <span class="c1">// 调用基类的 Cry 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}：{CryString}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;它是一只狗！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重写的是基类中的抽象函数</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Move</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}开始奔跑！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">KeJiDog</span> <span class="p">:</span> <span class="n">Dog</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 他的构造函数约束是自身基类的</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">KeJiDog</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">string</span> <span class="n">cryString</span><span class="p">,</span> <span class="kt">string</span> <span class="n">dogType</span><span class="p">)</span> <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cryString</span><span class="p">,</span> <span class="n">dogType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span> <span class="c1">// 调用基类的 Cry 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;抖了抖小短腿！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Move</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Move</span><span class="p">();</span> <span class="c1">// 调用基类的 Move 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;抖了抖柯基翘臀！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Cat</span> <span class="p">:</span> <span class="n">Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Cat</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span><span class="kt">string</span> <span class="n">cryString</span><span class="p">)</span> <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span> <span class="c1">// 调用基类的 Cry 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}：{CryString}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;它是一只猫！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Move</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}开始跳跃！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">29.里氏转换 
+    <div id="29里氏转换" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#29%e9%87%8c%e6%b0%8f%e8%bd%ac%e6%8d%a2" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>在面向对象的程序设计中，里氏转换原则（Liskov Substitution principle）是对子类型的特别定义。它由芭芭拉·拉斯科夫（Barbara Liskov）在1987年的一次会议上名为“数据的抽象与层次”的演说中首先提出。</p>
+
+<h3 class="relative group">概念 
+    <div id="概念" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%a6%82%e5%bf%b5" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>里氏转换主要是：子类和父类的类型转换</p>
+<ol>
+<li>一个猫也是一个动物，一定的</li>
+<li>一个动物可能是一个猫，可能但不一定的</li>
+</ol>
+
+<h3 class="relative group">应用场景 
+    <div id="应用场景" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>假设我们提供一个函数，让动物作为参数，然后间接调用动物的Cry函数，我们应该如何实现？</p>
+<p>我们要解决的是，我们具体的对象都是Cat、KejiDog等类型，那岂不是每一种类型都要提供一个函数作为重载？</p>
+
+<h3 class="relative group">结论 
+    <div id="结论" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e7%bb%93%e8%ae%ba" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<ol>
+<li>隐式转换，子类转父类，没有风险的，内容一定兼容</li>
+<li>显式转换，父类转子类，有风险，要确保类型兼容
+<ol>
+<li>Cat cat = (Cat)animal ，转换过程就可能报错</li>
+<li>Cat cat = animal as Cat ，转换过程不会报错，但是使用过程可能会报错</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Animal animal = new Animal(&#34;小动物&#34;, &#34;吱吱吱~&#34;); // 不允许实例化抽象类</span>
+</span></span><span class="line"><span class="cl">        <span class="n">KeJiDog</span> <span class="n">daHuang</span> <span class="p">=</span> <span class="k">new</span> <span class="n">KeJiDog</span><span class="p">(</span><span class="s">&#34;大黄&#34;</span><span class="p">,</span><span class="s">&#34;汪汪汪！&#34;</span><span class="p">,</span><span class="s">&#34;柯基&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Cat</span> <span class="n">xiaoBai</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">(</span><span class="s">&#34;小白&#34;</span><span class="p">,</span><span class="s">&#34;喵喵喵~&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">DoCry</span><span class="p">(</span><span class="n">xiaoBai</span><span class="p">);</span> <span class="c1">// 里氏转换-隐式转换，子类转父类</span>
+</span></span><span class="line"><span class="cl">        <span class="n">KejiMove</span><span class="p">(</span><span class="n">daHuang</span><span class="p">);</span> <span class="c1">// 传递参数时依然是子类转父类</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">DoCry</span><span class="p">(</span><span class="n">Animal</span> <span class="n">animal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;开始叫&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">animal</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">KejiMove</span><span class="p">(</span><span class="n">Animal</span> <span class="n">animal</span><span class="p">)</span> <span class="c1">// 此处约定传递过来的参数要么是Animal，要么是Animal的子类通过隐式转换传递过来的</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 强制转换，会报错</span>
+</span></span><span class="line"><span class="cl">        <span class="n">KeJiDog</span> <span class="n">keji</span> <span class="p">=</span> <span class="p">(</span><span class="n">KeJiDog</span><span class="p">)</span><span class="n">animal</span><span class="p">;</span> <span class="c1">// 显式转换，父类转子类，有风险，要确保类型兼容</span>
+</span></span><span class="line"><span class="cl">        <span class="n">keji</span><span class="p">.</span><span class="n">Move</span><span class="p">();</span> <span class="c1">// 调用子类特有的方法</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//Cat cat = (Cat)animal; // 类型不兼容，会立刻报错</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//cat.Move();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// as转换，不会报错</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Cat</span> <span class="n">keji2</span> <span class="p">=</span> <span class="n">animal</span> <span class="k">as</span> <span class="n">Cat</span><span class="p">;</span> <span class="c1">// 安全转换，如果类型不兼容，不会立刻报错，但是返回的是 null</span>
+</span></span><span class="line"><span class="cl">        <span class="n">keji2</span><span class="p">?.</span><span class="n">Move</span><span class="p">();</span> <span class="c1">// 使用安全转换后，调用 Move 方法前需要检查是否为 null</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 基类/父类</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 抽象类</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="k">class</span> <span class="nc">Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">CryString</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Animal</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">string</span> <span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">CryString</span> <span class="p">=</span> <span class="n">cryString</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 虚函数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 1.提供默认逻辑，因为有一些子类不想要重写可以不重写</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 2.提供可选的逻辑</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 下列是可选的</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 可选的：就是子类想要就可以要，不想要也可以不要</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}张嘴了！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 抽象函数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 业务上存在飞翔、跑步、游泳等各种情况，我们并不知道具体的子类如何实现</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 没有函数体</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">abstract</span> <span class="k">void</span> <span class="n">Move</span><span class="p">();</span> <span class="c1">// 抽象方法，子类必须实现</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 派生类/子类</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 第二层，Dog也是抽象类</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 抽象类不需要实现基类中的抽象函数（我也不知道我下面的子类会怎么实现）</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">Animal</span> <span class="c1">// 获得 Animal 的所有属性和方法</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">dogType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Dog</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span><span class="kt">string</span> <span class="n">cryString</span><span class="p">,</span><span class="kt">string</span> <span class="n">dogType</span><span class="p">):</span><span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;名字：{name}，品种：{dogType}诞生了！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">dogType</span> <span class="p">=</span> <span class="n">dogType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重写</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重载：是同名函数，但是不同参数</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重写：是同名函数，参数相同，但是实现不同</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}开始蓄力！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span> <span class="c1">// 调用基类的 Cry 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}：{CryString}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 重写的是基类中的抽象函数</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Move</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}开始奔跑！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">KeJiDog</span> <span class="p">:</span> <span class="n">Dog</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 他的构造函数约束是自身基类的</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">KeJiDog</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">string</span> <span class="n">cryString</span><span class="p">,</span> <span class="kt">string</span> <span class="n">dogType</span><span class="p">)</span> <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cryString</span><span class="p">,</span> <span class="n">dogType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span> <span class="c1">// 调用基类的 Cry 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;抖了抖小短腿！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Move</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Move</span><span class="p">();</span> <span class="c1">// 调用基类的 Move 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;抖了抖柯基翘臀！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Cat</span> <span class="p">:</span> <span class="n">Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">Cat</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span><span class="kt">string</span> <span class="n">cryString</span><span class="p">)</span> <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">cryString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">base</span><span class="p">.</span><span class="n">Cry</span><span class="p">();</span> <span class="c1">// 调用基类的 Cry 方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}：{CryString}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;它是一只猫！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Move</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&#34;{Name}开始跳跃！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">30.访问修饰符和类中类 
+    <div id="30访问修饰符和类中类" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#30%e8%ae%bf%e9%97%ae%e4%bf%ae%e9%a5%b0%e7%ac%a6%e5%92%8c%e7%b1%bb%e4%b8%ad%e7%b1%bb" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>public：公开的</p>
+<p>private：私有的，只有自己可以访问，子类都不行</p>
+<p>protected：自己以及子类都可以访问，但是不相关的不行</p>
+<p>如果不写访问修饰符，<font color="red">默认就是private</font></p>
+<p>访问：就是“对象.成员”，成员包括了成员函数和构造函数，但是构造函数一般都是public</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span> 	<span class="c1">// 公开属性，可以在任何地方访问</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">string</span> <span class="n">age</span><span class="p">;</span> 	<span class="c1">// 私有属性，只能在 Animal 类内部访问</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">string</span> <span class="n">color</span><span class="p">;</span> <span class="c1">// 受保护属性，可以在 Animal 类及其派生类中访问</span>
+</span></span></code></pre></div>
+<h3 class="relative group">类中类/嵌套类/内部类 
+    <div id="类中类嵌套类内部类" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e7%b1%bb%e4%b8%ad%e7%b1%bb%e5%b5%8c%e5%a5%97%e7%b1%bb%e5%86%85%e9%83%a8%e7%b1%bb" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>也就是class中也可以定义一个class的情况</p>
+<p>如果使用public，用 类.内部类 来访问类型，如Cat.CatData，其中CatData定义在Cat中</p>
+<p>如果使用private，就相当于保护起来了，外界无法访问</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 通过类型名.类型名去访问嵌套类</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Animal</span><span class="p">.</span><span class="n">AnimaTest</span> <span class="n">animaTest</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Animal</span><span class="p">.</span><span class="n">AnimaTest</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">animaTest</span><span class="p">.</span><span class="n">Test</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 没有被嵌套的，只能被定义成公开的</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Animal</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Test</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 内部使用和平时没什么区别</span>
+</span></span><span class="line"><span class="cl">        <span class="n">AnimaTest</span> <span class="n">animaTest</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AnimaTest</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">animaTest</span><span class="p">.</span><span class="n">Test</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 嵌套类可以修改访问修饰符</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// private:只能被嵌套自身的上级访问</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">AnimaTest</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="k">void</span> <span class="n">Test</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;Hello from AnimaTest!&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">31.万物基类Object 
+    <div id="31万物基类object" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#31%e4%b8%87%e7%89%a9%e5%9f%ba%e7%b1%bbobject" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>如果class不设置基类，那么他的基类就是object，同时object下有几个虚函数可以重载，这里重点先关注ToString（）</p>
+<p>因为万物基类都是object，所以任何类型的对象都可以隐式转换为object</p>
+
+<h3 class="relative group">ToString() 
+    <div id="tostring" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#tostring" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>我们用Debug.Log函数时是可以不填写字符串的，那么函数其实会自动调用对象的ToString函数</p>
+
+<h2 class="relative group">32.命名空间 
+    <div id="32命名空间" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#32%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+<h3 class="relative group">分文件编写 
+    <div id="分文件编写" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%88%86%e6%96%87%e4%bb%b6%e7%bc%96%e5%86%99" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>我们的类、结构体、枚举等可以放一个文件里面写，也可以分开，理论上没有强制要求，但是要考虑有后续的维护。<font color="red">大多情况下一个类型一个文件</font></p>
+
+<h3 class="relative group">命名空间 
+    <div id="命名空间" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>我们会对事物的数据和行为进行封装，这个过程产生类，但是有没有一种可能，我们将一系列目标较为相同的类也打包在一起呢？</p>
+<p>这就是命名空间，比如我们去下载的一些插件，一般也是有专门的命名空间</p>
+<p>是许多编程语言使用的一种代码组织的形式，通过命名空间来分类，区别不同的代码功能，避免不同的代码片段（通常由不同的人协同工作或调用已有的代码片段）同时使用时由于不同代码间变量名相同而造成冲突</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">Animal</span> <span class="c1">// 包裹的内容归属这个命名空间</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="k">class</span> <span class="nc">AnimalObject</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">string</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kd">override</span> <span class="kt">string</span> <span class="n">ToString</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="s">$&#34;我是动物：{name}&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">Animal</span> <span class="c1">// 包裹的内容归属这个命名空间</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">AnimalObject</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Animal</span><span class="p">;</span> <span class="c1">// 在这个文件引入命名空间</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">AnimalObject</span> <span class="n">animal</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">33.接口 
+    <div id="33接口" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#33%e6%8e%a5%e5%8f%a3" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>大家来想象一种需求</p>
+<ol>
+<li>人、鹦鹉、机器人三种类型，他们的共同特点是都会说话</li>
+<li>分类上，我们不可能将他们分为一类，因为除了会说话，没有任何其他的共同特点</li>
+<li>我们有一个公用函数，让会说话的对象进行说话</li>
+</ol>
+<p>上面这种需求其实不相关的类型但是有共同特点，应该如何解决？</p>
+
+<h3 class="relative group">接口 
+    <div id="接口" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%8e%a5%e5%8f%a3" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>C#中的继承是单继承，也就是一个class只能继承一个基类，但是无论是否有继承某个class，都可以进行多个接口的继承</p>
+<p>接口：抽象0个或多个函数，定义的函数一定是抽象函数，一定需要派生类进行实现</p>
+<p>一个对象，首先是它自身的类型，其次可以是它的基类类型，也可以是它的接口类型，但是转换类型后只能使用这个类型的成员</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Robot</span> <span class="n">robot</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Robot</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Person</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Person</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Parrot</span> <span class="n">parrot</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Parrot</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Talk</span><span class="p">(</span><span class="n">robot</span><span class="p">);</span>    <span class="c1">// 隐式转换</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Talk</span><span class="p">(</span><span class="n">person</span><span class="p">);</span>   <span class="c1">// 隐式转换</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Talk</span><span class="p">(</span><span class="n">parrot</span><span class="p">);</span>   <span class="c1">// 隐式转换</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">ITalk</span> <span class="n">talker</span> <span class="p">=</span> <span class="n">robot</span><span class="p">;</span> <span class="c1">// 隐式转换</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Robot</span> <span class="n">robot2</span> <span class="p">=</span> <span class="p">(</span><span class="n">Robot</span><span class="p">)</span><span class="n">talker</span><span class="p">;</span> <span class="c1">// 显式转换，</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 让某个对象进行说话</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Talk</span><span class="p">(</span><span class="n">ITalk</span> <span class="n">talker</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">talker</span><span class="p">.</span><span class="n">Talk</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">interface</span> <span class="nc">ITalk</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">void</span> <span class="n">Talk</span><span class="p">();</span> <span class="c1">// 实际上是抽象函数，不需要定义访问修饰符，因为没意义，因为如果不公开就不可能被访问到了</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Robot</span> <span class="p">:</span> <span class="n">ITalk</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Talk</span><span class="p">()</span> <span class="c1">// 实现接口不需要写override，因为接口方法本身就是抽象的，不需要再声明为抽象</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;机器人说话了！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
           
           
           
