@@ -118,7 +118,7 @@
     "keywords": ["文章","学习","C#"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "2648"
+    "wordCount": "3809"
   }]
   </script>
 
@@ -943,6 +943,45 @@
         <li><a href="#接口">接口</a></li>
       </ul>
     </li>
+    <li><a href="#34属性">34.属性</a></li>
+    <li><a href="#35引用与null">35.引用与Null</a>
+      <ul>
+        <li><a href="#引用">引用</a></li>
+        <li><a href="#null空引用">Null空引用</a></li>
+      </ul>
+    </li>
+    <li><a href="#36引用的比较">36.引用的比较</a>
+      <ul>
+        <li><a href="#objectrefrenceequals">object.RefrenceEquals</a></li>
+        <li><a href="#重写equals函数对比">重写Equals函数对比</a></li>
+      </ul>
+    </li>
+    <li><a href="#37值类型与引用类型">37.值类型与引用类型</a>
+      <ul>
+        <li><a href="#值类型">值类型</a></li>
+        <li><a href="#引用类型">引用类型</a></li>
+        <li><a href="#为什么需要这种区别">为什么需要这种区别？</a></li>
+      </ul>
+    </li>
+    <li><a href="#38特殊的引用类型string">38.特殊的引用类型string</a>
+      <ul>
+        <li><a href="#常用成员">常用成员</a></li>
+        <li><a href="#字符串的特殊性">字符串的特殊性</a></li>
+      </ul>
+    </li>
+    <li><a href="#39数组">39.数组</a>
+      <ul>
+        <li><a href="#语法-2">语法</a></li>
+        <li><a href="#关键点">关键点</a></li>
+      </ul>
+    </li>
+    <li><a href="#40交错数组">40.交错数组</a>
+      <ul>
+        <li><a href="#注意事项-1">注意事项</a></li>
+      </ul>
+    </li>
+    <li><a href="#41多维数组">41.多维数组</a></li>
+    <li><a href="#42面向对象总结">42.面向对象总结</a></li>
   </ul>
 </nav>
   </div>
@@ -1071,6 +1110,45 @@
         <li><a href="#接口">接口</a></li>
       </ul>
     </li>
+    <li><a href="#34属性">34.属性</a></li>
+    <li><a href="#35引用与null">35.引用与Null</a>
+      <ul>
+        <li><a href="#引用">引用</a></li>
+        <li><a href="#null空引用">Null空引用</a></li>
+      </ul>
+    </li>
+    <li><a href="#36引用的比较">36.引用的比较</a>
+      <ul>
+        <li><a href="#objectrefrenceequals">object.RefrenceEquals</a></li>
+        <li><a href="#重写equals函数对比">重写Equals函数对比</a></li>
+      </ul>
+    </li>
+    <li><a href="#37值类型与引用类型">37.值类型与引用类型</a>
+      <ul>
+        <li><a href="#值类型">值类型</a></li>
+        <li><a href="#引用类型">引用类型</a></li>
+        <li><a href="#为什么需要这种区别">为什么需要这种区别？</a></li>
+      </ul>
+    </li>
+    <li><a href="#38特殊的引用类型string">38.特殊的引用类型string</a>
+      <ul>
+        <li><a href="#常用成员">常用成员</a></li>
+        <li><a href="#字符串的特殊性">字符串的特殊性</a></li>
+      </ul>
+    </li>
+    <li><a href="#39数组">39.数组</a>
+      <ul>
+        <li><a href="#语法-2">语法</a></li>
+        <li><a href="#关键点">关键点</a></li>
+      </ul>
+    </li>
+    <li><a href="#40交错数组">40.交错数组</a>
+      <ul>
+        <li><a href="#注意事项-1">注意事项</a></li>
+      </ul>
+    </li>
+    <li><a href="#41多维数组">41.多维数组</a></li>
+    <li><a href="#42面向对象总结">42.面向对象总结</a></li>
   </ul>
 </nav>
   </div>
@@ -2096,6 +2174,10 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span> <span class="c1">// return的结果要跟函数的返回值类型一致</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Do</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span><span class="p">;</span> <span class="c1">//return意味着不执行之后的逻辑</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div>
 <h2 class="relative group">19.函数重载 
     <div id="19函数重载" class="anchor"></div>
@@ -2373,6 +2455,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 <p>核心就是把相关数据和行为组织成一个整体来看待</p>
 <p>比如我们学习的结构体，我们将英雄的数据（攻击力、生命值等）与英雄的行为（移动、攻击等）包装到一个结构体中，这个过程就是抽象</p>
 <p>其中“英雄”是类型，而具体的某个英雄“大法师”是对象，所以我们下节课就会学习非常重要的概念：“类与对象”</p>
+<p>‍</p>
 <p>所以最重要的两件事情要明白：</p>
 <ol>
 <li>分类：对游戏中很多食物进行分类包装，比如小兵、英雄等等，大多情况下我们将较为相同的单位归为同一个类型</li>
@@ -2656,12 +2739,17 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 <p>抽象：从许多事物中，舍弃个别的、非本质的属性，抽出共同的、本质的属性，叫抽象，是<font color="red">形成概念</font>的必要手段</p>
 <p>我们学习了类与对象，过程中我们会发现一些问题：</p>
 <p>类是一种结构/概念，对象是一个实体，比如英雄是类，而大魔法师是对象。</p>
+<p>‍</p>
 <p>我们之前学习的案例中有两种情况：</p>
 <p>第一种：我们认为Animal是个类，基于这个类去实例化对象，也就是没有使用继承，是一种比较简单的结构</p>
 <p>第二种：Animal是最上层，Cat和Dog继承Animal，最终我们实例化对象时其实是使用Cat、Dog这种类，因为我们认为如果产生一个具体的猫，我们使用猫的结构，但是我们不去直接实例化一个动物，因为动物是一个更加抽象的概念。他就应该停在概念层面。</p>
+<p>‍</p>
 <p>第二种情况下，实际上是我们依然可以new一个动物，但是往往我们不希望如此，所以我们需要一种技术去避免如此，但是要注意，这种避免不是必然，而是由程序员去决定是否需要避免</p>
+<p>‍</p>
+<p><strong>避免的方式就是抽象类</strong></p>
 <p><font color="red">避免的方式就是抽象类</font></p>
 <p>抽象类：高度抽象，不需要实例化的类型，但是其子类可以实例化，一般处于继承链的上端，需要实例化对象的类型不能使用抽象类</p>
+<p>‍</p>
 
 <h3 class="relative group">抽象函数 
     <div id="抽象函数" class="anchor"></div>
@@ -2796,6 +2884,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
     
 </h2>
 <p>在面向对象的程序设计中，里氏转换原则（Liskov Substitution principle）是对子类型的特别定义。它由芭芭拉·拉斯科夫（Barbara Liskov）在1987年的一次会议上名为“数据的抽象与层次”的演说中首先提出。</p>
+<p>‍</p>
 
 <h3 class="relative group">概念 
     <div id="概念" class="anchor"></div>
@@ -2811,6 +2900,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 <li>一个猫也是一个动物，一定的</li>
 <li>一个动物可能是一个猫，可能但不一定的</li>
 </ol>
+<p>‍</p>
 
 <h3 class="relative group">应用场景 
     <div id="应用场景" class="anchor"></div>
@@ -2823,6 +2913,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </h3>
 <p>假设我们提供一个函数，让动物作为参数，然后间接调用动物的Cry函数，我们应该如何实现？</p>
 <p>我们要解决的是，我们具体的对象都是Cat、KejiDog等类型，那岂不是每一种类型都要提供一个函数作为重载？</p>
+<p>‍</p>
 
 <h3 class="relative group">结论 
     <div id="结论" class="anchor"></div>
@@ -2834,8 +2925,11 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
     
 </h3>
 <ol>
-<li>隐式转换，子类转父类，没有风险的，内容一定兼容</li>
-<li>显式转换，父类转子类，有风险，要确保类型兼容
+<li>
+<p>隐式转换，子类转父类，没有风险的，内容一定兼容</p>
+</li>
+<li>
+<p>显式转换，父类转子类，有风险，要确保类型兼容</p>
 <ol>
 <li>Cat cat = (Cat)animal ，转换过程就可能报错</li>
 <li>Cat cat = animal as Cat ，转换过程不会报错，但是使用过程可能会报错</li>
@@ -2993,7 +3087,8 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span> 	<span class="c1">// 公开属性，可以在任何地方访问</span>
 </span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">string</span> <span class="n">age</span><span class="p">;</span> 	<span class="c1">// 私有属性，只能在 Animal 类内部访问</span>
 </span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">string</span> <span class="n">color</span><span class="p">;</span> <span class="c1">// 受保护属性，可以在 Animal 类及其派生类中访问</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><p>‍</p>
+
 <h3 class="relative group">类中类/嵌套类/内部类 
     <div id="类中类嵌套类内部类" class="anchor"></div>
     
@@ -3107,14 +3202,14 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">Animal</span> <span class="c1">// 包裹的内容归属这个命名空间</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">Animal</span> <span class="c1">// 包裹的内容归属这个命名空间</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">AnimalObject</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Animal</span><span class="p">;</span> <span class="c1">// 在这个文件引入命名空间</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Animal</span><span class="p">;</span> <span class="c1">// 在这个文件引入命名空间</span>
 </span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
@@ -3142,6 +3237,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 <li>我们有一个公用函数，让会说话的对象进行说话</li>
 </ol>
 <p>上面这种需求其实不相关的类型但是有共同特点，应该如何解决？</p>
+<p>‍</p>
 
 <h3 class="relative group">接口 
     <div id="接口" class="anchor"></div>
@@ -3154,6 +3250,7 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </h3>
 <p>C#中的继承是单继承，也就是一个class只能继承一个基类，但是无论是否有继承某个class，都可以进行多个接口的继承</p>
 <p>接口：抽象0个或多个函数，定义的函数一定是抽象函数，一定需要派生类进行实现</p>
+<p>‍</p>
 <p>一个对象，首先是它自身的类型，其次可以是它的基类类型，也可以是它的接口类型，但是转换类型后只能使用这个类型的成员</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
@@ -3178,11 +3275,11 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">interface</span> <span class="nc">ITalk</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">interface</span> <span class="nc">ITalk</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">   <span class="k">void</span> <span class="n">Talk</span><span class="p">();</span> <span class="c1">// 实际上是抽象函数，不需要定义访问修饰符，因为没意义，因为如果不公开就不可能被访问到了</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Robot</span> <span class="p">:</span> <span class="n">ITalk</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -3190,6 +3287,730 @@ start（字符串）：用来存储用户名、密码、角色名称、技能名
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;机器人说话了！&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">34.属性 
+    <div id="34属性" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#34%e5%b1%9e%e6%80%a7" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>属性就是将成员变量和成员函数结合</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">HP</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">MP</span> <span class="p">=</span> <span class="m">50</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">HP</span> <span class="p">-=</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">Hurt</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">HP</span> <span class="p">-=</span> <span class="m">12</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">MP</span> <span class="p">-=</span> <span class="m">35</span><span class="p">;</span>      <span class="c1">// 修改属性意味着 访问 属性的 set 方法</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero</span><span class="p">.</span><span class="n">MP</span><span class="p">);</span> <span class="c1">// 获取属性意味着 访问 属性的 get 方法</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">MP</span> <span class="p">-=</span> <span class="m">35</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero</span><span class="p">.</span><span class="n">MP</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">FlySpeed</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span> <span class="c1">// 访问 FlySpeed 的 set 方法</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero</span><span class="p">.</span><span class="n">FlySpeed</span><span class="p">);</span> <span class="c1">// 访问 FlySpeed 的 get 方法</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hero</span> <span class="p">:</span> <span class="n">Unit</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">HP</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">mp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 成员属性</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 属性在外部和变量是类似的</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 属性相当于提供了两个函数，分别是 get 和 set，但是也可以只保留其中一个</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 属性的类型决定了get 和 set 的返回类型</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">MP</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">get</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;有人在获取MP，我怀疑他要检查能不能放技能&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">mp</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">set</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;有人在设置MP，我怀疑他要放技能&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="k">value</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Debug</span><span class="p">.</span><span class="n">LogError</span><span class="p">(</span><span class="s">&#34;MP不能小于0&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mp</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="p">;</span> <span class="c1">// 直接返回，避免后续代码执行</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="k">value</span> <span class="p">&lt;</span> <span class="n">mp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;MP减少了！MP:&#34;</span><span class="p">+</span><span class="k">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="k">value</span> <span class="p">&gt;</span> <span class="n">mp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;MP增加了！MP:&#34;</span><span class="p">+</span><span class="k">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;MP没有变化！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">mp</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Hurt</span><span class="p">()</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;我受伤了！&#34;</span> <span class="p">+</span><span class="n">HP</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">lv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">override</span> <span class="kt">int</span> <span class="n">LV</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">get</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">lv</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">moveSpeed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">override</span> <span class="kt">int</span> <span class="n">MoveSpeed</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">get</span> <span class="p">=&gt;</span> <span class="m">23</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">set</span> <span class="p">=&gt;</span> <span class="n">moveSpeed</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="k">class</span> <span class="nc">Unit</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">virtual</span> <span class="kt">int</span> <span class="n">LV</span> <span class="p">{</span> <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="m">0</span><span class="p">;</span> <span class="p">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">int</span> <span class="n">MoveSpeed</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 简写，相当于提供了默认的成员变量</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 并且自动在get的时返回、set的时赋值，但是无法直接访问这个成员变量，相当于只能通过属性访问</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">FlySpeed</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">get</span><span class="p">;</span>            
+</span></span><span class="line"><span class="cl">        <span class="k">set</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// private set;    // 保护起来，给get或set单独设置访问修饰符</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">35.引用与Null 
+    <div id="35引用与null" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#35%e5%bc%95%e7%94%a8%e4%b8%8enull" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+<h3 class="relative group">引用 
+    <div id="引用" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%bc%95%e7%94%a8" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>现实中，我们通过人的身份证号来“唯一的”确认一个人的身份，但是我们同样也会用姓名、昵称、代号等方式来表明某个人。</p>
+<p>所以所谓引用就是一个别称</p>
+<p>‍</p>
+<p>大家可以思考一个问题，C#中可以通过函数传递数据，那么到底传递的是什么？这里我们先只考虑class的情况（说明其他类型有所不同，我们之后会探讨其他类型）。这里其实就相当于起了一个别名，我们通过别名获取以及操作的依然是原先的那个对象。</p>
+<p>‍</p>
+<p>即使不通过函数，C#中我们也可以主动给对象起别名，无论是创建对象时的名称还是另起的别名，这些都是引用</p>
+<p>‍</p>
+
+<h3 class="relative group">Null空引用 
+    <div id="null空引用" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#null%e7%a9%ba%e5%bc%95%e7%94%a8" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>null意味着空对象，也就是没有数据的对象，任何基于class定义的类型都可以用“object = null”的方式来表明这个对象为“空”、“无效”</p>
+<p>只定义对象，但是没有new或者其他引用方式，默认也是null</p>
+<p>‍</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">(</span><span class="s">&#34;张三&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TestFunction</span><span class="p">(</span><span class="n">hero</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero</span><span class="p">.</span><span class="n">name</span><span class="p">);</span> <span class="c1">// Start中的hero其实就是TestFunction中的unit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero3</span> <span class="p">=</span> <span class="n">hero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 如果修改hero3，等于修改hero，因为他们指向同一个对象</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero3</span><span class="p">.</span><span class="n">name</span> <span class="p">+=</span> <span class="s">&#34;_修改一下&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero</span><span class="p">.</span><span class="n">name</span><span class="p">);</span> <span class="c1">// 输出: 张三_TestFunction_修改一下</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero3</span><span class="p">.</span><span class="n">name</span><span class="p">);</span> <span class="c1">// 输出: 张三_TestFunction_修改一下</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span> <span class="p">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">//让hero无效</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero3</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>  <span class="c1">// 如果一个引用 = null，其他引用仍然有效</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>   <span class="c1">// 如果对象是null，是不能调用任何成员的，否则会报错，要避免</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero4</span><span class="p">;</span> <span class="c1">// 只有变量，没有实际引用的默认就是null</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Debug.Log(hero4.name); // 这会报错，因为hero4没有被初始化</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 目前的测试只对class类型有效，int、float等值类型不会影响原对象</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">TestFunction</span><span class="p">(</span><span class="n">Hero</span> <span class="n">unit</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">unit</span><span class="p">.</span><span class="n">name</span> <span class="p">+=</span> <span class="s">&#34;_TestFunction&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">unit</span> <span class="p">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">// 这只是让unit指向null，不影响原对象</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hero</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Hero</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">36.引用的比较 
+    <div id="36引用的比较" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#36%e5%bc%95%e7%94%a8%e7%9a%84%e6%af%94%e8%be%83" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>class类型的相等（==）或不等（!=）对比，实际上就是比较引用是否相同（引用所指向的对象是否相同）</p>
+<p>同时对象对比时null也可以参加，因为对象可能为null，也可以和null做对比</p>
+<p>‍</p>
+
+<h3 class="relative group">object.RefrenceEquals 
+    <div id="objectrefrenceequals" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#objectrefrenceequals" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>我们也可以用object.RefrenceEquals 这个函数来比较两个引用指向的对象是否相等，我们也可以采用“==”的方式来比较引用</p>
+<p>C#中允许重载运算符，如果一定要看它们的引用是否相等，要用object.ReferenceEquals</p>
+<p>‍</p>
+
+<h3 class="relative group">重写Equals函数对比 
+    <div id="重写equals函数对比" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e9%87%8d%e5%86%99equals%e5%87%bd%e6%95%b0%e5%af%b9%e6%af%94" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>‍</p>
+<p>object中有个虚函数，Equals()，可以用来自定义对比结果，注意此时并不是对比引用是否相同，而是“我们认为是否相同”</p>
+<p><strong>只是逻辑相等，和引用无关</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">num1</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">num2</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">num1</span> <span class="p">==</span> <span class="n">num2</span><span class="p">);</span> <span class="c1">// True，值类型只比较数值是否相等</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">(</span><span class="s">&#34;张三&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">(</span><span class="s">&#34;张三&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 引用的比较</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// </span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero1</span> <span class="p">==</span> <span class="n">hero2</span><span class="p">);</span> <span class="c1">// False，虽然他们的成员相等，但是不是一个对象</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">hero1</span> <span class="p">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="c1">// 如果英雄存在（是否不为null），则可以XXX</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// object.ReferenceEquals方法比较两个对象是否是同一个对象</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="kt">object</span><span class="p">.</span><span class="n">ReferenceEquals</span><span class="p">(</span><span class="n">hero1</span><span class="p">,</span> <span class="n">hero2</span><span class="p">));</span> <span class="c1">// False</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="kt">object</span><span class="p">.</span><span class="n">ReferenceEquals</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">));</span>   <span class="c1">// True</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="kt">object</span><span class="p">.</span><span class="n">ReferenceEquals</span><span class="p">(</span><span class="n">hero1</span><span class="p">,</span> <span class="kc">null</span><span class="p">));</span>  <span class="c1">// False，hero1不是null</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 类.Equals()实际上就是objectade函数，静态函数（后续学习）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">Hero</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="n">hero1</span><span class="p">,</span> <span class="n">hero2</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">Hero</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">Hero</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="n">hero1</span><span class="p">,</span> <span class="kc">null</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 对象.Equals()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero3</span> <span class="p">=</span> <span class="n">hero1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero4</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">(</span><span class="s">&#34;李四&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero5</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">(</span><span class="s">&#34;张三&#34;</span><span class="p">);</span> <span class="c1">// 不同对象但是逻辑上同名</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero1</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="n">hero3</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero1</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="n">hero4</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero1</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="n">hero5</span><span class="p">));</span> <span class="c1">// True</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hero</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Hero</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 我们就强行要求，同名且同类型就是相等的（当然它们实际上还是两个对象，但是我们希望得到相等的结果）</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">override</span> <span class="kt">bool</span> <span class="n">Equals</span><span class="p">(</span><span class="kt">object</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">temp</span> <span class="p">=</span> <span class="n">obj</span> <span class="k">as</span> <span class="n">Hero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 如果这个obj不是Hero类型，会转换失败，temp将为null</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 既然类型都不相同，当然不相等</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">temp</span> <span class="p">==</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="c1">//else说明转换成功了，obj是 Hero 对象</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">name</span> <span class="p">==</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">;</span> <span class="c1">// 如果名字相同，则认为是相等的</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">37.值类型与引用类型 
+    <div id="37值类型与引用类型" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#37%e5%80%bc%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%bc%95%e7%94%a8%e7%b1%bb%e5%9e%8b" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+<h3 class="relative group">值类型 
+    <div id="值类型" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%80%bc%e7%b1%bb%e5%9e%8b" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>int a = 3;</p>
+<p>int b = a;</p>
+<p>在b=a时，会重新开辟内存空间并完整的复制一次a的数据，相当于两者无关，只是在复制的时两者数据相等而已</p>
+<p>主要的值类型：枚举、结构体、int、float、bool等（string不是值类型，它是特殊的引用类型）</p>
+<p><strong>比较时（相等/不等）一般是判断两者的值是否相同</strong></p>
+<p><strong>结论：值类型在赋值时都是拷贝值，和原先的变量无关、</strong></p>
+<p>‍</p>
+
+<h3 class="relative group">引用类型 
+    <div id="引用类型" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%bc%95%e7%94%a8%e7%b1%bb%e5%9e%8b" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>Dog dahuang = new Dog();</p>
+<p>Dog dog = dahuang;</p>
+<p>在dog = dahuang时，dog会引用dahuang的内存地址，相当于两者是一个对象，只是名称不一样</p>
+<p>主要的引用类型：class、interface</p>
+<p><strong>比较时（相等/不等）一般是判断两者是否引用同一个对象</strong></p>
+<p><strong>结论：引用类型在赋值时都是拷贝引用，和原先的变量是同一个对象</strong></p>
+<p>‍</p>
+
+<h3 class="relative group">为什么需要这种区别？ 
+    <div id="为什么需要这种区别" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e8%bf%99%e7%a7%8d%e5%8c%ba%e5%88%ab" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>值类型都是轻量级数据，用完就放弃（销毁、回收），在C#中一般过了的作用域就回收掉。但是会有传递的需求，因为是轻量级数据，复制成本也不高，所以采用这种方案。</p>
+<p>‍</p>
+<p>想对的，引用类型一般是重量级数据，那么它的复制成本就高。不适合采用值类型的方案。但是这也不意味着引用类型就不在销毁，当一个对象再也没有人引用时会被标记为“无用”状态等待系统自动的回收，但是这个回收是有成本</p>
+<p>‍</p>
+<p>如果一个class中有一个成员变量是int、float这类值类型，会怎么样？此时值类型的作用域就在这个类产生的某个对象内，所以这个对象没有被回收（销毁）也就不会回收，但是即使是class中的值类型，传递时依然采用的是完全拷贝的形式</p>
+<p><strong>class中的值类型：修改对象内的成员都要用对象名.成员名称去做到</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">b</span> <span class="p">=</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="p">=</span> <span class="m">4</span><span class="p">;</span> <span class="c1">// 此时a依然=3</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Test</span><span class="p">(</span><span class="n">b</span><span class="p">);</span> <span class="c1">// Test(int num = 4) 函数调用的过程也是复制</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// hero1和hero2其实是一个对象的引用</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">(</span><span class="s">&#34;张三&#34;</span><span class="p">,</span><span class="m">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span> <span class="n">hero2</span> <span class="p">=</span> <span class="n">hero1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">hero1</span> <span class="p">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero2</span> <span class="p">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">// 此时张三这个英雄相当于无名，无名就意味着无用，等待销毁</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">TestHero</span><span class="p">(</span><span class="n">hero1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SetHeroLv</span><span class="p">(</span><span class="n">hero1</span><span class="p">.</span><span class="n">friendHero</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Test</span><span class="p">(</span><span class="n">hero1</span><span class="p">.</span><span class="n">lv</span><span class="p">);</span> <span class="c1">// 相当于Test函数中的num= hero1.lv，但是两者依然无关联</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 引用类型的变量在除了它的有限范围（作用域）时候会失效，但是不意味着他引用的对象也失效</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">SetHeroLv</span><span class="p">(</span><span class="n">Hero</span> <span class="n">hero</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hero</span><span class="p">.</span><span class="n">lv</span> <span class="p">=</span> <span class="m">10086</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// class中的值类型：修改对象内的成员都要用对象名.成员名称去做到</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 引用类型，因为指向引用的对象，所以修改对象内的成员变量，直接修改即可</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Test</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">num2</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">num2</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">==</span><span class="m">88</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">SaveNum</span><span class="p">(</span><span class="n">i</span><span class="p">);</span> <span class="c1">// 复制给SaveNum函数中的num</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">num</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">SaveNum</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">num</span> <span class="p">=</span> <span class="n">num</span><span class="p">;</span> <span class="c1">// this关键字指向当前类的成员变量</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">TestHero</span><span class="p">(</span><span class="n">Hero</span> <span class="n">hero</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">hero</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hero</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">lv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Hero</span> <span class="n">friendHero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Hero</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">int</span> <span class="n">lv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">lv</span> <span class="p">=</span> <span class="n">lv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">38.特殊的引用类型string 
+    <div id="38特殊的引用类型string" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#38%e7%89%b9%e6%ae%8a%e7%9a%84%e5%bc%95%e7%94%a8%e7%b1%bb%e5%9e%8bstring" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+
+<h3 class="relative group">常用成员 
+    <div id="常用成员" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%b8%b8%e7%94%a8%e6%88%90%e5%91%98" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>Length：字符串长度</p>
+<p>IndexOf：A字符串在B字符串中第一次出现的位置</p>
+<p>LastIndexOf：A字符串在B字符串中最后一次出现的位置</p>
+<p>Replace：替换指定的字符</p>
+<p>ToUpper：转为大写</p>
+<p>ToLower：转为小写</p>
+<p>‍</p>
+
+<h3 class="relative group">字符串的特殊性 
+    <div id="字符串的特殊性" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%9a%84%e7%89%b9%e6%ae%8a%e6%80%a7" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>首先string是引用类型，底层使用了“常量池”的技术，也就是如果存在某个字符串，则不会实例化一个新的字符串，而是复用之前的引用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">str1</span> <span class="p">=</span> <span class="s">&#34;ddd&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">str2</span> <span class="p">=</span> <span class="s">&#34;ddd&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">str1</span> <span class="p">=</span> <span class="s">&#34;CCC&#34;</span>
+</span></span></code></pre></div><p>上面代码中str1和str2是同一个引用，但是str1修改后，str2并不会修改，这也是string的特殊性</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 这些函数都是返回一个新的字符串，不会修改原有的字符串，因为使用了常量池的技术</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Length: 字符串长度</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//IndexOf：A字符串在B字符串中第一次出现的位置</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//LastIndexOf：A字符串在B字符串中最后一次出现的位置</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Replace：替换字符串中指定的字符</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//ToUpper：将字符串转换为大写</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//ToLower：将字符串转换为小写</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">name1</span> <span class="p">=</span> <span class="s">&#34;张三Abc&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">name2</span> <span class="p">=</span> <span class="s">&#34;张三Abc&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">name3</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">string</span><span class="p">(</span><span class="s">&#34;张三Abc&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// C#中允许重载运算符，如果一定要看它们的引用是否相等，要用object.ReferenceEquals</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">name1</span> <span class="p">==</span> <span class="n">name3</span><span class="p">);</span> <span class="c1">// 字符串的==被修改，不再是对比是否同一个引用，而是值是否相等</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="kt">object</span><span class="p">.</span><span class="n">ReferenceEquals</span><span class="p">(</span><span class="n">name1</span><span class="p">,</span> <span class="n">name3</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="kt">object</span><span class="p">.</span><span class="n">ReferenceEquals</span><span class="p">(</span><span class="n">name1</span><span class="p">,</span> <span class="n">name2</span><span class="p">));</span>
+</span></span></code></pre></div>
+<h2 class="relative group">39.数组 
+    <div id="39数组" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#39%e6%95%b0%e7%bb%84" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>数组也是一种内置类型，如同字面意思，用来管理多个数据的</p>
+
+<h3 class="relative group">语法 
+    <div id="语法-2" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e8%af%ad%e6%b3%95-2" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<p>‍</p>
+
+<h3 class="relative group">关键点 
+    <div id="关键点" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e5%85%b3%e9%94%ae%e7%82%b9" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<ol>
+<li>数组本身是引用类型</li>
+<li>数组中可以存放任何类型</li>
+<li>数组中的数据如果没有设置值，会是该类型的默认值，引用就是null</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 定义数组</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 定义时如果不确定值，数组内是默认值</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span><span class="p">[]</span> <span class="n">nums1</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">10</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span><span class="p">[]</span> <span class="n">nums2</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span> <span class="m">10</span> <span class="p">};</span> <span class="c1">// 定义时就填充数据</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Hero</span><span class="p">[]</span> <span class="n">heros</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">[]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">new</span> <span class="n">Hero</span><span class="p">(),</span><span class="k">new</span> <span class="n">Hero</span><span class="p">(),</span><span class="k">new</span> <span class="n">Hero</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">num</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 修改数据，编程领域普遍情况下，计数从0开始</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nums1</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">=</span> <span class="m">33</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 获取数据</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">nums1</span><span class="p">);</span> <span class="c1">// 33</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 理论上不存在删除数据的情况，但是可以让数据无效</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nums1</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">heros</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">// 让数组中的数据无效</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Test</span><span class="p">(</span><span class="n">nums1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Test</span><span class="p">(</span><span class="n">nums2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Debug.Log(nums2[nums2.Length]); Length是数组的长度，但是索引从0开始，所以最后一个元素的索引是Length - 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">object</span><span class="p">[]</span> <span class="n">objs</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">object</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="s">&#34;hello&#34;</span><span class="p">,</span> <span class="k">new</span> <span class="n">Hero</span><span class="p">()</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Test</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">nums</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 数组的长度，但是注意，不是有效长度，而是定义时的长度</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">num</span> <span class="p">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hero</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">40.交错数组 
+    <div id="40交错数组" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#40%e4%ba%a4%e9%94%99%e6%95%b0%e7%bb%84" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>上节课有个特殊的地方：“数组中可以存放任何类型”，那么是否也可以将数组放数组中？</p>
+
+<h3 class="relative group">注意事项 
+    <div id="注意事项-1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9-1" aria-label="锚点">#</a>
+    </span>        
+    
+</h3>
+<ol>
+<li>因为数组中可以放任何类型，所以也可以放数组。但是数组中的类型是确认的，所以可以产生int[][]这样的存在</li>
+<li>交错数组中每个元素虽然类型一致，但是他们的元素数量可以不相同</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">int</span><span class="p">[]</span> <span class="n">nums</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">7</span> <span class="p">};</span> <span class="c1">// 10个int</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 交错数组只是约束成员都是某个类型，但是不约束里面的内容</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span><span class="p">[][]</span> <span class="n">nums2</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[][]</span> <span class="c1">// 元素是int[]</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">7</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">7</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">7</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">num</span> <span class="p">=</span> <span class="n">nums2</span><span class="p">[</span><span class="m">0</span><span class="p">][</span><span class="m">3</span><span class="p">];</span> <span class="c1">// 访问nums2[0]的第三个元素</span>
+</span></span><span class="line"><span class="cl"><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">num</span><span class="p">);</span> <span class="c1">// 输出3</span>
+</span></span></code></pre></div>
+<h2 class="relative group">41.多维数组 
+    <div id="41多维数组" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#41%e5%a4%9a%e7%bb%b4%e6%95%b0%e7%bb%84" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<p>多维数组是确定行列的数组</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">    <span class="c1">// 多维数组</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span><span class="p">[,]</span> <span class="n">nums3</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]</span> <span class="c1">// 4行3列</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">nums3</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span> <span class="c1">// 输出6 多维数组元素的总长度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">nums3</span><span class="p">[</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">]);</span> <span class="c1">// 输出1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">nums3</span><span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">]);</span> <span class="c1">// 输出4</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">nums3</span><span class="p">[</span><span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">]);</span> <span class="c1">// 输出2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span><span class="n">i</span> <span class="p">&lt;</span> <span class="n">nums3</span><span class="p">.</span><span class="n">GetLength</span><span class="p">(</span><span class="m">0</span><span class="p">);</span><span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">nums3</span><span class="p">.</span><span class="n">GetLength</span><span class="p">(</span><span class="m">1</span><span class="p">);</span> <span class="n">j</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">nums3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+<h2 class="relative group">42.面向对象总结 
+    <div id="42面向对象总结" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700 !no-underline" href="#42%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1%e6%80%bb%e7%bb%93" aria-label="锚点">#</a>
+    </span>        
+    
+</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Animal</span><span class="p">[]</span> <span class="n">animals</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Animal</span><span class="p">[</span><span class="m">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="n">animals</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">animals</span><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">animals</span><span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Fish</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">animals</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">animals</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Eat</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">animals</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 如果动物实现了IRun接口，则调用Run方法</span>
+</span></span><span class="line"><span class="cl">            <span class="n">IRun</span> <span class="n">runer</span> <span class="p">=</span> <span class="n">animals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">as</span> <span class="n">IRun</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">runer</span> <span class="p">!=</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">runer</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;该动物不能跑！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="k">class</span> <span class="nc">Animal</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="k">void</span> <span class="n">Eat</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Cry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">interface</span> <span class="nc">IRun</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Run</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">Animal</span><span class="p">,</span><span class="n">IRun</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Eat</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;小狗吃东西！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;小狗跑！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Cat</span> <span class="p">:</span> <span class="n">Animal</span><span class="p">,</span> <span class="n">IRun</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Eat</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;小猫吃东西！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;小猫跑！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Fish</span> <span class="p">:</span> <span class="n">Animal</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">override</span> <span class="k">void</span> <span class="n">Eat</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;小鱼吃东西！&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div>
           
