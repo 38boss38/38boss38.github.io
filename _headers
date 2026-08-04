@@ -1,0 +1,31 @@
+# Cloudflare Pages 响应头配置。
+# GitHub Pages 不读这个文件，会把它当成一个普通静态文件原样提供，没有副作用。
+#
+# 指纹化资源（样式、脚本、Hugo 处理过的图片）内容变化时文件名一定会变，
+# 所以可以放心地长期缓存；HTML 和加密盘密文必须每次校验。
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# 加密盘密文每次构建都会换盐和 IV，不能被缓存成旧版本。
+/vault/payload.enc.json
+  Cache-Control: no-cache
+
+/index.json
+  Cache-Control: public, max-age=600
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
