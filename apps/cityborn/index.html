@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0a0c" />
+<meta name="description" content="生于都市 —— 以月亮计划“都市”为舞台的非官方中文人生模拟器。" />
+<title>生于都市 · 都市人生模拟器</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/motion.css" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+<div id="app">
+
+  <!-- 标题 -->
+  <section id="scr-title" class="screen active">
+    <svg class="skyline" viewBox="0 0 1600 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+<path class="sk-back" d="M0 320V148h64V320ZM60 320V211h38V320ZM94 320V159h61V320ZM151 320V84h35V320ZM183 320V178h71V320ZM250 320V104h50V320ZM296 320V245h76V320ZM368 320V213h65V320ZM429 320V228h77V320ZM502 320V163h69V320ZM567 320V250h42V320ZM606 320V66h96V320ZM697 320V171h38V320ZM732 320V222h97V320ZM825 320V150h59V320ZM880 320V204h77V320ZM953 320V63h42V320ZM991 320V213h61V320ZM1048 320V194h68V320ZM1113 320V105h41V320ZM1149 320V190h55V320ZM1200 320V75h36V320ZM1231 320V83h47V320ZM1274 320V213h63V320ZM1333 320V180h72V320ZM1401 320V129h83V320ZM1480 320V215h40V320ZM1516 320V242h62V320ZM1573 320V178h33V320Z"/><path class="sk-tower" d="M240 320V20l20 -26l20 26V320ZM793 320V-40l27 -26l27 26V320ZM1292 320V40l18 -26l18 26V320Z"/><path class="sk-front" d="M0 320V199h65V320ZM67 320V257h40V320ZM113 320V170h80V320ZM193 320V240h43V320ZM238 320V228h59V320ZM300 320V179h32V320ZM336 320V168h64V320ZM405 320V270h75V320ZM480 320V290h34V320ZM519 320V187h51V320ZM575 320V280h29V320ZM609 320V231h56V320ZM668 320V192h54V320ZM727 320V174h62V320ZM792 320V180h69V320ZM867 320V268h64V320ZM933 320V236h26V320ZM962 320V265h74V320ZM1037 320V219h48V320ZM1086 320V259h48V320ZM1134 320V251h56V320ZM1196 320V158h47V320ZM1249 320V241h41V320ZM1294 320V208h41V320ZM1338 320V235h31V320ZM1372 320V236h61V320ZM1439 320V169h51V320ZM1495 320V204h73V320ZM1571 320V260h58V320Z"/><g class="sk-lights"><rect x="29" y="259" width="2" height="3"/><rect x="52" y="255" width="2" height="3"/><rect x="80" y="301" width="2" height="3"/><rect x="211" y="292" width="2" height="3"/><rect x="231" y="248" width="2" height="3"/><rect x="293" y="271" width="2" height="3"/><rect x="305" y="206" width="2" height="3"/><rect x="386" y="199" width="2" height="3"/><rect x="345" y="179" width="2" height="3"/><rect x="412" y="287" width="2" height="3"/><rect x="413" y="290" width="2" height="3"/><rect x="428" y="305" width="2" height="3"/><rect x="495" y="299" width="2" height="3"/><rect x="495" y="298" width="2" height="3"/><rect x="563" y="279" width="2" height="3"/><rect x="538" y="204" width="2" height="3"/><rect x="585" y="289" width="2" height="3"/><rect x="587" y="301" width="2" height="3"/><rect x="656" y="287" width="2" height="3"/><rect x="657" y="288" width="2" height="3"/><rect x="659" y="304" width="2" height="3"/><rect x="735" y="308" width="2" height="3"/><rect x="850" y="278" width="2" height="3"/><rect x="818" y="246" width="2" height="3"/><rect x="882" y="295" width="2" height="3"/><rect x="872" y="311" width="2" height="3"/><rect x="949" y="259" width="2" height="3"/><rect x="954" y="285" width="2" height="3"/><rect x="993" y="308" width="2" height="3"/><rect x="977" y="292" width="2" height="3"/><rect x="1042" y="232" width="2" height="3"/><rect x="1063" y="303" width="2" height="3"/><rect x="1091" y="273" width="2" height="3"/><rect x="1150" y="298" width="2" height="3"/><rect x="1149" y="292" width="2" height="3"/><rect x="1204" y="196" width="2" height="3"/><rect x="1228" y="252" width="2" height="3"/><rect x="1258" y="307" width="2" height="3"/><rect x="1321" y="308" width="2" height="3"/><rect x="1309" y="269" width="2" height="3"/><rect x="1384" y="270" width="2" height="3"/><rect x="1446" y="297" width="2" height="3"/><rect x="1453" y="210" width="2" height="3"/><rect x="1458" y="224" width="2" height="3"/><rect x="1529" y="228" width="2" height="3"/><rect x="1519" y="236" width="2" height="3"/><rect x="1580" y="268" width="2" height="3"/></g></svg>
+    <div class="title-wrap">
+      <div class="title-eyebrow">THE CITY · A LIFE</div>
+      <h1 class="title-main">生于都市</h1>
+      <div class="title-sub">都市人生模拟器</div>
+      <p class="title-quote" id="title-quote"></p>
+
+      <form id="birth-form" class="birth-form" autocomplete="off">
+        <label class="fld"><span>姓名</span><input id="f-name" maxlength="12" placeholder="留空则随机" /></label>
+        <div class="fld"><span>性别</span>
+          <div class="seg" data-name="gender">
+            <button type="button" data-v="r" class="on">随机</button><button type="button" data-v="m">男</button><button type="button" data-v="f">女</button>
+          </div>
+        </div>
+        <div class="fld"><span>时代</span>
+          <div class="seg" data-name="era">
+            <button type="button" data-v="r" class="on">随机</button><button type="button" data-v="lob">脑叶公司时代</button><button type="button" data-v="dist">扭曲时代</button>
+          </div>
+        </div>
+        <details class="fld-more"><summary>种子（可选）</summary>
+          <label class="fld"><span>种子</span><input id="f-seed" maxlength="24" placeholder="相同种子与相同选择 → 相同人生" /></label>
+        </details>
+        <button type="submit" class="btn-born">出 生</button>
+      </form>
+
+      <div class="title-links">
+        <button class="lnk" data-go="codex">见闻录</button>
+        <span class="dot">·</span>
+        <button class="lnk" data-go="lives">往生录</button>
+        <span class="dot">·</span>
+        <button class="lnk" data-go="about">关于</button>
+      </div>
+      <p class="warn">含死亡、暴力、犯罪、精神崩溃等沉重内容，建议15岁以上游玩。</p>
+      <p class="credit">Project Moon 同人作品 · 非官方 · 非营利 · 专有名词译法参照“都市零协会”边狱巴士汉化</p>
+    </div>
+  </section>
+
+  <!-- 游戏 -->
+  <section id="scr-game" class="screen">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-name" id="tb-name"></div>
+        <div class="tb-era" id="tb-era"></div>
+      </div>
+      <div class="tb-age"><span id="tb-age">0</span><small>岁</small></div>
+      <div class="tb-right">
+        <div class="speed" id="speed">
+          <button data-sp="0" title="暂停 (空格)">❚❚</button>
+          <button data-sp="1" class="on">×1</button>
+          <button data-sp="2">×2</button>
+          <button data-sp="4">×4</button>
+        </div>
+        <button class="tb-btn" id="btn-sfx" title="音效">♪</button>
+        <button class="tb-btn" id="btn-auto" title="自动选择">自动</button>
+        <button class="tb-btn" id="btn-menu" title="菜单">⋯</button>
+      </div>
+    </header>
+    <div class="yearbar" id="yearbar" title="距离下一年"><i id="yb-fill"></i><span id="yb-label"></span></div>
+
+    <main class="game-grid">
+      <aside class="panel p-char">
+        <div class="pc-head">
+          <div class="pc-job" id="pc-job"></div>
+          <div class="pc-home" id="pc-home"></div>
+        </div>
+        <div class="stats" id="stats"></div>
+        <div class="money-row"><span>资金</span><b id="pc-money"></b></div>
+        <div class="money-row"><span>名声</span><b id="pc-fame"></b></div>
+        <div class="traits" id="pc-traits"></div>
+        <div class="pc-rel" id="pc-rel"></div>
+        <div class="pc-titles" id="pc-titles"></div>
+      </aside>
+
+      <section class="panel p-log">
+        <div class="log" id="log"></div>
+      </section>
+
+      <aside class="panel p-side">
+        <div class="side-h">今年的方针</div>
+        <div class="focus" id="focus"></div>
+        <div class="side-h">主动行动 <small>明年年初执行</small></div>
+        <div class="acts" id="acts"></div>
+        <div class="side-h">人生图景 <small>一格一年</small></div>
+        <div class="lifegrid" id="lifegrid"></div>
+        <div class="side-h">状态</div>
+        <div class="cond" id="cond"></div>
+        <div class="side-h" style="margin-top:22px">同年出生的人</div>
+        <div class="mates" id="mates"></div>
+      </aside>
+    </main>
+
+    <!-- 出生登记 -->
+    <div class="modal" id="birthcard" hidden>
+      <div class="birth-card">
+        <div class="bc-eyebrow">出 生 登 记</div>
+        <div class="bc-no" id="bc-no"></div>
+        <h2 class="bc-name" id="bc-name"></h2>
+        <dl class="bc-rows" id="bc-rows"></dl>
+        <div class="bc-traits" id="bc-traits"></div>
+        <p class="bc-note">都市并不在意又多了一个人。但从今天起，这就是你的人生。</p>
+        <div class="bc-btns">
+          <button class="btn-pri" id="bc-go">开始这一生</button>
+          <button id="bc-reroll">重新投胎</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 选择 -->
+    <div class="modal" id="choice" hidden>
+      <div class="choice-card">
+        <div class="cc-age" id="cc-age"></div>
+        <div class="cc-text" id="cc-text"></div>
+        <div class="cc-opts" id="cc-opts"></div>
+        <div class="cc-judge" id="cc-judge" hidden></div>
+        <div class="cc-result" id="cc-result" hidden></div>
+        <div class="cc-foot" id="cc-foot">时间已停止 · 按 1–4 选择</div>
+      </div>
+    </div>
+
+    <!-- 菜单 -->
+    <div class="modal" id="menu" hidden>
+      <div class="menu-card">
+        <button data-m="resume">继续</button>
+        <button data-m="step" id="m-step">逐年模式：关</button>
+        <label class="m-vol">音量 <input type="range" id="m-vol" min="0" max="100" step="5" /></label>
+        <button data-m="restart">同名重生</button>
+        <button data-m="quit">回到标题（自动保存）</button>
+        <button data-m="abandon">放弃这一生</button>
+      </div>
+    </div>
+
+    <!-- 结局 -->
+    <div class="modal" id="death" hidden>
+      <div class="death-card">
+        <div class="dc-eyebrow">这一生结束了</div>
+        <h2 class="dc-name" id="dc-name"></h2>
+        <div class="dc-years" id="dc-years"></div>
+        <p class="dc-cause" id="dc-cause"></p>
+        <p class="dc-epi" id="dc-epi"></p>
+        <div class="dc-titles" id="dc-titles"></div>
+        <ol class="dc-tl" id="dc-tl"></ol>
+        <div class="dc-mates" id="dc-mates"></div>
+        <div class="dc-ach" id="dc-ach"></div>
+        <label class="dc-words"><span>留下一句话</span><input id="dc-words" maxlength="40" placeholder="可以留空" /></label>
+        <div class="dc-btns">
+          <button class="btn-pri" id="dc-again">再活一次</button>
+          <button id="dc-review">回顾这一生</button>
+          <button id="dc-copy">复制人生记录</button>
+          <button id="dc-home">回到标题</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 见闻录 -->
+  <section id="scr-codex" class="screen">
+    <div class="sub-wrap">
+      <header class="sub-head"><button class="lnk back" data-go="title">← 返回</button><h2>见闻录</h2><span id="codex-count"></span></header>
+      <div class="codex" id="codex"></div>
+    </div>
+  </section>
+
+  <!-- 往生录 -->
+  <section id="scr-lives" class="screen">
+    <div class="sub-wrap">
+      <header class="sub-head"><button class="lnk back" data-go="title">← 返回</button><h2>往生录</h2><span id="lives-count"></span></header>
+      <div class="lives" id="lives"></div>
+    </div>
+  </section>
+
+  <!-- 关于 -->
+  <section id="scr-about" class="screen">
+    <div class="sub-wrap about">
+      <header class="sub-head"><button class="lnk back" data-go="title">← 返回</button><h2>关于</h2></header>
+      <p>《生于都市》是一款以 Project Moon 作品（《脑叶公司》《废墟图书馆》《边狱公司》）中的“都市”为舞台的非官方同人人生模拟游戏。</p>
+      <p>你会随机出生在都市的某个角落——某个翼的巢，某个区的后巷，或是都市之外的郊区。之后的每一年，时间会自己流逝；你只能决定这一年把力气花在哪里，以及在命运找上门时，作出选择。</p>
+      <p>数值只会改变概率，不会决定结果。这里是都市。</p>
+      <p class="muted">玩法参考了《80亿分之一》与《도시의 한 사람으로 태어나》。专有名词译法参照“都市零协会”的《边狱公司》简体中文汉化。所有角色、组织与设定版权归 Project Moon 所有。</p>
+      <p class="muted">快捷键：空格 暂停/继续 · [ ] 调整速度 · 1–4 选择选项</p>
+    </div>
+  </section>
+
+</div>
+<div id="ach-toasts"></div>
+<script src="js/engine.js"></script>
+<script src="js/data/world.js"></script>
+<script src="js/data/ev_birth.js"></script>
+<script src="js/data/ev_youth.js"></script>
+<script src="js/data/ev_backstreet.js"></script>
+<script src="js/data/ev_fixer.js"></script>
+<script src="js/data/ev_syndicate.js"></script>
+<script src="js/data/ev_wing.js"></script>
+<script src="js/data/ev_world.js"></script>
+<script src="js/data/ev_love.js"></script>
+<script src="js/data/ev_late.js"></script>
+<script src="js/data/ev_strange.js"></script>
+<script src="js/data/ev_actions.js"></script>
+<script src="js/data/ev_fixer2.js"></script>
+<script src="js/data/ev_limbus.js"></script>
+<script src="js/data/ev_minor.js"></script>
+<script src="js/data/ev_child2.js"></script>
+<script src="js/data/ev_outskirts.js"></script>
+<script src="js/data/ev_beyond.js"></script>
+<script src="js/data/achievements.js"></script>
+<script src="js/sfx.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>

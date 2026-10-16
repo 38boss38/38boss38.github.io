@@ -1,0 +1,332 @@
+/* 童年与少年 6–17
+ * 连锁线：
+ * - 巷口的老剑客（blade_contact）→ ev_syndicate 剑契组
+ * - 收尾人梦（fixer_dream）→ ev_fixer 入行
+ * - 偷来的钱包（y_wallet → y_wallet_back）
+ * - 救下的流浪狗（y_dog → y_dog_end）
+ * - 孤儿院的修女（orphanage → y_orph_sister → y_orph_close）
+ * - 郊区来的孩子进城（outskirts → y_out_city）
+ * - 巢的升学考试（y_nest_exam → wg_ 翼的入职考试）
+ * - 帮派的跑腿（gang_contact → ev_syndicate）
+ */
+CITY.addEvents('youth', [
+  // ---------- 读书 ----------
+  { id: 'y_school_nest', age: [6, 6], req: { loc: 'nest' }, force: true, star: true,
+    text: '你进入了巢里的小学。校服的胸口印着{wing}公司的标志。老师说，只要成绩足够好，将来就能进翼工作。',
+    eff: { flag: ['schooled', 'literate'], job: { id: 'student', org: '巢的学生' } } },
+  { id: 'y_school_bs', age: [6, 8], req: { loc: 'backstreet', noflag: ['schooled', 'school_refused'] }, title: '上学',
+    text: S => '街角那家由退休教师开的私塾招学生，一个月八千眼。' + (S.money >= 24000 ? '家里的钱罐里够付三个月。' : '你数了数钱，三个月的学费还没凑齐。'),
+    choices: [
+      { t: '去读书', req: { money: [24000, null] }, eff: { money: -24000, flag: ['schooled', 'literate'], wit: 4, job: { id: 'student', org: '私塾的学生' } }, r: '你学会了写自己的名字。老师说你的字很难看，但至少是对的。' },
+      { t: '去读书', hint: '家里钱不够，只能先欠着', req: { money: [null, 23999] }, eff: { money: -24000, flag: ['schooled', 'literate'], wit: 3, job: { id: 'student', org: '私塾的学生' } }, r: '家里为此借了钱。你学会了写自己的名字，也学会了看懂借条。' },
+      { t: '把钱留着吃饭', eff: { flag: 'school_refused', body: 2 }, r: '那三个月，家里每顿都有肉。你觉得这个选择不错。' },
+    ] },
+  { id: 'y_school_orph', age: [6, 7], req: { flag: 'orphanage' }, force: true,
+    text: '孤儿院的修女开始教你们认字。教材是一本封皮早就掉了的旧书，没有人知道它原本叫什么名字。',
+    eff: { flag: 'literate', wit: 3 } },
+  { id: 'y_exam_good', age: [8, 15], req: { flag: 'schooled', st: { wit: [55, null] } }, w: 8,
+    text: '你在考试中拿了全班第一。老师把你的名字写在了黑板的角落，第二天就被擦掉了。', eff: { wit: 2, mind: 1 } },
+  { id: 'y_exam_bad', age: [8, 15], req: { flag: 'schooled', st: { wit: [null, 35] } }, w: 8,
+    text: '你考砸了。家长会上，老师当着所有人的面说你“没有前途”。', eff: { mind: -3 } },
+  { id: 'y_cheat', age: [10, 16], req: { flag: 'schooled' }, w: 8, title: '考卷',
+    text: '期末考试前一晚，同学神秘兮兮地拿来一份“答案”，五千眼一份。据说是从老师的终端里偷出来的。',
+    choices: [
+      { t: '买下来', eff: { money: -5000 }, res: [
+        { w: 5, r: '答案是真的。你考了很好的成绩，心里却一直有点发虚。', eff: { mind: -1, fame: 1 } },
+        { w: 3, r: '答案是假的。五千眼打了水漂，而你一题都没复习。', eff: { wit: -1 } },
+        { w: 2, r: '答案是真的，但被老师发现了。你的档案上多了一条记录。', eff: { flag: 'school_record', mind: -3 } },
+      ] },
+      { t: '告诉老师', check: { s: 'social', dc: 40 },
+        ok: { r: '老师夸你诚实。卖答案的同学被开除了，他看你的眼神让你记了很多年。', eff: { flag: 'y_snitch' } },
+        no: { r: '老师没当回事。第二天，你的书包被人扔进了下水道。', eff: { mind: -2 } } },
+      { t: '自己复习', eff: { wit: 2 }, r: '你熬了一个通宵。成绩不算好，但都是自己的。' },
+    ] },
+  { id: 'y_library', age: [9, 16], req: { flag: 'literate' }, w: 6,
+    text: '你在旧书摊上淘到一本讲烟霾战争的书，书页上全是前一个主人的批注。你一个字一个字地读完了。', eff: { wit: 3, flag: 'read_smokewar' } },
+  { id: 'y_nest_exam', age: [14, 16], req: { loc: 'nest', flag: 'schooled' }, title: '升学考试',
+    text: '巢里最好的高中只招前百分之二的学生。那所学校的毕业生，有一半进了翼。考试就在下个月。',
+    choices: [
+      { t: '拼命复习', check: { s: 'wit', dc: 60 },
+        ok: { r: '你考上了。录取通知书是纯白的，上面有公司的烫金徽记。', eff: { flag: 'elite_school', wit: 4, fame: 3 } },
+        no: { r: S => '你差了十一分。' + (['both', 'father'].includes(S.fam.parents) ? '父亲一句话没说，第二天照常去上班。' : S.fam.parents === 'mother' ? '母亲把成绩单折好，第二天照常去上班。' : '你把成绩单折好，自己收进抽屉。'), eff: { mind: -4 } } },
+      { t: '花钱请家教', req: { money: [50000, null] }, hint: '花费 5 万眼', check: { s: 'wit', dc: 48 },
+        ok: { r: '家教押中了大半的考题。你考上了。', eff: { money: -50000, flag: 'elite_school', wit: 3 } },
+        no: { r: '钱花了，成绩还是差了一点。家教说是你“基础太差”。', eff: { money: -50000, mind: -3 } } },
+      { t: '无所谓', eff: { mind: 2, social: 2 }, r: '你去了一所普通的高中。那里的人比较好相处。' },
+    ] },
+
+  // ---------- 后巷的童年 ----------
+  { id: 'y_street_join', age: [8, 13], req: { loc: 'backstreet', noflag: 'street_kid' }, w: 10, title: '巷子里的孩子们',
+    text: '附近的孩子们组成了一个小团伙，领头的是个缺了颗门牙的大孩子。他问你要不要入伙：“跟着我，以后没人敢欺负你。”',
+    choices: [
+      { t: '入伙', eff: { flag: 'street_kid', social: 3, skill: 2 }, r: '你得到了一个外号。从那天起，你学会了怎么从小摊上拿东西而不被发现。' },
+      { t: '拒绝', res: [
+        { w: 6, r: '大孩子耸耸肩走了。之后几个月，你走路都绕着他们。', eff: { mind: -1 } },
+        { w: 4, r: '第二天放学路上，你被堵在巷子里揍了一顿。', eff: { body: -3, skill: 1 } },
+      ] },
+    ] },
+  { id: 'y_street_fight', age: [9, 16], req: { flag: 'street_kid' }, w: 10, title: '打架',
+    text: '隔壁街的孩子们越界了。领头的大孩子把一根铁管塞到你手里。',
+    choices: [
+      { t: '冲在最前面', check: { s: ['skill', 'body'], dc: 40 },
+        ok: { r: '你打赢了。对面那个孩子的鼻子歪了，从此大家都叫你“狠角色”。', eff: { skill: 3, fame: 2, cnt: { fights: 1 } } },
+        no: { r: '你被打断了两根肋骨，在床上躺了一个月。', eff: { body: -6, skill: 2 } } },
+      { t: '躲在后面', eff: { social: -2 }, r: '打完之后，没有人提起你。也没有人记得你。' },
+      { t: '偷偷溜走', eff: { mind: 1, unflag: 'street_kid' }, r: '你再也没回去找过他们。几年后你听说，那个领头的大孩子死在了一场帮派火并里。' },
+    ] },
+  { id: 'y_wallet', age: [9, 15], req: { flag: 'street_kid' }, w: 8, title: '钱包',
+    text: '你从一个醉汉的口袋里摸到了一个鼓鼓的钱包。里面有八万眼，还有一张小女孩的照片。',
+    choices: [
+      { t: '全部拿走', eff: { money: 80000, flag: ['y_wallet_taken', 'criminal'] }, r: '你把照片扔进了水沟。那个月你吃得很好。', },
+      { t: '拿走钱，把钱包放回去', eff: { money: 80000, flag: 'criminal' }, r: '你把照片塞回钱包里，丢在了醉汉身边。' },
+      { t: '原样还回去', eff: { mind: 2, flag: 'y_wallet_kind', queue: ['y_wallet_back', 12] }, r: '你把钱包塞回他的口袋。他翻了个身，嘟囔了一声，没有醒。' },
+    ] },
+  { id: 'y_wallet_back', manual: true, req: { flag: 'y_wallet_kind', age: [18, 40] }, star: true,
+    text: '一个陌生的中年人在街上叫住了你。“很多年前，有个孩子在我喝醉的时候，把钱包还给了我。”他说他找了很久。他塞给你一张名片——他现在在巢里的一家公司当部长。',
+    eff: { social: 6, flag: 'wing_contact', money: 50000 } },
+  { id: 'y_rats', age: [10, 17], req: { loc: 'backstreet' }, w: 8, title: '耗子',
+    text: '几个耗子把你堵在了巷子里。领头的那个手里转着一把生锈的刀：“小鬼，身上有多少交多少。”',
+    choices: [
+      { t: '把钱交出去', eff: { fn: S => { S.money -= Math.round(Math.max(0, S.money) * 0.6); }, mind: -2 }, r: '他们搜完你的口袋，踢了你一脚，走了。你在原地坐了很久。' },
+      { t: '反抗', check: { s: 'skill', dc: 45 },
+        ok: { r: '你抄起垃圾桶的盖子砸在领头那人脸上，趁乱跑掉了。', eff: { skill: 2, mind: 1 } },
+        no: { r: '你被刀划了一道口子。他们拿走了你的钱和鞋。', eff: { body: -5, fn: S => { S.money -= Math.round(Math.max(0, S.money) * 0.8); } } } },
+      { t: '大声呼救', res: [
+        { w: 3, r: '一个路过的收尾人看了一眼，耗子们就散了。他什么都没说，继续走自己的路。', eff: { flag: 'fixer_dream' } },
+        { w: 7, r: '没有人出来。窗户一扇接一扇地关上了。', eff: { body: -3, fn: S => { S.money -= Math.round(Math.max(0, S.money) * 0.7); }, mind: -3 } },
+      ] },
+    ] },
+  { id: 'y_fixer_seen', age: [7, 15], req: { noflag: 'fixer_dream' }, w: 7, title: '收尾人',
+    text: '你第一次亲眼看到收尾人工作。一个穿长外套的人把一群闹事的帮派成员逼进了巷子，不到一分钟，里面就安静了。他出来的时候，正在擦拭手里的刀。',
+    choices: [
+      { t: '追上去', check: { s: 'social', dc: 50 },
+        ok: { r: '他停下来看了你一眼。“想当收尾人？先活到十八岁再说。”他丢给你一枚事务所的徽章。', eff: { flag: ['fixer_dream', 'fixer_badge_kid'], mind: 2 } },
+        no: { r: '他头也不回地走了。你在原地站了很久。', eff: { flag: 'fixer_dream' } } },
+      { t: '远远地看着', eff: { flag: 'fixer_dream' }, r: '从那天起，你开始在课本的空白处画刀。' },
+      { t: '转身就跑', eff: { mind: -1 }, r: '你一路跑回家，把门锁上了。' },
+    ] },
+  { id: 'y_old_sword', age: [8, 16], req: { loc: 'backstreet', any: [{ trait: '剑术天分' }, { st: { skill: [30, null] } }] }, w: 6, title: '巷口的老人',
+    text: '巷口总坐着一个穿旧袍子的老人，身边靠着一把用布裹住的长刀。他看你用树枝比划了很久，忽然开口：“手腕太僵。”',
+    choices: [
+      { t: '请他教你', check: { s: 'mind', dc: 40 },
+        ok: { r: '老人沉默了很久，说：“每天天亮前来。”此后三年，你每天天亮前都会去巷口。', eff: { skill: 8, flag: 'blade_contact', trait: '剑术天分' } },
+        no: { r: '“你没有那个耐心。”老人闭上了眼睛。你后来再去，他已经不在了。', eff: { skill: 1 } } },
+      { t: '问他是谁', r: '“一个没用的老东西。”他说完就不再理你。过了几天，有人说看见他和几个穿黑衣的人在巷子尽头拔了刀。', eff: { flag: 'saw_blade' } },
+      { t: '走开', r: '你没再理会。老人的视线在你背上停了一会儿。' },
+    ] },
+  { id: 'y_dog', age: [6, 14], w: 6, title: '流浪狗',
+    text: '一条瘸了腿的流浪狗跟着你走了三条街。它很瘦，但没有冲你叫。',
+    choices: [
+      { t: '把它带回家', eff: { flag: 'y_dog', mind: 3, money: -2000, queue: ['y_dog_end', 6] }, r: '你给它起了名字。家里人骂了你一顿，但还是给它留了一口饭。' },
+      { t: '分它一点吃的', eff: { mind: 1 }, r: '它吃完了，舔了舔你的手，然后一瘸一拐地走了。' },
+      { t: '赶走它', r: '它很快就消失在巷子里了。' },
+    ] },
+  { id: 'y_dog_end', manual: true, req: { flag: 'y_dog' },
+    text: ['那条狗老了。某天早上，它趴在门口晒太阳，就那样再也没有醒来。你把它埋在了楼后面的空地上。', '某天夜里，那条狗突然对着门外狂吠不止。你拉住它，一直到天亮。第二天你才听说，昨晚有人在这条街上失踪了。它在那之后又活了三年。'],
+    eff: { mind: -1 } },
+  { id: 'y_parent_job', age: [8, 16], req: { loc: 'backstreet', fam: { parents: ['both', 'mother', 'father'] } }, w: 6,
+    text: '家里的大人丢了工作。那段时间，你每天放学都去菜市场捡别人不要的菜叶。', eff: { money: '-30%', mind: -2, body: -1 } },
+  { id: 'y_parent_debt', age: [10, 17], req: { loc: 'backstreet', fam: { parents: ['both', 'mother', 'father'] } }, w: 5, title: '催债',
+    text: '凌晨两点，有人砸响了家门。门外的人说，你的家人欠了他们三十万眼，今天是最后期限。',
+    choices: [
+      { t: '把自己存的钱拿出来', req: { money: [30000, null] }, eff: { money: '-70%' }, r: '那点钱远远不够，但他们收下了，答应宽限一个月。家人抱着你，很久没有说话。' },
+      { t: '躲进柜子里', res: [
+        { w: 6, r: '你听着外面的声音，一直到天亮。早上起来，家里能卖的东西都没了。', eff: { mind: -4, money: '-50%' } },
+        { w: 3, r: '他们带走了你的家人。三天后，家人回来了，少了一个肾。', eff: { mind: -6, flag: 'family_trauma' } },
+        { w: 1, r: '他们带走了你的家人。家人再也没有回来。', eff: { mind: -10, dist: 8, fn: (S) => { S.fam.parents = S.fam.parents === 'both' ? (S.rng.chance(0.5) ? 'mother' : 'father') : 'none'; } } },
+      ] },
+      { t: '跟他们谈', check: { s: ['social', 'wit'], dc: 55 },
+        ok: { r: '你一个孩子，居然和他们谈出了一个分期的方案。领头的人多看了你几眼：“小鬼，以后要不要来帮我们算账？”', eff: { social: 3, flag: 'gang_contact' } },
+        no: { r: '领头的人给了你一巴掌。“大人说话，小孩闭嘴。”', eff: { body: -2, mind: -3 } } },
+    ] },
+  { id: 'y_night_out', age: [9, 17], req: { loc: 'backstreet' }, w: 4, title: '凌晨三点',
+    text: '你在朋友家玩得太晚了。现在是凌晨三点零五分，离家还有四条街。',
+    choices: [
+      { t: '跑回家', check: { s: 'body', dc: 50, mod: (S) => (S.traits.includes('夜行者') ? 0.3 : 0) },
+        ok: { r: '你在三点十二分推开了家门。身后的街道上，路灯一盏接一盏地暗了下去。', eff: { body: 1, mind: -2 } },
+        no: { r: '三点十三分，路灯熄了。你钻进两栋楼之间的缝隙，捂住嘴，听着什么东西从巷口经过。', eff: { next: 'y_night_hide' } } },
+      { t: '求朋友让你留宿', check: { s: 'social', dc: 30 },
+        ok: { r: '朋友的父母叹了口气，给你铺了张地铺。那一夜，窗外有什么东西拖着很重的步子走过。', eff: { mind: -1, flag: 'knows_night' } },
+        no: { r: '朋友的父母不肯开门——他们说，深宵里开门的人是要遭殃的。你最后躲进了一个垃圾箱里。早上爬出来的时候，你浑身发抖，但还活着。', eff: { mind: -6, dist: 4 } } },
+    ] },
+  { id: 'y_sweeper_trace', age: [8, 17], req: { loc: 'backstreet', flag: 'knows_night' }, w: 5,
+    text: '一大早，你在楼下的排水沟里发现了一只鞋。鞋里还有东西。你很快就学会了不去看那些东西。', eff: { mind: -2, dist: 2 } },
+  { id: 'y_errand', age: [12, 17], req: { loc: 'backstreet', anyflag: ['street_kid', 'gang_contact'] }, w: 8, title: '跑腿',
+    text: '一个帮派的人找到你，让你帮忙送一个包裹，一趟一万眼。“别打开，别问，别迟到。”',
+    choices: [
+      { t: '接下这活', res: [
+        { w: 6, r: '你送了一个月。没有人问过你的名字，但钱每次都准时给。', eff: { money: 40000, flag: 'gang_contact', social: 2 } },
+        { w: 3, r: '半路上，你被另一伙人截住了。包裹被抢走，你被揍得半死。帮派的人说，包裹里的东西你得赔。', eff: { body: -6, money: -100000, flag: 'gang_contact' } },
+        { w: 1, r: '你好奇地打开了包裹。里面是一根手指，戴着一枚刻着字的戒指。你把它原样包好，送到了地方，从此再也不敢接这种活。', eff: { mind: -5, dist: 3, money: 10000 } },
+      ] },
+      { t: '拒绝', r: '他耸耸肩：“随你。”后来那个接了活的孩子，你再也没在街上见过。' },
+    ] },
+  { id: 'y_work_child', age: [11, 15], req: { loc: ['backstreet', 'outskirts'], fam: { wealth: [0, 0] } }, w: 8,
+    text: '为了补贴家用，你开始在附近的工厂里打零工，每天工作十个小时。工头说你的手指够细，适合拆零件。', eff: { body: -2, money: 20000, flag: 'child_labor', skill: 1 } },
+  { id: 'y_ramen_shop', age: [10, 16], req: { loc: 'backstreet' }, w: 6, title: '拉面摊',
+    text: '常去的那家拉面摊老板问你想不想来帮忙。没有工钱，但每天管一顿饭，还会教你熬汤。',
+    choices: [
+      { t: '去帮忙', eff: { flag: 'cook_skill', body: 2, social: 2 }, r: '你学会了熬汤，学会了切葱，也学会了在帮派的人来收钱时，低头不说话。' },
+      { t: '算了', r: '你继续每周来吃一碗。直到某一天，摊子不见了，老板也不见了。' },
+    ] },
+  { id: 'y_workshop', age: [12, 17], req: { trait: '巧手' }, w: 10, title: '工坊',
+    text: '你拆了邻居家坏掉的收音机，又装了回去，它居然响了。隔壁工坊的师傅路过，看了你一眼。',
+    choices: [
+      { t: '去工坊当学徒', eff: { flag: 'mech_apprentice', wit: 2, skill: 1 }, r: '师傅很凶，骂人的话从来不重样。但他教你的东西，都是真的。' },
+      { t: '只是兴趣', eff: { wit: 1 }, r: '你还是喜欢一个人拆东西。' },
+    ] },
+  { id: 'y_church', age: [7, 15], w: 5, title: '教会',
+    text: '一群穿白衣的人在街口分发食物，说只要来听一次布道，就能领一袋面包。',
+    choices: [
+      { t: '去听布道', res: [
+        { w: 6, r: '布道很无聊，面包很好吃。你去了很多次，直到有一天，那些白衣人不再出现了。', eff: { body: 2 } },
+        { w: 3, r: '布道的人说，“光”会降临在虔诚者身上。你听不懂，但记住了这句话。', eff: { dist: 2, flag: 'heard_light' } },
+        { w: 1, r: '你在布道的地方认识了一个和你同龄的孩子。几个月后，那孩子全家都“被接去了更好的地方”。', eff: { mind: -3 } },
+      ] },
+      { t: '只拿面包就跑', check: { s: 'body', dc: 35 }, ok: { r: '你跑得很快。面包是热的。', eff: { body: 1 } }, no: { r: '你被抓住了。白衣人没有打你，只是一直盯着你看，直到你自己哭出来。', eff: { mind: -2 } } },
+      { t: '离他们远一点', r: '大人说过，不要相信免费的东西。' },
+    ] },
+  { id: 'y_bully', age: [7, 14], w: 6, title: '欺负',
+    text: '班上（或者巷子里）有个孩子总是被大家欺负。今天，他们又把他的饭盒扣在了地上。',
+    choices: [
+      { t: '站出来', check: { s: ['social', 'skill'], dc: 45 },
+        ok: { r: '你挡在他前面，那些人居然散了。他后来一直跟在你后面，像条小尾巴。', eff: { social: 2, flag: 'y_protected', queue: ['y_protected_back', 15] } },
+        no: { r: '你和他一起被揍了一顿。你们两个坐在地上，谁也没说话，后来却笑了出来。', eff: { body: -2, flag: 'y_protected', queue: ['y_protected_back', 15] } } },
+      { t: '假装没看到', eff: { mind: -1 }, r: '都市里，大家都是这么长大的。' },
+      { t: '加入他们', eff: { social: 1, mind: -1, dist: 1 }, r: '你踢了那个饭盒一脚。大家都笑了。你也笑了。' },
+    ] },
+  { id: 'y_protected_back', manual: true, req: { flag: 'y_protected', age: [20, 40] },
+    text: '一个陌生人在街上认出了你。是当年那个被欺负的孩子。他现在穿着体面的衣服，身后跟着两个保镖。他请你吃了一顿饭，说如果遇到麻烦，就去找他。',
+    eff: { social: 5, flag: 'old_friend_power' } },
+  { id: 'y_first_love', age: [13, 17], w: 8, title: '心动',
+    text: '你发现自己总是忍不住看向某个人。那个人笑起来的时候，眼睛会弯成月牙。',
+    choices: [
+      { t: '鼓起勇气搭话', check: { s: 'social', dc: 45 },
+        ok: { r: '你们一起看了一场露天电影。散场的时候，那个人轻轻碰了一下你的手。', eff: { mind: 4, flag: 'first_love' } },
+        no: { r: '你结结巴巴地说了半天，那个人礼貌地笑了笑，走了。', eff: { mind: -2 } } },
+      { t: '远远地看着', eff: { mind: 1 }, r: '直到那个人搬走，你都没有说出口。' },
+    ] },
+  { id: 'y_sib_trouble', age: [10, 22], req: { fn: (S) => S.fam.sib > 0 }, w: 6, title: '兄弟姐妹',
+    text: '你的{sib}惹上了麻烦——在外面欠了钱，对方说要卸掉一条腿抵债。',
+    choices: [
+      { t: '替{sib}还钱', req: { money: [20000, null] }, eff: { money: '-60%', social: 2, flag: 'sib_owes' }, r: '你把存了很久的钱拿了出来。{sib}哭着说以后一定会还。' },
+      { t: '陪{sib}去谈', check: { s: ['social', 'skill'], dc: 50 },
+        ok: { r: '不知道是你的哪句话起了作用，对方同意宽限半年。', eff: { social: 2 } },
+        no: { r: '谈崩了。你们两个一起被打了一顿，{sib}的腿最后还是没保住。', eff: { body: -4, mind: -3, flag: 'sib_crippled' } } },
+      { t: '不管{sib}', eff: { mind: -2, flag: 'sib_cold' }, r: '你假装什么都不知道。{sib}后来拄着拐杖回来了，再也没跟你说过话。' },
+    ] },
+
+  // ---------- 孤儿院 ----------
+  { id: 'y_orph_sister', age: [8, 14], req: { flag: 'orphanage' }, w: 12, title: '修女',
+    text: '孤儿院的修女病倒了。她偷偷把一个信封交给你：“如果我不在了，用这个照顾弟弟妹妹们。”信封里有二十万眼。',
+    choices: [
+      { t: '收好，等需要时再用', eff: { flag: 'orph_money', mind: 2, queue: ['y_orph_close', 2] }, r: '你把信封缝进了枕头里。' },
+      { t: '拿去给修女买安瓿', eff: { flag: 'orph_saved', social: 3 }, r: '你跑遍了半个区，买到了一支K公司的安瓿。修女好了起来，她抱着你哭了很久。' },
+      { t: '带着钱逃走', eff: { money: 200000, flag: ['criminal', 'orph_fled'], unflag: 'orphanage', mind: -4, dist: 3 }, r: '你在一个雨夜离开了孤儿院，再也没有回头。' },
+    ] },
+  { id: 'y_orph_close', manual: true, req: { flag: 'orph_money' }, star: true,
+    text: '修女去世了。不久之后，孤儿院因为交不起“管理费”被帮派收走。你用那二十万眼，给年纪最小的三个孩子在别的地方找了住处。剩下的人，各自散去。',
+    eff: { mind: -3, social: 4, flag: 'orph_keeper', unflag: 'orphanage' } },
+  { id: 'y_orph_adopt', age: [6, 12], req: { flag: 'orphanage' }, w: 5, title: '领养',
+    text: '一对穿着体面的夫妇来孤儿院挑孩子。他们看中了你，说会让你住进巢里。修女的表情有些奇怪。',
+    choices: [
+      { t: '跟他们走', res: [
+        { w: 5, r: '他们真的带你住进了巢。养父母对你很客气，就像对待一件昂贵的家具。', eff: { loc: { loc: 'nest', home: '某个巢' }, money: 100000, unflag: 'orphanage', flag: ['adopted', 'schooled', 'literate'], mind: -2 } },
+        { w: 3, r: '他们带你去了一间白色的房间。你在那里待了两年，每天都要抽血。后来你趁着一次停电逃了出来，回到了后巷。', eff: { body: -8, dist: 6, unflag: 'orphanage', flag: ['lab_escape'] } },
+        { w: 1, r: '你跟着他们上了车。从此，没有人再见过你。', eff: { death: '被一对体面的夫妇从孤儿院领走了。没有人知道之后发生了什么。' } },
+      ] },
+      { t: '躲到修女身后', r: '修女摸了摸你的头，对那对夫妇说：“这孩子还不太懂事。”他们挑了另一个孩子。', eff: { mind: 1 } },
+    ] },
+
+  // ---------- 巢的孩子 ----------
+  { id: 'y_nest_backstreet', age: [10, 16], req: { loc: 'nest' }, w: 7, title: '墙外',
+    text: '你和同学打赌，偷偷跑到了巢的边缘，从检查站的缝隙里看后巷。那边的楼又矮又旧，有人在路边翻垃圾。',
+    choices: [
+      { t: '溜出去看看', check: { s: ['wit', 'body'], dc: 45 },
+        ok: { r: '你在后巷逛了一个下午，吃了一碗巢里吃不到的辣汤面，赶在天黑前溜了回来。那碗面的味道你记了很久。', eff: { mind: 2, flag: 'saw_backstreet' } },
+        no: { r: '你被几个后巷的孩子围住，抢走了手表和鞋。回到巢里时，检查站的守卫用看垃圾的眼神看着你。', eff: { mind: -3, money: -20000 } } },
+      { t: '回去', r: '同学说你是胆小鬼。你觉得无所谓。' },
+    ] },
+  { id: 'y_nest_pressure', age: [12, 17], req: { loc: 'nest' }, w: 7,
+    text: '同班一个成绩很好的同学从教学楼顶跳了下去。学校第二天照常上课，只是那个座位被很快撤掉了。', eff: { mind: -3, dist: 2 } },
+  { id: 'y_nest_tutor', age: [8, 14], req: { loc: 'nest', fam: { wealth: [3, 3] } }, w: 8,
+    text: '家里给你请了三个家教，每周七天。你的童年是按小时计费的。', eff: { wit: 5, mind: -2, social: -1 } },
+  { id: 'y_nest_ampule', age: [6, 15], req: { loc: 'nest' }, w: 5,
+    text: '你在体育课上摔断了腿。校医给你注射了一支安瓿，第二天你就能跑了。你以为全都市的孩子都是这样。', eff: { body: 1 } },
+
+  // ---------- 郊区 ----------
+  { id: 'y_out_city', age: [8, 16], req: { loc: 'outskirts' }, w: 30, title: '进城', star: true,
+    text: '营地里的大人们说，今年冬天熬不过去了。有人提议穿过边界，去都市里碰碰运气。',
+    choices: [
+      { t: '跟着去都市', res: [
+        { w: 7, r: '你们在某个区的后巷边缘落了脚。这里有灯，有吃的，也有你从没见过的那么多人。', eff: { loc: { loc: 'backstreet', home: '某区后巷' }, fn: (S) => { S.d = S.rng.int(1, 25); S.home = S.d + '区后巷'; }, flag: 'from_outskirts' } },
+        { w: 3, r: '途中，有一半的人没能走到。你走到了。', eff: { loc: { loc: 'backstreet' }, fn: (S) => { S.d = S.rng.int(1, 25); S.home = S.d + '区后巷'; }, flag: 'from_outskirts', mind: -6, body: 2, dist: 4 } },
+      ] },
+      { t: '留在郊区', check: { s: 'body', dc: 45 },
+        ok: { r: '你熬过了那个冬天。春天来的时候，营地里只剩下一半的人。你学会了很多在都市里永远用不上的东西。', eff: { body: 5, mind: 2, flag: 'outskirts_survivor' } },
+        no: { r: '冬天太长了。', eff: { death: '没能熬过郊区的冬天。' } } },
+    ] },
+  { id: 'y_out_ruin', age: [6, 15], req: { loc: 'outskirts' }, w: 12, title: '遗迹',
+    text: '你在一片坍塌的建筑里找到了一个还在发光的东西。它很温暖，摸上去像在呼吸。',
+    choices: [
+      { t: '带回去', res: [
+        { w: 5, r: '营地里的大人用它换了一个月的口粮。你没问换给了谁。', eff: { body: 2 } },
+        { w: 3, r: '你把它藏了起来。每天晚上，它都会对你低语。', eff: { flag: 'out_relic', dist: 6, mind: -2 } },
+        { w: 2, r: '第二天，它不见了。你的手掌上多了一块不会消退的印记。', eff: { flag: 'out_mark', dist: 4, body: 3 } },
+      ] },
+      { t: '放回原处', r: '你离开的时候，觉得有什么在背后看着你。' },
+    ] },
+
+  // ---------- 成年礼 ----------
+  { id: 'y_eighteen', age: [17, 17], force: true, star: true,
+    text: (S) => S.loc === 'nest' ? '你快要成年了。巢里的成年意味着两件事：一份工作，或者一张离开巢的通知书。' : S.flags.orphan ? '你快要成年了。没有人为你庆祝，你自己买了一个最便宜的蛋糕。' : '你快要成年了。在后巷，这只意味着从今以后，没人会再把你当孩子看待。',
+    choices: [
+      { t: '去考收尾人证', req: { any: [{ flag: 'fixer_dream' }, { st: { skill: [35, null] } }] }, hint: '走上收尾人的道路', eff: { flag: 'want_fixer', queue: ['fx_license', 1] }, r: '你报名了하나协会的收尾人资格考试。' },
+      { t: '找一份正经工作', eff: { flag: 'want_work', queue: ['y_job_hunt', 1] }, r: '你开始翻看招工启事。' },
+      { t: '投靠帮派', req: { anyflag: ['gang_contact', 'street_kid'] }, eff: { flag: 'want_gang', queue: ['y_gang_join', 1] }, r: '你去找了那个以前给你派活的人。' },
+      { t: '备考翼的入职考试', req: { loc: 'nest' }, eff: { flag: 'want_wing', wit: 2 }, r: '你把自己关在房间里，开始准备那场决定人生的考试。' },
+      { t: '走一步看一步', eff: { mind: 2 }, r: '你决定先活下去，再想别的。' },
+    ] },
+  { id: 'y_job_hunt', manual: true, req: { flag: 'want_work' }, title: '找工作',
+    text: (S) => S.loc === 'nest' ? '你投了很多份简历。最后收到回音的，是一家给翼做外包的小公司，还有一家后巷边缘的诊所在招助手。' : '后巷的招工启事贴满了电线杆。你挑出了几家看起来不像是骗局的。',
+    choices: [
+      { t: '去公司做职员', req: { loc: 'nest' }, eff: { job: { id: 'clerk', org: '{wing}公司外包企业 职员' } }, r: '你穿上了第一套西装。工牌上的照片拍得很难看。' },
+      { t: '去工坊当学徒', req: { any: [{ flag: 'mech_apprentice' }, { trait: '巧手' }] }, eff: { job: { id: 'mech', org: '后巷工坊 学徒', rank: 0 } }, r: '工坊里的机油味让你觉得安心。' },
+      { t: '去餐馆帮厨', eff: { job: { id: 'chef', org: '后巷餐馆 帮厨', rank: 0 } }, r: '你每天切二十斤葱。老板说，切完一千斤，才能碰汤锅。' },
+      { t: '去便利店当店员', eff: { job: { id: 'shop', org: '便利店 店员' } }, r: '收银台后面藏着一根铁棍。店长说，那是“员工福利”。' },
+      { t: '打零工', eff: { job: { id: 'labor', org: '后巷零工' } }, r: '搬货、扫地、帮人排队。什么活都干，什么活都干不长。' },
+    ] },
+  { id: 'y_gang_join', manual: true, req: { flag: 'want_gang' }, title: '入伙',
+    text: '那个人上下打量了你一番，把一根烟按灭在桌上。“想跟着我们干，就得先证明你有用。”他指了指窗外——街对面那家店，这个月的钱还没交。',
+    choices: [
+      { t: '去收钱', check: { s: ['skill', 'social'], dc: 40 },
+        ok: { r: '你把钱一分不少地带了回来。他点点头，把你的名字写进了一个本子里。', eff: { job: { id: 'syndicate', org: '{d}区的帮派', rank: 0 }, flag: ['gang_member', 'criminal'] } },
+        no: { r: '店主拿着菜刀把你赶了出来。帮派的人笑了半天，最后还是收下了你——当个跑腿的。', eff: { job: { id: 'syndicate', org: '{d}区的帮派', rank: 0 }, flag: ['gang_member', 'criminal'], mind: -2 } } },
+      { t: '还是算了', eff: { unflag: 'want_gang' }, r: '你转身离开。他在身后说：“你会回来的。”' },
+    ] },
+  { id: 'y_graduate', age: [18, 18], req: { job: 'student' }, force: true,
+    text: (S) => S.flags.elite_school ? '你从巢里最好的高中毕业了。同学们纷纷走向不同的翼，有几个人的名字你后来再也没听说过。' : '你毕业了。毕业典礼很短，校长的讲话里出现了七次“效率”。',
+    eff: { job: { id: 'none' } } },
+  { id: 'y_night_hide', manual: true, text: '那东西停了下来，就停在缝隙外面。',
+    choices: [
+      { t: '一动不动', check: { s: 'mind', dc: 22, mod: (S) => (S.traits.includes('夜行者') ? 0.3 : 0) },
+        ok: { r: '不知过了多久，它走了。天亮后你才敢爬出来，腿已经麻得没了知觉。从那以后，你再也没在三点之后出过门。', eff: { mind: -5, dist: 4, flag: 'knows_night' } },
+        no: { r: '你没能忍住，喘了一口气。那东西转向了缝隙。你拼命往里挤，挤到骨头都在响——它够不着你。天亮时，你的半边身子全是血。', eff: { body: -14, mind: -8, dist: 6, flag: 'knows_night', risk: [0.3, '在凌晨三点十三分之后，仍然留在街上。第二天早上，这条街和往常一样干净。'] } } },
+      { t: '趁它停下，拼命跑', check: { s: 'body', dc: 55 },
+        ok: { r: '你一口气跑回了家，撞开门，摔在地上。身后的门被什么东西轻轻碰了一下，然后安静了。', eff: { mind: -6, dist: 5, body: 1, flag: 'knows_night' } },
+        no: { r: '你跑了不到十步，就被什么东西扫倒在地。你不记得自己是怎么爬回家的。', eff: { body: -16, mind: -8, dist: 6, flag: 'knows_night', risk: [0.4, '在凌晨三点十三分之后，仍然留在街上。第二天早上，这条街和往常一样干净。'] } } },
+    ] },
+]);
+
+CITY.addEvents('youth', [
+  { id: 'y_job_again', age: [18, 55], req: { job: 'none', noflag: 'want_gang' }, repeat: true, cd: 2, w: 40, title: '生计',
+    text: (S) => S.money < 0 ? '你已经欠了' + CITY.fmtMoney(-S.money) + '。房东开始在门上贴纸条，一天比一天写得难听。你得找点活干。' : '积蓄一天天变少。你得找点活干。',
+    choices: [
+      { t: '去工地和码头打零工', eff: { job: { id: 'labor', org: '后巷零工' } }, r: '活很累，钱很少，但每天晚上都能结账。' },
+      { t: '去餐馆后厨帮工', eff: { job: { id: 'chef', org: '后巷餐馆 帮厨', rank: 0 } }, r: '你每天都在洗碗和切菜之间度过。' },
+      { t: '去便利店上夜班', eff: { job: { id: 'shop', org: '便利店 夜班店员' } }, r: '夜班的时薪高一点。店长让你记住：三点之后，无论谁敲门都别开。' },
+      { t: '投简历进巢里的公司', req: { st: { wit: [45, null] } }, check: { s: ['wit', 'social'], dc: 55 },
+        ok: { r: '一家给翼做外包的公司录用了你。工牌上的照片拍得很难看。', eff: { job: { id: 'clerk', org: '巢内外包公司 职员' } } },
+        no: { r: '石沉大海。', eff: { mind: -2 } } },
+    ] },
+]);
