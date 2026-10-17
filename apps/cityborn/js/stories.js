@@ -3,6 +3,8 @@
   'use strict';
   const C = window.CITY;
   C.STORIES = {};
+  // 剧情包的效果写在选项规格里，会被包进函数；这里另存一份，供静态检查工具读取。
+  C.storyEffects = [];
   const list = x => x == null ? [] : Array.isArray(x) ? x : [x];
   const active = S => Object.values(S.stories || {}).filter(x => x.status === 'active');
   C.initStories = S => { S.stories = {}; S.contacts = {}; S.storyRhythm = []; S.storyYear = { age: -1, steps: 0 }; };
@@ -11,6 +13,12 @@
     const x = C.storyData(S, id), person = x && S.contacts[x.person];
     return person ? person.name : '对方';
   };
+  // 跨剧情包共用同一个人物：只要 person 写成同一个 id，名字与信任就会延续。
+  C.contactName = (S, person) => {
+    const p = S.contacts && S.contacts[person];
+    return p ? p.name : '对方';
+  };
+  C.contactTrust = (S, person) => (S.contacts && S.contacts[person] ? S.contacts[person].trust : 0);
   // 世界阶段是叙事窗口，不标作真实都市纪年，也不把后期章节每隔数年重演一次。
   C.worldStage = S => S.wy < -1 ? 'lob' : S.wy === -1 ? 'fall' : S.wy === 0 ? 'lib' : S.wy < 3 ? 'aftermath' : 'limbus';
   const human = S => S.alive && !['book', 'distorted'].includes(S.job.id);
@@ -22,6 +30,8 @@
     none: S => human(S) && S.age >= 18 && S.job.id === 'none',
     child: S => human(S) && S.age >= 6 && S.age < 18,
     fixer: S => human(S) && S.job.id === 'fixer',
+    // 不区分具体翼的“翼职员”路线，用于写跨翼通用的处境（通勤、考核、调岗、离职）。
+    wing_any: S => human(S) && S.job.id === 'wing' && C.worldStage(S) !== 'limbus',
     office: S => human(S) && S.job.id === 'fixer' && !!S.flags.office_member && !S.flags.assoc,
     owner: S => human(S) && S.job.id === 'fixer' && !!S.flags.office_own && !S.flags.assoc,
     freelance: S => human(S) && S.job.id === 'fixer' && !!S.flags.freelance && !S.flags.assoc,
@@ -148,6 +158,7 @@
     };
     const option = (spec, step) => {
       const make = branch => ({ r: branch.r, eff: (S, out) => advance(S, step, { ...spec, ...branch }, out) });
+      for (const x of [spec, spec.ok, spec.no]) if (x && x.effect) C.storyEffects.push(x.effect);
       return { t: spec.t, ...(spec.hint ? { hint: spec.hint } : {}),
         ...(spec.req ? { req: spec.req } : {}),
         ...(spec.check ? { check: spec.check, ok: make(spec.ok), no: make(spec.no) } : make(spec)) };
@@ -192,9 +203,6 @@
     C.ACTIONS.findstory = { name: '打听身边的事', desc: '寻找当前身份能参与的新经历', req: { fn: S => S.rulesVersion >= 4 && C.storyEntries(S).length > 0 },
       ev: S => S.rng.wpick(C.storyEntries(S), e => C.eventWeight(S, e))?.id, cd: 2 };
     C.ACTIONS.associations = { name: '打听协会的招募', desc: '达到条件后，主动接触愿意面谈的协会', req: { age: [20, 55], job: 'fixer', rank: [1, 6], noflag: ['assoc', 'office_own'], fn: S => S.rulesVersion >= 4 }, ev: 'fx_assoc_invite', cd: 3 };
-    C.ACTIONS.beastwork = { name: '打听H公司方向的运货差事', desc: '以普通帮工的身份接触外围运输', req: { age: [18, 70], wing: 'H', loc: 'backstreet', nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'distorted', 'book'], noflag: 'finger_quit', fn: S => S.rulesVersion >= 4 && !S.used.sy_beast_road }, ev: 'sy_beast_road', cd: 3 };
-    C.ACTIONS.librarytalk = { name: '聊聊图书馆的传闻', desc: '在决定是否赴邀之前，想清自己要找什么',
-      planReq: { age: [15, 89], wy: [-1, -1], fn: S => S.rulesVersion >= 4 && human(S) && !S.stories.library_reason && active(S).length < 2 },
-      req: { fn: S => C.storyCanRun(S, C.getEvent('ex_library_reason_1')) }, ev: 'ex_library_reason_1', cd: 1 };
+    C.ACTIONS.beastwork = { name: '打听H公司方向的运货差事', desc: '以普通帮工的身份接触外围运输', req: { age: [18, 70], wing: 'H', loc: 'backstreet', nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'distorted', 'book'], noflag: ['finger_quit'], fn: S => S.rulesVersion >= 4 && !S.used.sy_beast_road }, ev: 'sy_beast_road', cd: 3 };
   };
 })();

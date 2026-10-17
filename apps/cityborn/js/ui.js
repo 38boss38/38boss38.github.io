@@ -52,14 +52,14 @@
   let pendingChoice = null;
   let lastOpt = null;
   // 每一年的长度按这一年产生的文字量计算（×1 时约每字 45 毫秒），速度档位只是倍率
-  let yearDur = 4500, yearT = 0, stepMode = false, resultPending = null, DEMO_MS = 0;
+  let yearDur = 4500, yearT = 0, yearStepped = false, stepMode = false, resultPending = null, DEMO_MS = 0;
   const MODAL_KINDS = { q: 1, pick: 1, r: 1 };
   function calcYearDur(age) {
     let chars = 0;
     for (const l of S.log) if (l.age === age) chars += MODAL_KINDS[l.kind] ? l.text.length * 0.25 : l.text.length;
     if (DEMO_MS) return DEMO_MS * 4;
     if (S.rulesVersion >= 2 && !chars) return 1500;
-    return Math.max(4000, Math.min(16000, 3200 + chars * 45));
+    return Math.max(4200, Math.min(12000, 3000 + chars * 40));
   }
   function updateBar() {
     const f = $('#yb-fill'), lb = $('#yb-label');
@@ -67,10 +67,11 @@
     const r = Math.min(1, yearT / yearDur);
     f.style.transform = 'scaleX(' + r.toFixed(4) + ')';
     const bar = $('#yearbar');
-    const halted = !speed || pendingChoice || resultPending;
+    const majorOpen = !!(pendingChoice && pendingChoice.major);
+    const halted = !speed || majorOpen || resultPending;
     bar.classList.toggle('halt', !!halted);
     bar.classList.toggle('full', r >= 1);
-    lb.textContent = !S || !S.alive ? '' : pendingChoice || resultPending ? '时间已停止' : !speed ? (r >= 1 && stepMode ? '按空格进入下一年' : '已暂停 · 空格继续') : '距离 ' + (S.age + 1) + ' 岁';
+    lb.textContent = !S || !S.alive ? '' : majorOpen || resultPending ? '时间已停止' : !speed ? (r >= 1 && stepMode ? '按空格进入下一年' : '已暂停 · 空格继续') : '距离 ' + (S.age + 1) + ' 岁';
   }
 
   $('#birth-form').addEventListener('submit', (ev) => {
@@ -87,13 +88,13 @@
     lastOpt = opt;
     runId++;
     const myRun = runId;
-    S = CITY.newState(Object.assign({}, opt, { rulesVersion: 4 }));
-    REC = { format: 4, o: { name: opt.name || '', gender: opt.gender || null, era: opt.era || null, seed: S.seed,
+    S = CITY.newState(Object.assign({}, opt, { rulesVersion: 5 }));
+    REC = { format: 5, o: { name: opt.name || '', gender: opt.gender || null, era: opt.era || null, seed: S.seed,
       rulesVersion: S.rulesVersion, memory: CITY.copyMemory(S.memory) }, p: [], y: [], x: [] };
     $('#log').innerHTML = '';
     $('#lifegrid').innerHTML = '';
     yearBlocks = {};
-    $('#death').hidden = true; $('#choice').hidden = true; $('#menu').hidden = true;
+    $('#death').hidden = true; $('#choice').hidden = true; $('#menu').hidden = true; document.body.classList.remove('choice-open');
     go('game');
     setSpeed(speed || 1);
     renderAll();
@@ -150,10 +151,10 @@
 
   // ---------- 存档：记录种子与所有输入，读档时重放 ----------
   let REC = null, REPLAY = null;
-  const CUR = 'citylife.cur4';
+  const CUR = 'citylife.cur5';
   function saveCur() { try { if (REC && S && S.alive) localStorage.setItem(CUR, JSON.stringify(Object.assign({ age: S.age, name: S.name, job: CITY.jobTitle(S) }, REC))); } catch (_) {} }
   function clearCur() { try { localStorage.removeItem(CUR); } catch (_) {} }
-  function loadCur() { try { const c = JSON.parse(localStorage.getItem(CUR)); return c && c.format === 4 ? c : null; } catch (_) { return null; } }
+  function loadCur() { try { const c = JSON.parse(localStorage.getItem(CUR)); return c && c.format === 5 ? c : null; } catch (_) { return null; } }
   async function replayLife(rec, myRun) {
     REPLAY = { p: rec.p, i: 0 };
     const quiet = CITY.hooks.ach; CITY.hooks.ach = null;
@@ -208,28 +209,59 @@
   }
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  async function waitTick(myRun) {
-    yearT = 0;
-    let stepped = false;
+
+  // 一年不再在开头把事件全部倒出来：引擎每运行一个事件前调用 pace，
+  // 让进度条在这段时间里继续走，事件就会分散到这一年中。
+  const yearPaused = () => !S || !S.alive || speed <= 0 || pendingChoice || resultPending || !$('#menu').hidden;
+  function advanceYear(dt, allowStep) {
+    if (yearPaused()) return false;
+    yearT += dt * speed;
+    if (allowStep && yearT >= yearDur && stepMode && !yearStepped) {
+      yearStepped = true; lastSpeed = speed || lastSpeed; setSpeed(0);
+    }
+    updateBar();
+    return yearT >= yearDur;
+  }
+  async function waitResume(myRun) {
+    while (myRun === runId && (speed <= 0 || !$('#menu').hidden)) await sleep(100);
+    return myRun === runId;
+  }
+  async function waitYearEnd(myRun) {
     while (true) {
       if (myRun !== runId) return false;
       await sleep(50);
-      if (speed > 0 && !pendingChoice && !resultPending && $('#menu').hidden) yearT += 50 * speed;
-      if (yearT >= yearDur && stepMode && !stepped) { stepped = true; lastSpeed = speed || lastSpeed; setSpeed(0); }
-      updateBar();
-      if (yearT >= yearDur && speed > 0) return true;
+      const done = advanceYear(50, true);
+      if (done && speed > 0) return true;
+      if (!S.alive) return false;
     }
   }
+  async function paceYear(S0, e) {
+    if (REPLAY || !yearBusy || !S0 || S0.age <= 0) return;
+    const myRun = runId;
+    const budget = DEMO_MS ? 120 : Math.min(3000, Math.max(800, yearDur * (e.choices ? 0.3 : 0.18)));
+    let spent = 0;
+    while (spent < budget) {
+      if (myRun !== runId || !S0.alive) return;
+      await sleep(50);
+      if (!yearPaused()) spent += 50 * speed;
+      advanceYear(50, false);
+    }
+  }
+  CITY.hooks.pace = paceYear;
+
   async function loop(myRun) {
     running = true;
     while (S.alive) {
-      const ok = await waitTick(myRun);
-      if (!ok) return;
+      if (!(await waitResume(myRun))) return;
       if (REC) REC.y.push([S.focus, S.act || '']);
+      yearT = 0; yearStepped = false; updateBar();
       yearBusy = true;
       try {
         await CITY.yearTick(S);
         if (myRun !== runId) return;
+        yearBusy = false;
+        const ok = await waitYearEnd(myRun);
+        if (!ok && !S.alive) break;
         await tickMates();
       } finally { if (myRun === runId) yearBusy = false; }
       renderAll();
@@ -243,6 +275,82 @@
 
   // ---------- 钩子 ----------
   let yearBlocks = {};
+
+  // 把过碎的分段重新合成 2–3 段；整段太长的，再按句末分开。
+  // 目标是读起来像一段话，而不是“每句话都换行”。
+  function prose(text) {
+    if (typeof text !== 'string' || !text) return text;
+    const splitSentences = (s) => {
+      const out = []; let buf = '', depth = 0;
+      for (const ch of s) {
+        buf += ch;
+        if (ch === '“' || ch === '「') depth++;
+        else if (ch === '”' || ch === '」') depth = Math.max(0, depth - 1);
+        if (!depth && '。！？'.includes(ch)) { out.push(buf); buf = ''; }
+      }
+      if (buf.trim()) out.push(buf);
+      return out;
+    };
+    const group = (parts, target, max) => {
+      const out = []; let cur = '';
+      for (const s of parts) {
+        if (cur && (len(cur) + len(s) > max || len(cur) >= target)) { out.push(cur.trim()); cur = s; }
+        else cur += s;
+      }
+      if (cur.trim()) out.push(cur.trim());
+      return out;
+    };
+    const len = (s) => [...s].length;
+    let paras = text.replace(/\r/g, '').split(/\n{2,}/).map((s) => s.trim()).filter(Boolean);
+    if (!paras.length) return text;
+    if (paras.length === 1) {
+      const ss = splitSentences(paras[0]);
+      if (ss.length >= 2 && len(paras[0]) >= 70) paras = group(ss, 78, 100);
+    }
+    // 相邻短段合并；保留 2–3 个自然停顿。
+    let merged = true;
+    while (merged) {
+      merged = false;
+      for (let i = 0; i < paras.length - 1; i++) {
+        if (len(paras[i]) + len(paras[i + 1]) <= 88) {
+          paras[i] = paras[i] + paras[i + 1];
+          paras.splice(i + 1, 1);
+          merged = true;
+          break;
+        }
+      }
+    }
+    while (paras.length > 3) {
+      let at = 0, best = Infinity;
+      for (let i = 0; i < paras.length - 1; i++) {
+        const n = len(paras[i]) + len(paras[i + 1]);
+        if (n < best) { best = n; at = i; }
+      }
+      paras[at] = paras[at] + paras[at + 1];
+      paras.splice(at + 1, 1);
+    }
+    return paras.join('\n\n');
+  }
+
+  function sceneFor(blk, ent) {
+    const body = $('.yr-body', blk);
+    if (ent.kind === 'sys') { blk._scene = null; blk._sceneKey = null; return body; }
+    const key = ent.ev || ('k:' + ent.kind + ':' + String(ent.text || '').slice(0, 12));
+    if (blk._scene && blk._sceneKey === key) return blk._scene;
+    const sc = document.createElement('div');
+    sc.className = 'scene' + (ent.kind === 'star' ? ' is-star' : '') + (ent.kind === 'death' ? ' is-death' : '');
+    const e = ent.ev && CITY.getEvent ? CITY.getEvent(ent.ev) : null;
+    if (e && e.title) {
+      const h = document.createElement('div');
+      h.className = 'scene-title';
+      h.textContent = e.title;
+      sc.appendChild(h);
+    }
+    body.appendChild(sc);
+    blk._scene = sc; blk._sceneKey = key;
+    return sc;
+  }
+
   CITY.hooks.log = function (ent) {
     const log = $('#log');
     let blk = yearBlocks[ent.age];
@@ -255,14 +363,15 @@
       log.appendChild(blk);
       yearBlocks[ent.age] = blk;
     }
+    const host = sceneFor(blk, ent);
     const p = document.createElement('p');
     p.className = 'e-' + ent.kind;
-    p.textContent = ent.text;
+    p.textContent = prose(ent.text);
     if (!REPLAY && !MODAL_KINDS[ent.kind]) {
       const n = (blk._n = (blk._n || 0) + 1) - 1;
       p.style.animationDelay = Math.round(n * 520 / Math.max(1, speed)) + 'ms';
     } else p.style.animationDelay = '0ms';
-    $('.yr-body', blk).appendChild(p);
+    host.appendChild(p);
     stickBottom();
   };
   function stickBottom() {
@@ -273,17 +382,79 @@
   $('#log').addEventListener('wheel', () => { userScrolled = true; clearTimeout(window._us); window._us = setTimeout(() => (userScrolled = false), 4000); });
 
   let lastPick = '';
+  let lastChoiceMajor = false;
   const oddsLv = (p) => (p >= 0.8 ? 5 : p >= 0.6 ? 4 : p >= 0.4 ? 3 : p >= 0.2 ? 2 : 1);
   const coinDots = (n) => '<span class="cr-coins">' + '<i></i>'.repeat(n) + '</span>';
+
+  // 小抉择：贴在正文下面，不暂停年份；10 秒后随机选一个。
+  function showInlineChoice(S, e, text, opts, resolve) {
+    const blk = yearBlocks[S.age];
+    const body = blk && $('.yr-body', blk);
+    const wrap = document.createElement('div');
+    wrap.className = 'inline-choice';
+    wrap.innerHTML = '<div class="ic-head"><span>选择 · 超时随机</span><span class="ic-timer"><i></i></span><span class="ic-left">10s</span></div><div class="ic-opts"></div>';
+    const box = $('.ic-opts', wrap);
+    opts.forEach((o, i) => {
+      const b = document.createElement('button');
+      b.className = 'ic-opt';
+      const odds = o.coin ? '<span class="odds o' + oddsLv(o.p) + '">' + esc(o.odds) + ' ' + Math.round(o.p * 100) + '%</span>' : '';
+      b.innerHTML = '<span class="ic-n">' + (i + 1) + '</span><span class="ic-t">' + esc(o.t) + (o.hint ? '<span class="hint">' + esc(o.hint) + '</span>' : '') + '</span>' + odds;
+      b.addEventListener('click', () => done(i));
+      box.appendChild(b);
+    });
+    if (body) body.appendChild(wrap); else $('#log').appendChild(wrap);
+    stickBottom();
+    let left = 10;
+    const fill = $('.ic-timer i', wrap), leftEl = $('.ic-left', wrap);
+    const done = (i) => {
+      if (!pendingChoice || pendingChoice.done !== done) return;
+      clearInterval(pendingChoice.timer);
+      clearInterval(pendingChoice.clock);
+      pendingChoice = null;
+      if (REC) REC.p.push(i);
+      lastPick = opts[i] ? opts[i].t : '';
+      $$('.ic-opt', wrap).forEach((b, j) => b.classList.add(j === i ? 'picked' : 'dim'));
+      setTimeout(() => { wrap.remove(); resolve(i); }, 180);
+    };
+    pendingChoice = { done, n: opts.length, major: false, timer: 0, clock: 0 };
+    const timerId = setInterval(() => {
+      if (!pendingChoice || pendingChoice.done !== done) { clearInterval(timerId); return; }
+      if (speed <= 0 || !$('#menu').hidden) return;
+      left -= 0.1;
+      fill.style.width = Math.max(0, (left / 10) * 100).toFixed(1) + '%';
+      leftEl.textContent = Math.max(0, Math.ceil(left)) + 's';
+      if (left <= 0) {
+        clearInterval(timerId);
+        const i = Math.floor(Math.random() * opts.length);
+        toast('时间到 · 自动选择「' + (opts[i] ? opts[i].t : '') + '」');
+        done(i);
+      }
+    }, 100);
+    pendingChoice.timer = timerId;
+    // 小抉择不暂停世界：年份进度继续走，只是引擎在等这个选择。
+    const clockId = setInterval(() => {
+      if (!pendingChoice || pendingChoice.done !== done) { clearInterval(clockId); return; }
+      if (speed > 0 && $('#menu').hidden && !resultPending) {
+        yearT = Math.min(yearDur * 0.92, yearT + 50 * speed);
+        updateBar();
+      }
+    }, 50);
+    pendingChoice.clock = clockId;
+  }
+
   CITY.hooks.choose = function (S, e, text, opts) {
     if (REPLAY) { const i = REPLAY.p[REPLAY.i++]; if (REC) REC.p.push(i); return Promise.resolve(i == null ? 0 : Math.min(i, opts.length - 1)); }
     return new Promise((resolve) => {
+      const major = !!(e.manual || e.story || e.force || e.star || e.tag === 'major');
+      lastChoiceMajor = major;
+      if (!major) { showInlineChoice(S, e, text, opts, resolve); return; }
       const card = $('#choice');
       const inner = $('.choice-card', card);
       inner.classList.remove('judging', 'resolved');
       $('#cc-judge').hidden = true; $('#cc-result').hidden = true;
-      $('#cc-age').textContent = S.age + ' 岁 · ' + (e.title || '抉择');
-      $('#cc-text').textContent = text;
+      $('#cc-timer').hidden = true;
+      $('#cc-age').textContent = S.age + ' 岁 · 重大抉择' + (e.title ? ' · ' + e.title : '');
+      $('#cc-text').textContent = prose(text);
       $('#cc-foot').textContent = '时间已停止 · 按 1–' + opts.length + ' 选择';
       const box = $('#cc-opts');
       box.hidden = false;
@@ -306,6 +477,12 @@
       if (card.hidden) sfx('open');
       card.hidden = false;
       card.classList.remove('closing');
+      document.body.classList.add('choice-open');
+      requestAnimationFrame(() => {
+        const pad = Math.min(window.innerHeight * 0.8, inner.offsetHeight + 28);
+        document.documentElement.style.setProperty('--choice-pad', Math.round(pad) + 'px');
+        stickBottom();
+      });
       const done = (i) => {
         if (!pendingChoice || pendingChoice.done !== done) return;
         pendingChoice = null; if (REC) REC.p.push(i); lastPick = opts[i] ? opts[i].t : '';
@@ -315,7 +492,7 @@
         updateBar();
         setTimeout(() => resolve(i), 260);
       };
-      pendingChoice = { done, n: opts.length };
+      pendingChoice = { done, n: opts.length, major: true };
       updateBar();
       if (auto) setTimeout(() => { if (pendingChoice && pendingChoice.done === done) done(Math.floor(Math.random() * opts.length)); }, 1100);
     });
@@ -325,7 +502,7 @@
 
   // 投币演出：结果在引擎里已经确定，这里只负责一枚一枚地揭晓
   CITY.hooks.coins = async function (S, J) {
-    if (REPLAY) return;
+    if (REPLAY || !lastChoiceMajor) return;
     const fast = auto ? 0.55 : 1;
     const inner = $('#choice .choice-card');
     inner.classList.add('judging');
@@ -369,7 +546,8 @@
 
   const D_ICON = { body: '体魄', mind: '理智', wit: '才智', skill: '武艺', social: '人脉' };
   CITY.hooks.result = function (S, R) {
-    if (REPLAY) { resultPending = null; return Promise.resolve(); }
+    if (REPLAY || !lastChoiceMajor) { resultPending = null; renderAll(); return Promise.resolve(); }
+    if (R.chain) { resultPending = null; renderAll(); return Promise.resolve(); }
     return new Promise((resolve) => {
       renderAll();
       const box = $('#cc-result');
@@ -381,14 +559,21 @@
         const val = d.text != null ? d.text : (d.v > 0 ? '+' : '') + d.v;
         return '<span class="dchip ' + cls + '" style="animation-delay:' + (250 + i * 90) + 'ms"><b>' + esc(d.label) + '</b>' + (val ? ' ' + esc(val) : '') + '</span>';
       }).join('');
-      box.innerHTML = (lastPick ? '<div class="cr-pick">▸ ' + esc(lastPick) + (R.judged ? (R.judged.ok ? '<span class="ok">判定成功</span>' : '<span class="no">判定失败</span>') : '') + '</div>' : '') + (R.text ? '<p class="cr-text">' + esc(R.text) + '</p>' : '') +
+      box.innerHTML = (lastPick ? '<div class="cr-pick">▸ ' + esc(lastPick) + (R.judged ? (R.judged.ok ? '<span class="ok">判定成功</span>' : '<span class="no">判定失败</span>') : '') + '</div>' : '') + (R.text ? '<p class="cr-text">' + esc(prose(R.text)) + '</p>' : '') +
         (chips ? '<div class="cr-chips">' + chips + '</div>' : '<div class="cr-chips"><span class="dchip neu"><b>什么都没有改变</b></span></div>') +
         '<button class="cr-next" id="cr-next">继续 <small>空格 / 回车</small></button>';
       box.hidden = false;
+      requestAnimationFrame(() => {
+        const pad = Math.min(window.innerHeight * 0.8, inner.offsetHeight + 28);
+        document.documentElement.style.setProperty('--choice-pad', Math.round(pad) + 'px');
+        stickBottom();
+      });
       $('#cc-foot').textContent = S.alive ? '看完了就继续吧，时间会等你' : '';
       const finish = () => {
         if (resultPending !== finish) return;
         resultPending = null;
+        lastChoiceMajor = false;
+        document.body.classList.remove('choice-open');
         sfx('next');
         const card = $('#choice');
         card.classList.add('closing');
@@ -530,7 +715,10 @@
   function renderActs() {
     const list = CITY.actionList ? CITY.actionList(S) : [];
     if (S.act && !list.includes(S.act)) S.act = null;
-    const html = list.length ? list.map((k) => { const A = CITY.ACTIONS[k]; return '<button data-a="' + k + '" class="' + (S.act === k ? 'on' : '') + '" title="' + esc(A.desc) + '">' + A.name + '</button>'; }).join('') : '<span class="muted" style="font-size:12px">现在没有什么能做的。</span>';
+    let html = list.length ? list.map((k) => { const A = CITY.ACTIONS[k]; return '<button data-a="' + k + '" class="' + (S.act === k ? 'on' : '') + '" title="' + esc(A.desc) + '">' + A.name + '</button>'; }).join('') : '<span class="muted" style="font-size:12px">现在没有什么能做的。</span>';
+    // 路线线索：把还锁着的入口写清缺什么，不代替玩家作决定。
+    const tips = S.alive && CITY.actionHints ? CITY.actionHints(S, 3) : [];
+    if (tips.length) html += '<div class="act-tips">' + tips.map((t) => '<span><b>' + esc(t.name) + '</b>' + esc(t.why) + '</span>').join('') + '</div>';
     $('#acts').innerHTML = html;
     let ms = $('.m-side', $('.p-char'));
     if (ms) { let a = $('.acts', ms); if (!a) { const h = document.createElement('div'); h.className = 'side-h'; h.textContent = '主动行动'; ms.appendChild(h); a = document.createElement('div'); a.className = 'acts'; ms.appendChild(a); } a.innerHTML = html; }
@@ -610,8 +798,8 @@
     $('#menu').hidden = true;
     if (m === 'step') { stepMode = !stepMode; $('#m-step').textContent = '逐年模式：' + (stepMode ? '开' : '关'); toast(stepMode ? '每年结束时自动暂停' : '时间会自动流逝'); try { localStorage.setItem('citylife.step', stepMode ? '1' : ''); } catch (_) {} }
     if (m === 'restart') clearCur(), startGame({ name: S.name, gender: S.gender, era: lastOpt && lastOpt.era });
-    if (m === 'quit') { runId++; pendingChoice = null; $('#choice').hidden = true; go('title'); }
-    if (m === 'abandon') { runId++; pendingChoice = null; clearCur(); $('#choice').hidden = true; go('title'); }
+    if (m === 'quit') { runId++; pendingChoice = null; $('#choice').hidden = true; document.body.classList.remove('choice-open'); go('title'); }
+    if (m === 'abandon') { runId++; pendingChoice = null; clearCur(); $('#choice').hidden = true; document.body.classList.remove('choice-open'); go('title'); }
   });
   $('#stock-cancel').addEventListener('click', () => { $('#stock-clear').hidden = true; $('#menu [data-m="purge"]').focus(); });
   $('#stock-confirm').addEventListener('click', () => {

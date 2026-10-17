@@ -96,7 +96,7 @@
       spouse: null, kids: [], pros: 0,
       log: [], titles: [], queue: [], focus: 'play',
       death: null, lastWords: '', epitaph: '', ach: [],
-      vars: {}, rulesVersion: [1, 2, 3].includes(opt.rulesVersion) ? opt.rulesVersion : 4,
+      vars: {}, rulesVersion: [1, 2, 3, 4, 5].includes(opt.rulesVersion) ? opt.rulesVersion : 5,
       items: {}, equipment: {}, traitOrigins: {}, traitJournal: [], itemJournal: [],
       memory: CITY.copyMemory(opt.memory || (CITY.store && CITY.store.load().variety)),
       discovered: { events: {}, branches: {}, groups: {}, outcomes: {} }, life: null,
@@ -365,6 +365,7 @@
   // 运行一个事件：可能产生选择（异步）。返回 Promise
   async function runEvent(S, e) {
     if (e.story && (!CITY.storyCanRun || !CITY.storyCanRun(S, e))) return;
+    if (CITY.hooks.pace && !e.birth) await CITY.hooks.pace(S, e);
     const previousEvent = S._event;
     S._event = e;
     try {
@@ -418,7 +419,9 @@
         const rt = fmt(S, res.r) + (extra || '');
         log(S, rt, res.star || e.star ? 'star' : 'r', e.id);
         if (o2.next) out.next = o2.next;
-        if (CITY.hooks.result) await CITY.hooks.result(S, { text: rt, judged, deltas: CITY.diff(before, CITY.snap(S), S) });
+        const nextE = out.next && byId()[out.next];
+        const chain = !!(nextE && nextE.story && nextE.choices && nextE.choices.length && test(S, nextE.req));
+        if (CITY.hooks.result) await CITY.hooks.result(S, { text: rt, judged, deltas: CITY.diff(before, CITY.snap(S), S), chain });
       } else if (CITY.hooks.result) await CITY.hooks.result(S, { text: '', judged, deltas: [] });
     } else {
       log(S, text, kind, e.id);
@@ -428,6 +431,7 @@
       const n = byId()[out.next];
       if (n && test(S, n.req)) await runEvent(S, n);
     }
+    if (CITY.hooks.update) CITY.hooks.update(S);
     } finally { S._event = previousEvent; }
   }
   CITY.runEvent = runEvent;
@@ -460,6 +464,7 @@
   CITY.yearTick = async function (S) {
     S.age += 1; S.wy += 1;
     S.job.years += 1;
+    if (CITY.hooks.update) CITY.hooks.update(S);
     if (S.rulesVersion >= 3) S.c['focus_' + S.focus] = (S.c['focus_' + S.focus] || 0) + 1;
     const out = [];
     // 1) 年度方针与职业的被动影响
@@ -506,13 +511,13 @@
       const isCareer = (e) => e.req && typeof e.req === 'object' && e.req.job && S.job.id !== 'none';
       const career = majors.filter(isCareer);
       const familiarOnly = pool => S.rulesVersion >= 4 && pool.length && pool.every(e => S.memory.events[e.id]);
-      const careerChance = familiarOnly(career) ? 0.35 : 0.75;
-      if (career.length && qCount() < 2 && S.rng.chance(careerChance)) {
+      const careerChance = familiarOnly(career) ? 0.3 : 0.6;
+      if (career.length && qCount() < 1 && S.rng.chance(careerChance)) {
         const e = S.rng.wpick(career, wf); if (e) await runEvent(S, e);
       }
       const general = majors.filter((e) => !isCareer(e) && eligible(S, e));
-      const pMajor = S.age < 4 ? 0.15 : S.age < 12 ? 0.55 : qCount() ? 0.45 : 0.85;
-      if (S.alive && qCount() < 2 && general.length && S.rng.chance(pMajor * (familiarOnly(general) ? 0.5 : 1))) {
+      const pMajor = S.age < 4 ? 0.12 : S.age < 12 ? 0.5 : qCount() ? 0.4 : 0.7;
+      if (S.alive && qCount() < 1 && general.length && S.rng.chance(pMajor * (familiarOnly(general) ? 0.5 : 1))) {
         const e = S.rng.wpick(general, wf); if (e) await runEvent(S, e);
       }
       let nMin = S.age < 3 ? 1 : 1 + (S.rng.chance(0.45) ? 1 : 0);
@@ -575,7 +580,7 @@
     save(d) { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (_) {} },
     clearAll() {
       try {
-        const keys = new Set(['citylife.v1', 'citylife.cur2', 'citylife.cur3', 'citylife.cur4', 'citylife.step', 'citylife.sfx']);
+        const keys = new Set(['citylife.v1', 'citylife.cur2', 'citylife.cur3', 'citylife.cur4', 'citylife.cur5', 'citylife.step', 'citylife.sfx']);
         for (let i = 0; i < localStorage.length; i++) { const key = localStorage.key(i); if (key && key.startsWith('citylife.')) keys.add(key); }
         for (const key of keys) localStorage.removeItem(key);
         return true;

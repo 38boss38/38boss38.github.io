@@ -111,7 +111,7 @@
 
 /* 结果面板 */
 .cc-result { animation: lineIn .45s var(--ease); }
-.cr-text { font-size: 16.5px; line-height: 1.95; margin: 10px 0 14px; padding-left: 12px; border-left: 2px solid var(--gold2); }
+.cr-text { font-size: 16.5px; line-height: 1.95; margin: 10px 0 14px; padding-left: 12px; border-left: 2px solid var(--gold2); white-space: pre-wrap; text-wrap: pretty; }
 .cr-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
 .dchip { font-size: 13px; padding: 4px 10px; border: 1px solid var(--line2); background: rgba(255,255,255,.02); opacity: 0; animation: chipin .4s var(--ease) forwards; font-family: var(--sans); }
 .dchip b { font-weight: 600; font-family: var(--serif); }

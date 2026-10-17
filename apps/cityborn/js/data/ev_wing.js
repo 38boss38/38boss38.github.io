@@ -58,7 +58,7 @@
       check('完成读数', 'wit', 60, outcome('最后一页没有短线。你得到一件旧白袍和一份只允许在所内阅读的合同。', { job: { id: 'research', org: '巢内研究所助理', rank: 0 }, wit: 2 }), outcome('仪表被关掉，你被请出门。应聘前自费做的那次体检，算是白做了。', { money: -4000, mind: -2 })),
       direct('应聘器材登记岗', '你不用知道读数的意思。每天下班，把归还的器材和归来的人分别清点一遍。', { job: { id: 'clerk', org: '研究所器材登记员', rank: 0 }, mind: -1 }),
     ], { req: { loc: 'nest', nojob: ['wing', 'research'], st: { wit: [45, null] } }, age: [18, 50] }),
-    ev('exam', '翼的招考', '大厅外排着数千人，公告上的正式名额只有一个。往年的考生还在卖笔记。你写下姓名，屏幕先要求支付一笔不会退还的审查费。', [
+    ev('exam', '翼的招考', S => S.used.wg_exam > 1 ? '招考大厅外又排起了队。公告上的名额还是只有一个，队伍里有人认出了你。\n\n你把报名费数了一遍。' : '大厅外排着数千人，公告上的正式名额只有一个。往年的考生还在卖笔记。你写下姓名，屏幕先要求支付一笔不会退还的审查费。', [
       { t: '付费参加多轮筛选', check: { s: ['wit', 'mind'], dc: 62, mod: (S) => (S.flags.elite_school ? 0.2 : 0) + (S.flags.want_wing ? 0.08 : 0) + (S.flags.wing_contact ? 0.1 : 0) }, eff: { money: -15000 }, ok: outcome('几轮考试下来，你收到一张“待复核”通知——还不算录用。接下来两年，任何陌生号码你都得接。', { flag: 'wg_exam_wait', queue: ['wg_exam_review', 2] }), no: outcome('榜单没有你的号码。卖笔记的人等在出口，回收价只有原价的十分之一。', { mind: -3, wit: 1 }) },
       direct('买旧题回去准备', '旧题集上的批注换了三种笔迹，至少转过三次手。最后一页被撕掉了，只剩一个油乎乎的指印。', { money: -3000, wit: 2 }),
     ], { req: { nojob: ['wing', 'retired'], noflag: ['wg_exam_wait', 'wg_offer'] }, repeat: true, cd: 3, age: [18, 48], w: 35 }),

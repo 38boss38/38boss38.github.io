@@ -16,9 +16,9 @@
     clinic: { name: '去诊所看病', desc: '体魄恢复，钱包变薄', req: { age: [10, 130], st: { body: [null, 55] }, money: [W(2), null] }, ev: 'act_clinic', cd: 1 },
     dojo: { name: '拜师学艺', desc: '花钱请人教你打架', req: { age: [12, 50], money: [W(5), null], nojob: ['distorted', 'book'] }, ev: 'act_dojo', cd: 2 },
     school: { name: '上夜校', desc: '花钱读书', req: { age: [14, 70], money: [W(3), null], nojob: ['distorted', 'book'] }, ev: 'act_school', cd: 2 },
-    date: { name: '去认识一个人', desc: '在都市里，孤独是一种奢侈', req: { age: [18, 60], spouse: false, nojob: ['distorted', 'book'] }, ev: 'act_date', cd: 2 },
-    propose: { name: '求婚', desc: '和那个人一起过下去', req: { age: [18, 70], spouse: false, flag: 'act_dating' }, ev: 'act_propose', cd: 1 },
-    child: { name: '要一个孩子', desc: '让另一个人来到都市', req: { age: [20, 48], spouse: true, nojob: ['distorted', 'book'] }, ev: 'act_child', cd: 3 },
+    date: { name: '去认识一个人', desc: '在都市里，孤独是一种奢侈', noHint: 1, req: { age: [18, 60], spouse: false, nojob: ['distorted', 'book'] }, ev: 'act_date', cd: 2 },
+    propose: { name: '求婚', desc: '和那个人一起过下去', noHint: 1, req: { age: [18, 70], spouse: false, flag: 'act_dating' }, ev: 'act_propose', cd: 1 },
+    child: { name: '要一个孩子', desc: '让另一个人来到都市', noHint: 1, req: { age: [20, 48], spouse: true, nojob: ['distorted', 'book'] }, ev: 'act_child', cd: 3 },
     office: { name: '开一家事务所', desc: '自己当代表', req: { job: 'fixer', rank: [1, 5], noflag: 'office_own', money: [W(100), null] }, ev: 'fx_open_office', cd: 3 },
     retire: { name: '退休', desc: '放下这一切', req: { age: [45, 130], nojob: ['none', 'student', 'retired', 'distorted', 'book', 'finger'] }, ev: 'act_retire', cd: 1 },
     // ---------- 稀有路线的主动入口 ----------
@@ -39,7 +39,7 @@
 
   CITY.addEvents('actions', [
     { id: 'act_seeklib', manual: true, title: '邀请函',
-      text: '你去旧L公司附近转了几天。路边有人兜售“邀请函的门路”，也有人劝你别找死。一个落魄的收尾人说，图书馆会把邀请函寄给“有故事的人”——名气越大，越容易收到。',
+      text: '你去旧L公司附近转了几天。路边有人兜售“邀请函的门路”，也有人劝你别找死。\n\n一个落魄的收尾人说，图书馆会把邀请函寄给“有故事的人”——名气越大，越容易收到。',
       choices: [
         { t: '把自己的名字留在事务所的公告栏上', eff: { fame: 4, flag: 'library_seek' }, r: '你在好几家事务所的公告栏上留了名字和住址。几天后，有人开始在街上多看你两眼。' },
         { t: '花钱买“门路”', req: { money: [30000, null] }, res: [
@@ -59,7 +59,7 @@
           no: { r: '出了点岔子，好在没有大碍。', eff: { body: -5, merit: 1 } } },
       ] },
     { id: 'act_findjob', manual: true, title: '找工作',
-      text: '你翻遍了电线杆上的招工启事，又托熟人问了一圈。有几个地方愿意要你。',
+      text: S => S.used.act_findjob > 2 ? '招工启事又换了一轮，有几张是你上个月看过的。\n\n你还是把能问的地方都问了一遍。' : S.used.act_findjob > 1 ? '你又翻了一遍招工启事。这次有几家换了新纸，也有的地方已经不招了。' : '你翻遍了电线杆上的招工启事，又托熟人问了一圈。有几个地方愿意要你。',
       choices: [
         { t: '工坊学徒', req: { any: [{ trait: '巧手' }, { st: { wit: [40, null] } }] }, eff: { job: { id: 'mech', org: '后巷工坊 学徒', rank: 0 } }, r: '师傅看了看你的手，扔给你一把扳手。' },
         { t: '诊所助手', req: { st: { wit: [50, null] } }, eff: { job: { id: 'doctor', org: '后巷诊所 助手', rank: 0 } }, r: '诊所的医生说，你只要不晕血就行。你第一天就见到了一整条被扯下来的手臂。' },
@@ -77,7 +77,7 @@
         { t: '还是算了', eff: { mind: -1 }, r: '你推开门，像往常一样走了进去。' },
       ] },
     { id: 'act_move', manual: true, title: '搬家',
-      text: '你把所有家当塞进了三个箱子。搬家的车钱是一万眼，新住处的押金另算。',
+      text: S => S.used.act_move > 2 ? '第三次把家当装进箱子。这次你连清单都懒得列，能带走的只剩这些。\n\n搬家的车钱还是一万眼。' : S.used.act_move > 1 ? '你又把家当塞回箱子。这次能卖的都卖了，剩下的装不满两个。\n\n搬家的车钱还是一万眼。' : '你把所有家当塞进了三个箱子。搬家的车钱是一万眼，新住处的押金另算。',
       choices: [
         { t: '随便找个区', eff: [{ money: -30000, mind: 2 }, newDistrict], r: '你搬到了{home}。这里的面馆比原来的难吃一点，房租便宜一点。' },
         { t: '打听哪个区更太平', check: { s: 'social', dc: 45 },
@@ -94,7 +94,7 @@
         { t: '算了', r: '你想了想，那笔钱够你在后巷活很多年。' },
       ] },
     { id: 'act_casino', manual: true, title: 'J公司赌场',
-      text: '赌场里没有窗户，也没有钟。荷官的笑容是标准化的，筹码的兑换率每天都不一样。',
+      text: S => S.used.act_casino > 1 ? '赌场还是那副样子。荷官换了人，笑容一样标准。\n\n你把钱推上柜台，先看了一眼出口。' : '赌场里没有窗户，也没有钟。荷官的笑容是标准化的，筹码的兑换率每天都不一样。',
       choices: [
         { t: '小赌怡情（1万眼）', res: [
           { w: 4, r: '你输光了。走出赌场时，天已经亮了。', eff: { money: -10000 } },
@@ -119,7 +119,7 @@
         { t: '分他们一半', eff: { money: '-50%' }, r: '他们数了数钱，满意地走了。这在后巷叫“过路费”。' },
       ] },
     { id: 'act_pros', manual: true, title: '义体诊所',
-      text: '诊所的墙上挂满了义体样品：手臂、腿、眼球、脊椎。医生戴着一只闪着蓝光的义眼，说你的身体“还有很多可以改进的地方”。',
+      text: S => S.used.act_pros > 2 ? '医生这次没再介绍样品，直接问你哪一处接口不舒服。\n\n墙上的义眼换成了另一种颜色。' : S.used.act_pros > 1 ? '医生换了新的义眼，墙上的样品也换了一批。\n\n他看了你的旧接口，说“还能再改”。' : '诊所的墙上挂满了义体样品：手臂、腿、眼球、脊椎。医生戴着一只闪着蓝光的义眼，说你的身体“还有很多可以改进的地方”。',
       choices: [
         { t: '廉价的二手义体（30万眼）', eff: { money: -300000, pros: 1 }, res: [
           { w: 6, r: '新手臂的接口有点松，但能用。', eff: { body: 4, skill: 2, mind: -2 } },
@@ -130,30 +130,77 @@
         { t: '义眼（50万眼）', req: { money: [500000, null] }, eff: { money: -500000, pros: 1, wit: 4, skill: 2, mind: -2 }, r: '世界变得很清楚，清楚得有点过分。' },
         { t: '我再想想', r: '医生耸耸肩：“下次来的时候，可能就不是你自己走进来的了。”' },
       ] },
-    { id: 'act_clinic', manual: true,
-      text: (S) => S.rulesVersion < 2 || S.used.act_clinic <= 1 ? '你去诊所做了一次全面的治疗。医生在账单上写了很长一串数字。'
-        : '你又去了一趟诊所。医生翻到你的旧记录，把这次的用药和费用添在后面。',
-      eff: [{ money: -20000 }, (S) => { const g = Math.min(20, 55 - S.st.body); S.st.body += Math.max(5, g); if (S.money > 500000 && S.st.body < 50) { S.money -= 150000; S.st.body += 10; } }] },
-    { id: 'act_dojo', manual: true, title: '拜师',
-      text: (S) => S.rulesVersion < 2 || S.used.act_dojo <= 1 ? '你打听到几个愿意收徒的人：一个退休的收尾人，一个来历不明的剑客，还有一家正规的格斗道场。'
-        : '你准备再练一段时间。旧伤还在，能教你的人也各有规矩，这次得选好把工钱交给谁。',
+    // 首次看病展开成一次真正的就诊；之后只留一句“又去了一趟”，避免同一段挂号描写反复出现。
+    { id: 'act_clinic', manual: true, title: '诊所',
+      text: (S) => S.used.act_clinic <= 1
+        ? '诊所的走廊里排着两种队：交得起钱的人一进门就有人接，交不起的坐在长凳上等叫号，号码牌是一张硬纸片。墙上挂着K公司的广告灯箱，写着“再生，无需等待”。'
+        : ['你熟门熟路地挂了号，医生连问都没问，就照上次的单子又开了一份。',
+          '候诊的长凳上又换了一批人。医生翻出你的旧卡，把这次的费用添在最后一行。',
+          '你把袖子卷到肘弯，等着那套已经重复过好几遍的流程。'],
+      eff: (S) => {
+        if (S.used.act_clinic <= 1) return;
+        S.money -= 20000;
+        const g = Math.min(18, 55 - S.st.body);
+        S.st.body += Math.max(4, g);
+      },
       choices: [
-        { t: '跟退休收尾人学（5万眼）', eff: { money: -50000, skill: 6, body: 2, flag: 'fixer_dream' },
-          r: (S) => S.rulesVersion < 2 || S.used.act_dojo <= 1 ? '他教你的第一课是：“打不过就跑，跑不掉就装死。”第二课才是怎么出刀。'
-            : S.st.skill >= 70 ? '他开始让你拆解旧委托的失误，偶尔停下来问，如果换成你，会在哪一步撤退。' : '这次练的是撤步和收刀。课结束后，你的手指很久才不再发抖。' },
-        { t: '跟来历不明的剑客学', req: { any: [{ trait: '剑术天分' }, { flag: 'blade_contact' }, { flag: 'saw_blade' }] }, check: { s: 'mind', dc: 45 },
-          ok: { r: '他只教你一招，你练了一整年。年底，他说你可以去找“剑契组”的人了。', eff: { skill: 10, flag: 'blade_contact', trait: '剑术天分' } },
-          no: { r: '你受不了他的沉默和他的刀，半年后就走了。', eff: { skill: 3 } } },
-        { t: '去正规道场（15万眼）', req: { money: [150000, null] }, eff: { money: -150000, skill: 5, body: 4, social: 2 }, r: '道场很干净，教练很专业，学员里有一半是巢里来的有钱人。' },
+        { t: '排队等叫号', req: { fn: (S) => S.used.act_clinic <= 1 },
+          eff: { money: -5000, body: 6, mind: -1 },
+          r: '你从早上等到下午，号码牌被手心的汗浸软了。医生看了三分钟，把分装好的药推给你，纸袋上印着诊所的名字。' },
+        { t: '直接买一支K公司HP安瓿', req: { fn: (S) => S.used.act_clinic <= 1, money: [W(12), null] },
+          eff: { money: -W(12), body: 18, mind: 1 },
+          r: '护士拆开那只小小的玻璃瓶，把药推进你的手臂。伤口当着你的面收拢，像有人在里面把线一根根抽了回去。' },
+        { t: '让医生按旧病历开药', req: { fn: (S) => S.used.act_clinic <= 1 },
+          check: { s: 'wit', dc: 40 },
+          ok: { r: '你记得上次的剂量，报得比医生翻记录还快。他没多收钱，还让你把剩下的药名抄一份带走。', eff: { money: -8000, body: 8, wit: 1 } },
+          no: { r: '医生换了三种药，说旧的那种“已经停了”。账单比走廊里的队伍还长。', eff: { money: -26000, body: 3 } } },
       ] },
-    { id: 'act_school', manual: true,
-      text: (S) => S.rulesVersion < 2 ? '你报名了夜校。白天干活，晚上上课，回家的路上要算好时间，绝不能拖到三点。'
-        : S.used.act_school > 1 ? '你续了下一期的课。老师把旧作业退回来，留出一栏，让你自己改掉上次的错处。'
-        : S.loc === 'outskirts' ? '你跟着识字的人补课，把白天捡来的旧说明书当教材。灯油和纸笔都得自己出钱。'
-        : '你报名了夜校。白天干活，晚上上课，回家的路上要算好时间，绝不能拖到三点。',
-      eff: { money: -30000, wit: 6, body: -1, flag: ['literate', 'schooled'] } },
+    // 首次拜师：从三个门路里挑一个；之后只写练了什么，不再重开一遍招徒场景。
+    { id: 'act_dojo', manual: true, title: '拜师',
+      text: (S) => S.used.act_dojo <= 1
+        ? '你在后巷打听能教人动手的地方：一个退休的收尾人在面摊后头收徒，一个来历不明的剑客只在夜里开门，还有一家正规道场，门口的铜牌擦得很亮。'
+        : S.st.skill >= 70
+          ? ['你又去练了一年。师父不再教新招式，只让你把上一年打过的几场架从头讲一遍，指出每一步该往哪儿退。',
+            '这一年的课上得很安静。师父要你把同一个动作拆成三段，然后把最后一段去掉，说“够了”。']
+          : ['又练了一年。同一个动作做到第二十遍，师父才开口，说你的肩膀绷得太早。',
+            '这一年练的是挨打。师父说，先学会怎么不倒，再谈怎么还手。'],
+      eff: (S) => { if (S.used.act_dojo <= 1) return; S.money -= 8000; S.st.skill = Math.min(100, S.st.skill + 3); S.st.body = Math.min(100, S.st.body + 1); },
+      choices: [
+        { t: '跟退休收尾人学（5万眼）', req: { fn: (S) => S.used.act_dojo <= 1 },
+          eff: { money: -50000, skill: 6, body: 2, flag: 'fixer_dream' },
+          r: '他教你的第一课是挨打，第二课才是出刀。“打不过就跑，跑不掉就装死。”他说这话的时候，正在把断掉的那条凳腿接回去。' },
+        { t: '跟来历不明的剑客学', req: { fn: (S) => S.used.act_dojo <= 1, any: [{ trait: '剑术天分' }, { flag: 'blade_contact' }, { flag: 'saw_blade' }] },
+          check: { s: 'mind', dc: 45 },
+          ok: { r: '他只教你一招，你练了一整年。年底他把刀收进鞘，说你可以去找“剑契组”的人了。', eff: { skill: 10, flag: 'blade_contact', trait: '剑术天分' } },
+          no: { r: '你受不了他的沉默，也跟不上他出手的速度。半年后你没再去。', eff: { skill: 3 } } },
+        { t: '去正规道场（15万眼）', req: { fn: (S) => S.used.act_dojo <= 1, money: [150000, null] },
+          eff: { money: -150000, skill: 5, body: 4, social: 2 },
+          r: '道场很干净，教练很专业，学员里有一半是巢里来的有钱人。下课以后，他们去喝的那种酒你叫不出名字。' },
+      ] },
+    // 首次上夜校：选一个班；之后只写续课，不再重讲一遍报名处。
+    { id: 'act_school', manual: true, title: '夜校',
+      text: (S) => S.used.act_school <= 1
+        ? (S.loc === 'outskirts'
+          ? '教识字的人在营地边上支了一块木板，把白天捡来的旧说明书当教材；另一头有人讲记账，还有人摊开一本捡来的工科手册。灯油和纸笔都得自己出钱，你只能挑一样学。'
+          : '夜校在旧仓库的二楼，黑板是刷了漆的铁皮。报名处贴着三种班：识字与公文、记账与算利、工科手册。学费一样，你只能报一种。')
+        : ['你又续了一期。老师把新讲义压在你上次的作业上，没再讲第二遍。下课回家的路上，你仍要算好时间，绝不能拖到三点。',
+          '课还是那几节，只是换了教室。你把上一年的笔记摊开，发现自己已经能读懂大半。',
+          '这一期的老师换了个年轻的，讲得很快。你在本子边上补了几处旧老师画过的记号线。',
+          '灯油钱又涨了。你把灯芯剪短一截，写到后半节课，字开始往纸外面跑。'],
+      eff: (S) => { if (S.used.act_school <= 1) return; S.money -= 30000; S.st.wit = Math.min(100, S.st.wit + 3); S.st.body = Math.max(0, S.st.body - 0.5); },
+      choices: [
+        { t: '识字与公文', req: { fn: (S) => S.used.act_school <= 1 },
+          eff: { money: -30000, wit: 8, body: -1, flag: ['literate', 'schooled'] },
+          r: '你学会读合同上那些印得最小的一行字，也学会在签名之前先往纸背面看一眼。' },
+        { t: '记账与算利', req: { fn: (S) => S.used.act_school <= 1 },
+          eff: { money: -30000, wit: 5, body: -1, flag: ['literate', 'schooled', 'numerate'], cnt: { numerate: 1 } },
+          r: '你学会了把利息摊到每一天去算。算完以后，你不确定这算本事还是算一种病。' },
+        { t: '工科手册与技术图纸', req: { fn: (S) => S.used.act_school <= 1, st: { wit: [40, null] } },
+          eff: { money: -30000, wit: 4, skill: 3, flag: ['literate', 'schooled'] },
+          r: '你照着图纸把一台报废的机器拆开又装回去，多出来两颗螺丝，它照样转。' },
+      ] },
     { id: 'act_date', manual: true, title: '相识',
-      text: (S) => S.loc === 'nest' ? '同事给你安排了一场相亲。对方准时到了，第一个问题是你的年收入，第二个问题是你有没有债。' : '常去的面馆里，有个人每天都和你在同一时间出现，坐在同一个位置。今天，只剩下你旁边那一个空座了。',
+      text: S => S.used.act_date > 2 ? '这次你连对方会问什么都猜到了。\n\n对方坐下以后，先问的是你今天累不累。' : S.used.act_date > 1 ? (S.loc === 'nest' ? '又有人给你安排相亲。这次对方先问你是否介意搬去巢外。' : '面馆里那张空座又有人坐了。这次对方先开口，问你叫什么。') : (S.loc === 'nest' ? '同事给你安排了一场相亲。对方准时到了，第一个问题是你的年收入，第二个问题是你有没有债。' : '常去的面馆里，有个人每天都和你在同一时间出现，坐在同一个位置。今天，只剩下你旁边那一个空座了。'),
       choices: [
         { t: '主动搭话', check: { s: 'social', dc: 42 },
           ok: { r: '你们聊到面馆打烊。临走时，对方说了自己的名字：{lover}。', eff: [(S) => { S.vars.lover = CITY.randName(S.rng, S.gender === 'm' ? (S.rng.chance(0.85) ? 'f' : 'm') : (S.rng.chance(0.85) ? 'm' : 'f')); }, { flag: 'act_dating', mind: 4 }] },
@@ -164,7 +211,7 @@
         { t: '算了', r: '你吃完面，和往常一样一个人回家。' },
       ] },
     { id: 'act_propose', manual: true, title: '求婚',
-      text: '你和{lover}已经认识一段时间了。你攥着口袋里的戒指，在楼下站了很久。',
+      text: S => S.used.act_propose > 1 ? '戒指还在口袋里。这次你没有在楼下站太久，直接上了楼。' : '你和' + (S.vars.lover || '对方') + '已经认识一段时间了。你攥着口袋里的戒指，在楼下站了很久。',
       choices: [
         { t: '说出口', check: { s: ['social', 'mind'], dc: 40 },
           ok: { r: '{lover}愣了一下，然后笑了。“在都市里结婚，你可真有勇气。”', eff: [{ spouse: 'new', flag: 'married', unflag: 'act_dating', mind: 6, ach: 'act_married' }] },
@@ -181,13 +228,13 @@
         { t: '还是不要了', eff: { mind: 1 }, r: '你们决定就这样，两个人过。' },
       ] },
     { id: 'act_retire', manual: true, title: '退休',
-      text: (S) => '你做' + CITY.jobTitle(S) + '已经' + S.job.years + '年了。',
+      text: (S) => S.job.years ? '你做' + CITY.jobTitle(S) + '已经' + S.job.years + '年了。\n\n工牌边角磨得发白，照片还是刚入行那年拍的。' : '你手上这份活，已经干到了现在。\n\n工牌边角磨得发白，照片还是刚入行那年拍的。',
       choices: [
         { t: '退休', eff: { job: { id: 'retired' }, mind: 5 }, r: '你收拾好了自己的东西。最后一天下班，没有人送你。' },
         { t: '再干一年', r: '还不是时候。' },
       ] },
     { id: 'act_donate', manual: true, title: '捐款',
-      text: '你走进了后巷的一家孤儿院。院长是个瘦小的修女，屋里有二十多个孩子在抢一碗粥。',
+      text: S => S.used.act_donate > 2 ? '院长已经认得你。这次她没先带你参观，只把账本摊在桌上。' : S.used.act_donate > 1 ? '你又去了那家孤儿院。屋顶补过一块，孩子们仍挤在同一张桌边。' : '你走进了后巷的一家孤儿院。院长是个瘦小的修女，屋里有二十多个孩子在抢一碗粥。',
       choices: [
         { t: '捐出30万眼', eff: { money: -300000, mind: 5, fame: 2, cnt: { donate: 1 } }, r: '修女给了你一张手写的收据。孩子们排着队对你说谢谢，有几个说得很敷衍。' },
         { t: '捐出一半身家', eff: { money: '-50%', mind: 8, fame: 5, cnt: { donate: 2 }, ach: 'act_donor' }, r: '修女看着那个数字，很久没有说话。第二年，孤儿院换了新屋顶。' },
@@ -199,4 +246,72 @@
     act_married: { name: '在都市里结婚', desc: '主动求婚，并且被答应了。', tier: 'uncommon', group: '羁绊' },
     act_donor: { name: '新屋顶', desc: '把一半身家捐给了孤儿院。', tier: 'rare', group: '人生' },
   });
+
+  // ---------- 路线线索 ----------
+  // 把“现在还不能做”的行动写成一句缺什么，让玩家看得见入口，而不是只能猜。
+  const asArr = (x) => (x == null ? [] : Array.isArray(x) ? x : [x]);
+  const JOB_WORD = { none: '无业', student: '学生', labor: '零工', shop: '店员', chef: '厨师', mech: '工坊技师', doctor: '诊所医生', clerk: '巢内职员', research: '研究员', fixer: '收尾人', wing: '翼的职员', syndicate: '帮派成员', finger: '手指成员', kurokumo: '黑云会', blade: '剑契组', heishou: '黑兽', lccb: 'LCCB', retired: '退休', distorted: '扭曲体', book: '书' };
+  const LOC_WORD = { nest: '巢', backstreet: '后巷', outskirts: '郊区' };
+  const ERA_WORD = { lob: '脑叶公司时代', fall: '白夜黑昼', lib: '图书馆时期', dist: '扭曲时代' };
+  const FLAG_WORD = {
+    act_dating: '先认识一个人', fixer_license: '先考到收尾人证', blade_contact: '先与剑契组的人有来往',
+    office_own: '先有自己的事务所', library_seek: '先打听过邀请函', library_invited: '先拿到邀请函',
+    wg_offer: '先等到翼的录用通知', wg_exam_wait: '先等招考结果', finger_member: '先加入一个手指',
+    kk_member: '先加入黑云会', blade_member: '先加入剑契组', fixer_dream: '先在心里种下收尾人的念头',
+    want_gang: '先决定去投帮派', saw_blade: '先在夜里见过那个剑客',
+  };
+
+  // 返回 null 表示这条要求无从努力（身份已经不符、时代已过），不该当作线索展示。
+  function reasonsFor(S, q) {
+    if (!q || typeof q === 'function') return null;
+    const out = [];
+    if (q.age) {
+      const a = Array.isArray(q.age) ? q.age : [q.age, null];
+      // 还要等六年以上的入口先不提示，免得面板变成一张远期愿望清单。
+      if (a[0] != null && S.age < a[0] - 6) return null;
+      if (a[0] != null && S.age < a[0]) out.push({ neg: 0, t: '要满 ' + a[0] + ' 岁' });
+      if (a[1] != null && S.age > a[1]) out.push({ neg: 1, t: '已经过了年纪' });
+    }
+    if (q.money != null) { const lo = Array.isArray(q.money) ? q.money[0] : q.money; if (lo != null && S.money < lo) out.push({ neg: 0, t: '需要 ' + CITY.fmtMoney(lo) }); }
+    if (q.st) for (const k in q.st) { const lo = Array.isArray(q.st[k]) ? q.st[k][0] : q.st[k]; if (lo != null && (CITY.stat ? CITY.stat(S, k) : S.st[k]) < lo) out.push({ neg: 0, t: '需要' + CITY.STAT_NAMES[k] + ' ' + lo }); }
+    if (q.job && !asArr(q.job).includes(S.job.id)) out.push({ neg: 0, t: '需要先成为' + asArr(q.job).map((j) => JOB_WORD[j] || j).join('或') });
+    if (q.nojob && asArr(q.nojob).includes(S.job.id)) out.push({ neg: 1, t: '现在的身份做不了' });
+    if (q.rank) { const a = Array.isArray(q.rank) ? q.rank : [q.rank, null]; if (a[0] != null && S.job.rank < a[0]) out.push({ neg: 0, t: '需要 ' + a[0] + ' 阶以上' }); if (a[1] != null && S.job.rank > a[1]) out.push({ neg: 0, t: '需要先升到 ' + a[1] + ' 阶以内' }); }
+    for (const f of asArr(q.flag)) if (!S.flags[f]) out.push({ neg: 0, t: FLAG_WORD[f] || '还差一个条件' });
+    for (const f of asArr(q.noflag)) if (S.flags[f]) out.push({ neg: 1, t: '' });
+    for (const f of asArr(q.trait)) if (!S.traits.includes(f)) out.push({ neg: 0, t: '需要特质「' + f + '」' });
+    for (const f of asArr(q.notrait)) if (S.traits.includes(f)) out.push({ neg: 1, t: '' });
+    if (q.loc && !asArr(q.loc).includes(S.loc)) out.push({ neg: 1, t: '只能在' + asArr(q.loc).map((x) => LOC_WORD[x] || x).join('或') + '做' });
+    if (q.wy) out.push({ neg: 1, t: '' });
+    if (q.era) out.push({ neg: 1, t: '' });
+    if (q.spouse === true && !(S.spouse && S.spouse.alive)) out.push({ neg: 0, t: '需要一位伴侣' });
+    if (q.spouse === false && S.spouse && S.spouse.alive) out.push({ neg: 1, t: '' });
+    if (q.fn) return null;
+    if (q.any) {
+      const alts = q.any.map((x) => reasonsFor(S, x)).filter(Boolean);
+      if (!alts.length) return null;
+      if (alts.some((r) => !r.length)) return []; // 其实已经满足
+      const best = alts.slice().sort((a, b) => a.length - b.length)[0];
+      out.push(...best);
+    }
+    return out;
+  }
+  CITY.actionHints = function (S, limit) {
+    if (S.age < 13) return []; // 孩子不需要一张路线清单
+    const out = [];
+    for (const k of Object.keys(CITY.ACTIONS)) {
+      const A = CITY.ACTIONS[k];
+      if (A.noHint) continue;
+      const q = (S.rulesVersion >= 4 && A.planReq) || A.req;
+      if (!q || CITY.test(S, q)) continue;
+      const rs = reasonsFor(S, q);
+      if (!rs || !rs.length || rs.some((r) => r.neg)) continue;
+      if (A.cd && S.last['act_' + k] != null && S.age - S.last['act_' + k] < A.cd) continue; // 冷却中不算线索
+      const uniq = [...new Set(rs.map((r) => r.t).filter(Boolean))];
+      if (!uniq.length || uniq.length > 2) continue; // 差三样以上的入口还不算“看得见”
+      out.push({ k, name: A.name, why: uniq.join('，'), n: uniq.length });
+    }
+    out.sort((a, b) => a.n - b.n);
+    return out.slice(0, limit || 3);
+  };
 })();

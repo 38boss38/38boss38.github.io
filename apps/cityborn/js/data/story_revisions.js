@@ -5,9 +5,7 @@
   const branches = [
     ['rainhand', 0, 1, (S, d) => d.fault === 'load' ? 2 : 1],
     ['cinq_name', 3, 1, 5], ['oufi_signature', 2, 0, 4],
-    ['r_roll', 3, 1, 5], ['t_hours', 3, 1, 5], ['k_seals', 3, 1, 5],
-    ['l_check', 3, 1, 5], ['u_dinner', 3, 1, 5], ['h_garden', 3, 1, 5],
-    ['j_pawn', 3, 0, 5], ['gang_cart', 0, 0, 2],
+    ['gang_cart', 0, 0, 2],
     ['family_evening', 3, 1, 5], ['nest_hobby', 3, 1, 5],
   ];
   for (const [id, step, choice, target] of branches) C.STORIES[id].nodes[step].options[choice].goto = target;
@@ -18,7 +16,6 @@
   C.STORIES.dieci_morning.appendOption(2, o('保留知识，配合同伴完成', '你按准备过的分工完成外围，让更适合的人承担正面。留住的知识明天仍能用，今天也确实接住了自己的那一段。', { spent: 0 }, { money: 15000, merit: 1 }, { req: { fn: S => C.storyData(S, 'dieci_morning').data.reserve >= 2 } }));
   C.STORIES.seven_return.appendOption(1, o('与信任的联系人共同核验', '对方知道你上次怎样处理证人，愿意开放先前保留的一处普通材料。你们只核其中能确认的部分，下一次合作也终于不全从陌生开始。', null, { money: 5000, wit: 2 }, { req: { fn: S => { const x = C.storyData(S, 'seven_return'); return S.contacts[x.person].trust >= 1; } }, end: '你以先前留下的信任换来了一次更可靠的核验。' }));
   C.STORIES.thumb_rounds.appendOption(4, o('用确实留下的余量补这次', '你交出先前保住的实际余量，领用按真实数量登记。少掉的那部分不再算作仍在你枪里，也没让新人替空缺签字。', (S, d) => ({ ammo: d.ammo - 1, teach: true }), { money: -2000, merit: 1 }, { req: { fn: S => C.storyData(S, 'thumb_rounds').data.ammo > 0 } }));
-  C.STORIES.camp_guide.appendOption(0, o('出示营地木片，核当前可走的路', '向导认得那片普通木片，愿意直接告诉你这几天变过的土路。你们仍逐段确认，不把一次认识当成穿过所有未知的许可。', { scope: 'partner' }, { wit: 1 }, { req: { item: 'route_token' } }));
   // 八条旧怪谈各补一个清晰的参与或退出办法，仍使用原来的后续与结局。
   const alternatives = {
     st_hour_shop: { t: '只问现付价格，不赊账', r: '老板始终不肯说付多少就能结清，你把碗放回去，改到街角买了普通热食。两点之前，门洞里的灯还亮着。', eff: { money: -300, mind: 1 }, req: { money: [300, null] } },

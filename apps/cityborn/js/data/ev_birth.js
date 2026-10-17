@@ -2,11 +2,11 @@
 CITY.addEvents('birth', [
   // ---------- 巢 ----------
   { id: 'b_nest_a', birth: true, req: { loc: 'nest', fam: { wealth: [3, 3] } }, w: 10, star: true,
-    text: '你出生在{home}一栋高层公寓里。窗外的天空被翼的大楼切成整齐的方块。护士用K公司的安瓿处理了脐带的伤口，一点疤都没留下。' },
+    text: '你出生在{home}一栋高层公寓里。窗外的天空被翼的大楼切成整齐的方块。\n\n护士用K公司的安瓿处理了脐带的伤口，一点疤都没留下。' },
   { id: 'b_nest_b', birth: true, req: { loc: 'nest', fam: { wealth: [2, 2], parents: 'both' } }, w: 10, star: true,
     text: '你出生在{home}。父母都是{wing}公司下属企业的职员，为了让你拿到巢的居住资格，他们已经排了很多年的队。' },
   { id: 'b_nest_c', birth: true, req: { loc: 'nest', fam: { wealth: [2, 3] } }, w: 6, star: true,
-    text: '你出生在{home}的综合医院。同一天，同一层楼，还有十一个孩子出生。护士按出生时间给你们挂上了编号牌，你是第七个。' },
+    text: '你出生在{home}的综合医院。同一天，同一层楼，还有十一个孩子出生。\n\n护士按出生时间给你们挂上了编号牌，你是第七个。' },
   { id: 'b_nest_l', birth: true, req: { loc: 'nest', wing: 'L' }, w: 30, star: true,
     text: '你出生在L巢。这里的灯从不熄灭——整座都市的“能源”都来自脑叶公司。邻居说，这是全都市最安全的地方之一。',
     eff: { flag: 'lnest' } },
@@ -15,7 +15,7 @@ CITY.addEvents('birth', [
   { id: 'b_bs_poor', birth: true, req: { loc: 'backstreet', fam: { wealth: [0, 0] } }, w: 10, star: true,
     text: '你出生在{home}一间没有窗户的出租屋里。接生的是隔壁的老太太，报酬是一碗热汤。' },
   { id: 'b_bs_poor2', birth: true, req: { loc: 'backstreet', fam: { wealth: [0, 0] } }, w: 8, star: true,
-    text: '你出生在{home}。母亲生下你的那天凌晨，楼下传来了很长一段时间的惨叫声。没有人开门。到了早上，楼道被清洗得干干净净。' },
+    text: '你出生在{home}。母亲生下你的那天凌晨，楼下传来了很长一段时间的惨叫声。没有人开门。\n\n到了早上，楼道被清洗得干干净净。' },
   { id: 'b_bs_mid', birth: true, req: { loc: 'backstreet', fam: { wealth: [1, 1], parents: 'both' } }, w: 10, star: true,
     text: '你出生在{home}。父母在街角经营着一家小小的拉面摊，你的第一张床是两个装面粉的纸箱。' },
   { id: 'b_bs_mid2', birth: true, req: { loc: 'backstreet', fam: { wealth: [1, 1] } }, w: 8, star: true,
@@ -36,7 +36,7 @@ CITY.addEvents('birth', [
 
   // ---------- 郊区 ----------
   { id: 'b_out', birth: true, req: { loc: 'outskirts' }, w: 10, star: true,
-    text: '你出生在都市之外的郊区。这里没有翼的庇护，没有首脑的禁忌，营地外的生物大多叫不出名字。你的家人住在一处废弃设施的残骸里，靠拾荒为生。',
+    text: '你出生在都市之外的郊区。这里没有翼的庇护，没有首脑的禁忌，营地外的生物大多叫不出名字。\n\n你的家人住在一处废弃设施的残骸里，靠拾荒为生。',
     eff: { flag: 'outskirts_born' } },
   { id: 'b_out2', birth: true, req: { loc: 'outskirts' }, w: 6, star: true,
     text: '你出生在郊区一辆废弃的车厢里。母亲后来说，你出生那晚，远处的地平线上有什么巨大的东西缓缓走过。',
@@ -73,5 +73,5 @@ CITY.addEvents('infant', [
     eff: { fn: (S) => { S.fam.parents = 'mother'; }, mind: -4, flag: 'father_lost' } },
   { id: 'i_orphan_meal', age: [3, 5], req: { flag: 'orphanage' }, w: 12, text: '孤儿院的修女教你们饭前祈祷。你不知道该向谁祈祷，只记得祈祷完才能吃饭。' },
   { id: 'i_out_beast', age: [2, 5], req: { loc: 'outskirts' }, w: 14, text: '你在营地边看到了一只长着许多眼睛的动物。它看了你很久，然后走开了。大人们说，你运气很好。', eff: { dist: 2, mind: 1 } },
-  { id: 'i_gift', age: [4, 5], req: { trait: '家族遗物' }, w: 30, text: '你在贴身的旧布包里发现了家里传下来的那件东西：一枚看不出材质的徽章，背面刻着一个已经磨平的字母。包里夹着一张字条：“别拿给别人看。”', eff: { flag: 'heirloom_seen' } },
+  { id: 'i_gift', age: [4, 5], req: { trait: '家族遗物' }, w: 30, text: '你在贴身的旧布包里发现了家里传下来的那件东西：一枚看不出材质的徽章，背面刻着一个已经磨平的字母。\n\n包里夹着一张字条：“别拿给别人看。”', eff: { flag: 'heirloom_seen' } },
 ]);
