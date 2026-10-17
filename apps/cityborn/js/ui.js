@@ -180,9 +180,6 @@
   }
   function renderContinue() {
     const c = loadCur();
-    let older = false;
-    try { older = !c && !!(localStorage.getItem('citylife.cur3') || localStorage.getItem('citylife.cur2')); } catch (_) {}
-    $('#save-note').textContent = older ? '剧情已更新，这次需要重新出生。见闻与往生记录仍在；如需全部清空，可到设置中整理库存。' : '';
     let el = $('#btn-continue');
     if (!c) { if (el) el.remove(); return; }
     if (!el) { el = document.createElement('button'); el.id = 'btn-continue'; el.type = 'button'; el.className = 'btn-continue'; $('#birth-form').appendChild(el); el.addEventListener('click', () => { const c2 = loadCur(); if (c2) startGame(Object.assign({}, c2.o, { replay: c2 })); }); }

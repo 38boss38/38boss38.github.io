@@ -40,7 +40,6 @@
         </details>
         <button type="submit" class="btn-born">出 生</button>
       </form>
-      <p class="save-note" id="save-note"></p>
 
       <div class="title-links">
         <button class="lnk" data-go="codex">见闻录</button>
@@ -155,7 +154,7 @@
         <button data-m="restart">同名重生</button>
         <button data-m="quit">回到标题（自动保存）</button>
         <button data-m="abandon">放弃这一生</button>
-        <button data-m="purge" class="stock-clear-entry">整理库存<small>西西弗百货 · 清除所有存档</small></button>
+        <button data-m="purge" class="stock-clear-entry">整理库存<small>清除所有存档</small></button>
       </div>
     </div>
 
@@ -213,12 +212,10 @@
 </div>
 <div class="modal stock-modal" id="stock-clear" role="dialog" aria-modal="true" aria-labelledby="stock-title" hidden>
   <div class="menu-card stock-card">
-    <div class="stock-eyebrow">西西弗百货 · 库存处理</div>
     <h2 id="stock-title">整理库存</h2>
-    <p class="stock-flavor">陈列过的人生、尚未售出的记忆，都已列入本次清点。</p>
     <p>本操作将永久清除本游戏的<strong>当前人生、见闻录、往生录、跨周目记录和设置</strong>。</p>
     <p class="stock-warning">整理后无法恢复。你的随身物品与特质记录也会一并清除。</p>
-    <button type="button" id="stock-cancel">返回陈列 · 保留存档</button>
+    <button type="button" id="stock-cancel">返回 · 保留存档</button>
     <button type="button" class="stock-confirm" id="stock-confirm">确认整理 · 清除全部存档</button>
   </div>
 </div>

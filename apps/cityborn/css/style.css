@@ -254,10 +254,8 @@ input { font-family: inherit; }
 .stock-clear-entry small { display: block; margin-top: 5px; font-size: 11px; color: var(--ink3); }
 .stock-modal { z-index: 40; }
 .stock-card { width: min(440px, 100%); border-top: 3px solid var(--red); }
-.stock-eyebrow { color: var(--gold); font-size: 11px; letter-spacing: .2em; }
 .stock-card h2 { font-size: 24px; margin: 6px 0 2px; }
 .stock-card p { margin: 5px 0 10px; color: var(--ink2); font-size: 13px; line-height: 1.9; }
-.stock-card .stock-flavor { color: var(--ink3); }
 .stock-card .stock-warning { color: #cf9698; }
 .stock-card .stock-confirm { border-color: #8c4a50; background: rgba(140,74,80,.12); color: #e0b2b4; }
 
@@ -393,5 +391,3 @@ html { scrollbar-width: thin; scrollbar-color: #3a3236 transparent; }
 .story-note small { display: block; color: #918779; font-size: 11px; margin: 4px 0; }
 .story-note p { font-size: 11px; color: #b5ada0; line-height: 1.65; margin: 3px 0; }
 .story-past summary { cursor: pointer; color: #918779; font-size: 11px; }
-.save-note { color: #b4a282; font-size: 12px; max-width: 32em; margin: 12px auto; line-height: 1.8; }
-.save-note:empty { display: none; }
