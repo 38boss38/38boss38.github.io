@@ -345,7 +345,7 @@
 
     // ---------- 协会 ----------
     { id: 'fx_assoc_invite', age: [20, 55], req: { job: 'fixer', rank: [1, 6], noflag: ['assoc', 'office_own'] }, w: 20, title: '协会',
-      text: (S) => { const keys = Object.keys(ASSOC); const a = S.rng.pick(keys), b = S.rng.pick(keys.filter((k) => k !== a)); S.vars.asA = a; S.vars.asB = b; return '有两个协会的人先后来找你。' + ASSOC[a].n + '——' + ASSOC[a].d + '；' + ASSOC[b].n + '——' + ASSOC[b].d + '。加入协会，意味着稳定的委托，也意味着要服从协会的规矩。'; },
+      text: (S) => { const keys = Object.keys(ASSOC); const pick = pool => S.rulesVersion >= 4 && CITY.STORIES ? S.rng.wpick(pool, k => 1 / Math.pow(1 + Object.values(CITY.STORIES).filter(A => A.route === 'as_' + k).reduce((n, A) => n + (S.memory.groups[A.id] || 0), 0), 1.4)) : S.rng.pick(pool); const a = pick(keys), b = pick(keys.filter((k) => k !== a)); S.vars.asA = a; S.vars.asB = b; return '有两个协会的人先后来找你。' + ASSOC[a].n + '——' + ASSOC[a].d + '；' + ASSOC[b].n + '——' + ASSOC[b].d + '。加入协会，意味着稳定的委托，也意味着要服从协会的规矩。'; },
       choices: [
         { t: (S) => '加入' + ASSOC[S.vars.asA].n, eff: (S) => joinAssoc(S, S.vars.asA), r: (S) => '你成为了' + S.job.org + '的一员。' },
         { t: (S) => '加入' + ASSOC[S.vars.asB].n, eff: (S) => joinAssoc(S, S.vars.asB), r: (S) => '你成为了' + S.job.org + '的一员。' },
@@ -502,7 +502,7 @@
   ]);
 
   function joinAssoc(S, k) {
-    const sec = S.rng.int(3, 7);
+    const sec = S.rng.int(3, S.rulesVersion >= 4 ? 6 : 7);
     const dir = S.rng.chance(0.4) ? S.rng.pick(['东部', '西部', '南部', '北部']) : '';
     S.job.org = ASSOC[k].n + ' ' + dir + sec + '科';
     S.flags.assoc = true; S.flags['as_' + k] = true;

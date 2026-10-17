@@ -40,6 +40,7 @@
         </details>
         <button type="submit" class="btn-born">出 生</button>
       </form>
+      <p class="save-note" id="save-note"></p>
 
       <div class="title-links">
         <button class="lnk" data-go="codex">见闻录</button>
@@ -47,6 +48,8 @@
         <button class="lnk" data-go="lives">往生录</button>
         <span class="dot">·</span>
         <button class="lnk" data-go="about">关于</button>
+        <span class="dot">·</span>
+        <button class="lnk" id="btn-title-settings" type="button">设置</button>
       </div>
       <p class="warn">含死亡、暴力、犯罪、精神崩溃等沉重内容，建议15岁以上游玩。</p>
       <p class="credit">Project Moon 同人作品 · 非官方 · 非营利 · 专有名词译法参照“都市零协会”边狱巴士汉化</p>
@@ -85,6 +88,14 @@
         <div class="money-row"><span>资金</span><b id="pc-money"></b></div>
         <div class="money-row"><span>名声</span><b id="pc-fame"></b></div>
         <div class="traits" id="pc-traits"></div>
+        <section class="inventory" id="pc-inventory" aria-label="随身物品">
+          <div class="inventory-heading"><span>随身物品</span><small id="inventory-count">0 件</small></div>
+          <div id="inventory-list"></div>
+        </section>
+        <section class="story-list" id="pc-stories" aria-label="人物与约定">
+          <div class="inventory-head"><span>人物与约定</span></div>
+          <div id="stories-list"></div>
+        </section>
         <div class="pc-rel" id="pc-rel"></div>
         <div class="pc-titles" id="pc-titles"></div>
       </aside>
@@ -144,6 +155,7 @@
         <button data-m="restart">同名重生</button>
         <button data-m="quit">回到标题（自动保存）</button>
         <button data-m="abandon">放弃这一生</button>
+        <button data-m="purge" class="stock-clear-entry">整理库存<small>西西弗百货 · 清除所有存档</small></button>
       </div>
     </div>
 
@@ -199,9 +211,23 @@
   </section>
 
 </div>
+<div class="modal stock-modal" id="stock-clear" role="dialog" aria-modal="true" aria-labelledby="stock-title" hidden>
+  <div class="menu-card stock-card">
+    <div class="stock-eyebrow">西西弗百货 · 库存处理</div>
+    <h2 id="stock-title">整理库存</h2>
+    <p class="stock-flavor">陈列过的人生、尚未售出的记忆，都已列入本次清点。</p>
+    <p>本操作将永久清除本游戏的<strong>当前人生、见闻录、往生录、跨周目记录和设置</strong>。</p>
+    <p class="stock-warning">整理后无法恢复。你的随身物品与特质记录也会一并清除。</p>
+    <button type="button" id="stock-cancel">返回陈列 · 保留存档</button>
+    <button type="button" class="stock-confirm" id="stock-confirm">确认整理 · 清除全部存档</button>
+  </div>
+</div>
 <div id="ach-toasts"></div>
 <script src="js/engine.js"></script>
 <script src="js/data/world.js"></script>
+<script src="js/data/progression.js"></script>
+<script src="js/data/story_items.js"></script>
+<script src="js/stories.js"></script>
 <script src="js/data/ev_birth.js"></script>
 <script src="js/data/ev_youth.js"></script>
 <script src="js/data/ev_backstreet.js"></script>
@@ -219,7 +245,24 @@
 <script src="js/data/ev_child2.js"></script>
 <script src="js/data/ev_outskirts.js"></script>
 <script src="js/data/ev_beyond.js"></script>
+<script src="js/data/ev_lifelines.js"></script>
+<script src="js/data/ev_progression.js"></script>
+<script src="js/data/ev_stories_pilot.js"></script>
+<script src="js/data/ev_stories_life.js"></script>
+<script src="js/data/ev_stories_fixer.js"></script>
+<script src="js/data/ev_stories_office.js"></script>
+<script src="js/data/ev_stories_wings.js"></script>
+<script src="js/data/ev_stories_wings2.js"></script>
+<script src="js/data/ev_stories_nests.js"></script>
+<script src="js/data/ev_stories_fingers.js"></script>
+<script src="js/data/ev_stories_gangs.js"></script>
+<script src="js/data/ev_stories_limbus.js"></script>
+<script src="js/data/ev_stories_outskirts.js"></script>
+<script src="js/data/ev_stories_beyond.js"></script>
+<script src="js/data/ev_stories_memory.js"></script>
+<script src="js/data/story_revisions.js"></script>
 <script src="js/data/achievements.js"></script>
+<script src="js/inventory.js"></script>
 <script src="js/sfx.js"></script>
 <script src="js/ui.js"></script>
 </body>

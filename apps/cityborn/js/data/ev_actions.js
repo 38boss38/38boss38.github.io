@@ -22,7 +22,7 @@
     office: { name: '开一家事务所', desc: '自己当代表', req: { job: 'fixer', rank: [1, 5], noflag: 'office_own', money: [W(100), null] }, ev: 'fx_open_office', cd: 3 },
     retire: { name: '退休', desc: '放下这一切', req: { age: [45, 130], nojob: ['none', 'student', 'retired', 'distorted', 'book', 'finger'] }, ev: 'act_retire', cd: 1 },
     // ---------- 稀有路线的主动入口 ----------
-    seekLib: { name: '打听图书馆的邀请函', desc: '据说进去的人能得到想要的书', req: { age: [16, 90], wy: [0, 0], noflag: ['library_invited', 'library_seek'], nojob: ['distorted', 'book'] }, pre: { flag: 'library_seek' }, ev: 'act_seeklib', cd: 1 },
+    seekLib: { name: '打听图书馆的邀请函', desc: '据说进去的人能得到想要的书', planReq: { age: [15, 89], wy: [-1, -1], noflag: ['library_invited', 'library_seek'], nojob: ['distorted', 'book'] }, req: { age: [16, 90], wy: [0, 0], noflag: ['library_invited', 'library_seek'], nojob: ['distorted', 'book'] }, pre: { flag: 'library_seek' }, ev: 'act_seeklib', cd: 1 },
     kk: { name: '去黑云会拜门', desc: '需要一手好刀法', req: { age: [16, 45], loc: 'backstreet', st: { skill: [40, null] }, nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'wing', 'distorted', 'book'], noflag: ['kk_member', 'finger_quit'] }, ev: 'sy_kk_gate', cd: 3 },
     blade: { name: '寻找剑契组', desc: '贫穷而骄傲的剑客们', req: { age: [16, 50], loc: 'backstreet', any: [{ flag: 'blade_contact' }, { trait: '剑术天分' }, { st: { skill: [50, null] } }], nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'wing', 'distorted', 'book'], noflag: 'blade_member' }, ev: 'sy_blade_gate', cd: 3 },
     finger: { name: '托人引荐给手指', desc: '一旦进去，就很难出来', req: { age: [18, 50], job: 'syndicate', st: { skill: [40, null] }, noflag: ['finger_member', 'finger_quit'] }, ev: (S) => { const g = ['sy_thumb_gate', 'sy_index_gate', 'sy_middle_gate', 'sy_ring_gate']; return g[Math.floor(S.rng.next() * g.length)]; }, cd: 4 },
@@ -32,7 +32,7 @@
   CITY.actionList = (S) => Object.keys(CITY.ACTIONS).filter((k) => {
     const A = CITY.ACTIONS[k];
     if (A.cd && S.last['act_' + k] != null && S.age - S.last['act_' + k] < A.cd) return false;
-    return CITY.test(S, A.req);
+    return CITY.test(S, S.rulesVersion >= 4 && A.planReq || A.req);
   });
 
   const newDistrict = (S) => { let d; do { d = S.rng.int(1, 25); } while (d === S.d); S.d = d; S.home = d + '区后巷'; };
@@ -131,19 +131,26 @@
         { t: '我再想想', r: '医生耸耸肩：“下次来的时候，可能就不是你自己走进来的了。”' },
       ] },
     { id: 'act_clinic', manual: true,
-      text: '你去诊所做了一次全面的治疗。医生在账单上写了很长一串数字。',
+      text: (S) => S.rulesVersion < 2 || S.used.act_clinic <= 1 ? '你去诊所做了一次全面的治疗。医生在账单上写了很长一串数字。'
+        : '你又去了一趟诊所。医生翻到你的旧记录，把这次的用药和费用添在后面。',
       eff: [{ money: -20000 }, (S) => { const g = Math.min(20, 55 - S.st.body); S.st.body += Math.max(5, g); if (S.money > 500000 && S.st.body < 50) { S.money -= 150000; S.st.body += 10; } }] },
     { id: 'act_dojo', manual: true, title: '拜师',
-      text: '你打听到几个愿意收徒的人：一个退休的收尾人，一个来历不明的剑客，还有一家正规的格斗道场。',
+      text: (S) => S.rulesVersion < 2 || S.used.act_dojo <= 1 ? '你打听到几个愿意收徒的人：一个退休的收尾人，一个来历不明的剑客，还有一家正规的格斗道场。'
+        : '你准备再练一段时间。旧伤还在，能教你的人也各有规矩，这次得选好把工钱交给谁。',
       choices: [
-        { t: '跟退休收尾人学（5万眼）', eff: { money: -50000, skill: 6, body: 2, flag: 'fixer_dream' }, r: '他教你的第一课是：“打不过就跑，跑不掉就装死。”第二课才是怎么出刀。' },
+        { t: '跟退休收尾人学（5万眼）', eff: { money: -50000, skill: 6, body: 2, flag: 'fixer_dream' },
+          r: (S) => S.rulesVersion < 2 || S.used.act_dojo <= 1 ? '他教你的第一课是：“打不过就跑，跑不掉就装死。”第二课才是怎么出刀。'
+            : S.st.skill >= 70 ? '他开始让你拆解旧委托的失误，偶尔停下来问，如果换成你，会在哪一步撤退。' : '这次练的是撤步和收刀。课结束后，你的手指很久才不再发抖。' },
         { t: '跟来历不明的剑客学', req: { any: [{ trait: '剑术天分' }, { flag: 'blade_contact' }, { flag: 'saw_blade' }] }, check: { s: 'mind', dc: 45 },
           ok: { r: '他只教你一招，你练了一整年。年底，他说你可以去找“剑契组”的人了。', eff: { skill: 10, flag: 'blade_contact', trait: '剑术天分' } },
           no: { r: '你受不了他的沉默和他的刀，半年后就走了。', eff: { skill: 3 } } },
         { t: '去正规道场（15万眼）', req: { money: [150000, null] }, eff: { money: -150000, skill: 5, body: 4, social: 2 }, r: '道场很干净，教练很专业，学员里有一半是巢里来的有钱人。' },
       ] },
     { id: 'act_school', manual: true,
-      text: '你报名了夜校。白天干活，晚上上课，回家的路上要算好时间，绝不能拖到三点。',
+      text: (S) => S.rulesVersion < 2 ? '你报名了夜校。白天干活，晚上上课，回家的路上要算好时间，绝不能拖到三点。'
+        : S.used.act_school > 1 ? '你续了下一期的课。老师把旧作业退回来，留出一栏，让你自己改掉上次的错处。'
+        : S.loc === 'outskirts' ? '你跟着识字的人补课，把白天捡来的旧说明书当教材。灯油和纸笔都得自己出钱。'
+        : '你报名了夜校。白天干活，晚上上课，回家的路上要算好时间，绝不能拖到三点。',
       eff: { money: -30000, wit: 6, body: -1, flag: ['literate', 'schooled'] } },
     { id: 'act_date', manual: true, title: '相识',
       text: (S) => S.loc === 'nest' ? '同事给你安排了一场相亲。对方准时到了，第一个问题是你的年收入，第二个问题是你有没有债。' : '常去的面馆里，有个人每天都和你在同一时间出现，坐在同一个位置。今天，只剩下你旁边那一个空座了。',

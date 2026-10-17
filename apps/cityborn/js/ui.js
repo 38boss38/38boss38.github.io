@@ -48,7 +48,7 @@
 
   // ---------- 游戏状态 ----------
   const Q = new URLSearchParams(location.search);
-  let S = null, speed = 1, auto = false, running = false, runId = 0;
+  let S = null, speed = 1, auto = false, running = false, runId = 0, yearBusy = false;
   let pendingChoice = null;
   let lastOpt = null;
   // 每一年的长度按这一年产生的文字量计算（×1 时约每字 45 毫秒），速度档位只是倍率
@@ -58,6 +58,7 @@
     let chars = 0;
     for (const l of S.log) if (l.age === age) chars += MODAL_KINDS[l.kind] ? l.text.length * 0.25 : l.text.length;
     if (DEMO_MS) return DEMO_MS * 4;
+    if (S.rulesVersion >= 2 && !chars) return 1500;
     return Math.max(4000, Math.min(16000, 3200 + chars * 45));
   }
   function updateBar() {
@@ -82,11 +83,13 @@
   });
 
   async function startGame(opt) {
+    yearBusy = true;
     lastOpt = opt;
     runId++;
     const myRun = runId;
-    S = CITY.newState(opt);
-    REC = { o: { name: opt.name || '', gender: opt.gender || null, era: opt.era || null, seed: S.seed }, p: [], y: [] };
+    S = CITY.newState(Object.assign({}, opt, { rulesVersion: 4 }));
+    REC = { format: 4, o: { name: opt.name || '', gender: opt.gender || null, era: opt.era || null, seed: S.seed,
+      rulesVersion: S.rulesVersion, memory: CITY.copyMemory(S.memory) }, p: [], y: [], x: [] };
     $('#log').innerHTML = '';
     $('#lifegrid').innerHTML = '';
     yearBlocks = {};
@@ -98,6 +101,7 @@
     if (opt.replay) {
       await replayLife(opt.replay, myRun);
       if (myRun !== runId) return;
+      yearBusy = false;
       renderAll();
       if (!S.alive) { clearCur(); onDeath(); return; }
       setSpeed(0); toast('已恢复到 ' + S.age + ' 岁。按空格继续。');
@@ -107,9 +111,14 @@
     if (!Q.get('demo')) {
       const go2 = await showBirthCard();
       if (myRun !== runId) return;
-      if (go2 === 'reroll') { startGame({ name: opt.name, gender: opt.gender, era: opt.era }); return; }
+      if (go2 === 'reroll') {
+        const memory = CITY.copyMemory(S.memory);
+        memory.births.push(CITY.birthRecord(S));
+        startGame({ name: opt.name, gender: opt.gender, era: opt.era, memory }); return;
+      }
     }
     await CITY.startLife(S);
+    yearBusy = false;
     renderAll();
     yearDur = calcYearDur(0) + 1500;
     loop(myRun);
@@ -119,7 +128,8 @@
   const MATE_HOOKS = { choose: (m, e, t, v) => Promise.resolve(Math.floor(m.rng.next() * v.length)) };
   async function asMate(fn) { const saved = CITY.hooks; CITY.hooks = MATE_HOOKS; try { await fn(); } finally { CITY.hooks = saved; } }
   async function makeMates() {
-    MATES = [0, 1, 2].map((i) => CITY.newState({ seed: S.seed + '#' + i, wy: S.birthWY }));
+    MATES = [0, 1, 2].map((i) => CITY.newState({ seed: S.seed + '#' + i, wy: S.birthWY,
+      rulesVersion: S.rulesVersion, memory: {} }));
     await asMate(async () => { for (const m of MATES) await CITY.startLife(m); });
   }
   async function tickMates() {
@@ -140,26 +150,39 @@
 
   // ---------- 存档：记录种子与所有输入，读档时重放 ----------
   let REC = null, REPLAY = null;
-  const CUR = 'citylife.cur2';
+  const CUR = 'citylife.cur4';
   function saveCur() { try { if (REC && S && S.alive) localStorage.setItem(CUR, JSON.stringify(Object.assign({ age: S.age, name: S.name, job: CITY.jobTitle(S) }, REC))); } catch (_) {} }
   function clearCur() { try { localStorage.removeItem(CUR); } catch (_) {} }
-  function loadCur() { try { return JSON.parse(localStorage.getItem(CUR)); } catch (_) { return null; } }
+  function loadCur() { try { const c = JSON.parse(localStorage.getItem(CUR)); return c && c.format === 4 ? c : null; } catch (_) { return null; } }
   async function replayLife(rec, myRun) {
     REPLAY = { p: rec.p, i: 0 };
     const quiet = CITY.hooks.ach; CITY.hooks.ach = null;
+    let itemCursor = 0;
+    const replayItems = (at) => {
+      while (itemCursor < (rec.x || []).length && rec.x[itemCursor].at === at) {
+        const action = rec.x[itemCursor++];
+        if (!CITY.inventoryAction(S, action)) throw new Error('物品操作记录无法恢复');
+        REC.x.push({ ...action });
+      }
+    };
     try {
       await CITY.startLife(S);
+      replayItems(0);
       for (const [f, a] of rec.y) {
         if (myRun !== runId || !S.alive) break;
         S.focus = f; S.act = a || null;
         REC.y.push([f, a]);
         await CITY.yearTick(S);
         await tickMates();
+        replayItems(REC.y.length);
       }
     } finally { REPLAY = null; CITY.hooks.ach = quiet; }
   }
   function renderContinue() {
     const c = loadCur();
+    let older = false;
+    try { older = !c && !!(localStorage.getItem('citylife.cur3') || localStorage.getItem('citylife.cur2')); } catch (_) {}
+    $('#save-note').textContent = older ? '剧情已更新，这次需要重新出生。见闻与往生记录仍在；如需全部清空，可到设置中整理库存。' : '';
     let el = $('#btn-continue');
     if (!c) { if (el) el.remove(); return; }
     if (!el) { el = document.createElement('button'); el.id = 'btn-continue'; el.type = 'button'; el.className = 'btn-continue'; $('#birth-form').appendChild(el); el.addEventListener('click', () => { const c2 = loadCur(); if (c2) startGame(Object.assign({}, c2.o, { replay: c2 })); }); }
@@ -175,6 +198,7 @@
         ['时代', ERA_NAME[CITY.eraOf(S.wy)] + (CITY.eraOf(S.wy) === 'lob' ? ' · 距白夜黑昼还有 ' + (-1 - S.wy) + ' 年' : '')],
         ['家境', CITY.wealthName(S.fam.wealth) + ' · ' + CITY.parentsName[S.fam.parents] + (S.fam.sib ? ' · 有一个' + (S.vars.sib || '兄弟姐妹') : '')],
       ];
+      if (S.life) rows.push(['家中旧事', S.life.intro]);
       $('#bc-rows').innerHTML = rows.map((r) => '<dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd>').join('');
       $('#bc-traits').innerHTML = S.traits.map((t) => '<div class="bc-t"><b>' + esc(t) + '</b><small>' + esc((CITY.TRAITS[t] || {}).desc || '') + '</small></div>').join('');
       const m = $('#birthcard');
@@ -205,9 +229,12 @@
       const ok = await waitTick(myRun);
       if (!ok) return;
       if (REC) REC.y.push([S.focus, S.act || '']);
-      await CITY.yearTick(S);
-      if (myRun !== runId) return;
-      await tickMates();
+      yearBusy = true;
+      try {
+        await CITY.yearTick(S);
+        if (myRun !== runId) return;
+        await tickMates();
+      } finally { if (myRun === runId) yearBusy = false; }
       renderAll();
       saveCur();
       yearDur = calcYearDur(S.age);
@@ -273,6 +300,7 @@
           b.className = 'has-check';
           odds = '<span class="odds o' + lv + '">' + o.odds + ' ' + Math.round(o.p * 100) + '%</span>';
           row = '<span class="coinrow"><b>' + esc(o.stat) + '判定</b><span>基础威力 <em>' + c.base + '</em></span>' + coinDots(c.n) + '<span>硬币威力 <em>+' + c.cp + '</em></span><span>判定阈值 <em>' + c.target + '</em></span></span>';
+          if (c.bonuses && c.bonuses.length) row += '<span class="hint check-bonuses">' + esc(c.bonuses.map((x) => x.name + (x.bonus ? ' 判定属性' + (x.bonus > 0 ? '+' : '') + x.bonus : '') + (x.heads ? ' 正面率' + (x.heads > 0 ? '+' : '') + Math.round(x.heads * 100) + '%' : '')).join('、')) + '</span>';
         }
         b.innerHTML = '<span class="n">' + (i + 1) + '</span><span class="ot">' + esc(o.t) + (o.hint ? '<span class="hint">' + esc(o.hint) + '</span>' : '') + '</span>' + odds + row;
         b.addEventListener('click', () => done(i));
@@ -394,7 +422,7 @@
     $('#tb-era').textContent = ERA_NAME[CITY.eraOf(S.wy)] + ' · ' + S.home;
     $('#tb-age').textContent = S.age;
     $('#pc-job').textContent = CITY.jobTitle(S);
-    $('#pc-home').textContent = '生于' + S.home + ' · ' + CITY.wealthName(S.fam.wealth) + ' · ' + CITY.parentsName[S.fam.parents];
+    $('#pc-home').textContent = '生于' + S.birthHome + (S.home !== S.birthHome ? ' · 现居' + S.home : '') + ' · ' + CITY.wealthName(S.fam.wealth) + ' · ' + CITY.parentsName[S.fam.parents];
     renderStats();
     const m = $('#pc-money');
     tweenMoney(m, S.money);
@@ -402,7 +430,12 @@
     const ageEl = $('#tb-age');
     if (ageEl._v !== S.age) { if (ageEl._v != null) { ageEl.classList.remove('tick'); void ageEl.offsetWidth; ageEl.classList.add('tick'); if (!REPLAY && S.age > ageEl._v) sfx('year'); } ageEl._v = S.age; }
     $('#pc-fame').textContent = fameName(S.fame);
-    $('#pc-traits').innerHTML = S.traits.map((t) => '<span class="chip t" title="' + esc((CITY.TRAITS[t] || {}).desc || '') + '">' + esc(t) + '</span>').join('');
+    const openTraits = $$('#pc-traits details[open]').map((el) => el.dataset.trait);
+    $('#pc-traits').innerHTML = CITY.traitsMarkup(S, openTraits);
+    renderInventory();
+    const historyOpen = $('#stories-list details[open]');
+    $('#stories-list').innerHTML = CITY.storiesMarkup(S);
+    if (historyOpen && $('#stories-list details')) $('#stories-list details').open = true;
     const rel = [];
     if (S.spouse) rel.push((S.spouse.alive ? '伴侣：' : S.spouse.left ? '前任：' : '亡故的伴侣：') + S.spouse.name);
     const kids = S.kids.filter((k) => k.alive);
@@ -424,8 +457,10 @@
       st.innerHTML = keys.map((k) => '<div class="stat" data-k="' + k + '"><span class="k">' + CITY.STAT_NAMES[k] + '</span><span class="bar"><i></i></span><span class="v"></span></div>').join('');
     }
     keys.forEach((k, i) => {
-      const v = Math.round(S.st[k]);
+      const v = Math.round(CITY.stat(S, k));
       const row = st.children[i];
+      const bonus = CITY.statBonus(S, k);
+      row.title = '基础 ' + Math.round(S.st[k]) + (bonus ? ' · 特质与装备 ' + (bonus > 0 ? '+' : '') + bonus : '');
       row.classList.toggle('low', v < 20);
       $('i', row).style.width = v + '%';
       $('.v', row).textContent = v;
@@ -442,8 +477,23 @@
         }
       }
     });
-    shownStats = {}; keys.forEach((k) => (shownStats[k] = Math.round(S.st[k])));
+    shownStats = {}; keys.forEach((k) => (shownStats[k] = Math.round(CITY.stat(S, k))));
   }
+  function renderInventory() {
+    const box = $('#inventory-list');
+    const opened = $$('details[open]', box).map((el) => el.dataset.possession);
+    $('#inventory-count').textContent = Object.values(S.items).reduce((n, x) => n + x.count, 0) + ' 件';
+    box.innerHTML = CITY.inventoryMarkup(S, opened);
+  }
+  $('#inventory-list').addEventListener('click', (ev) => {
+    const button = ev.target.closest('button[data-item-action]'); if (!button || !S) return;
+    if (yearBusy || pendingChoice || resultPending || !$('#birthcard').hidden) { toast('先处理完眼前的事件，再整理随身物品。'); return; }
+    const action = { id: button.dataset.item, type: button.dataset.itemAction };
+    if (!CITY.inventoryAction(S, action)) return;
+    if (REC) REC.x.push({ at: REC.y.length, ...action });
+    renderAll(); saveCur();
+    toast((action.type === 'use' ? '已使用：' : action.type === 'equip' ? '已装备：' : '已收起：') + CITY.ITEMS[action.id].name);
+  });
   function tweenMoney(el, to) {
     const from = el._v == null || REPLAY ? to : el._v;
     el._v = to;
@@ -528,8 +578,8 @@
     if (S.flags.debt) c.push('<span class="warnc">负债中</span>');
     if (S.dist >= 70) c.push('<span class="violet">你的内心正在发出奇怪的声音</span>');
     else if (S.dist >= 40) c.push('<span class="violet">最近，你常常做同一个梦</span>');
-    if (S.st.body < 20) c.push('<span class="warnc">身体很差</span>');
-    if (S.st.mind < 20) c.push('<span class="warnc">精神濒临崩溃</span>');
+    if (CITY.stat(S, 'body') < 20) c.push('<span class="warnc">身体很差</span>');
+    if (CITY.stat(S, 'mind') < 20) c.push('<span class="warnc">精神濒临崩溃</span>');
     $('#cond').innerHTML = c.join('<br>');
   }
 
@@ -545,17 +595,42 @@
     if (auto && pendingChoice) pendingChoice.done(Math.floor(Math.random() * pendingChoice.n));
     if (auto && typeof resultPending === 'function') resultPending();
   });
-  $('#btn-menu').addEventListener('click', () => ($('#menu').hidden = false));
+  document.body.appendChild($('#menu'));
+  function openSettings() {
+    const activeLife = !!S && $('#scr-game').classList.contains('active');
+    for (const name of ['restart', 'quit', 'abandon']) $('#menu [data-m="' + name + '"]').hidden = !activeLife;
+    $('#menu [data-m="resume"]').textContent = activeLife ? '继续' : '返回';
+    $('#menu').hidden = false;
+  }
+  $('#btn-menu').addEventListener('click', openSettings);
+  $('#btn-title-settings').addEventListener('click', openSettings);
   $('#menu').addEventListener('click', (ev) => {
     const b = ev.target.closest('button'); if (!b) { if (ev.target.id === 'menu') $('#menu').hidden = true; return; }
     const m = b.dataset.m;
+    if (m === 'purge') { $('#stock-clear').hidden = false; $('#stock-cancel').focus(); return; }
     $('#menu').hidden = true;
     if (m === 'step') { stepMode = !stepMode; $('#m-step').textContent = '逐年模式：' + (stepMode ? '开' : '关'); toast(stepMode ? '每年结束时自动暂停' : '时间会自动流逝'); try { localStorage.setItem('citylife.step', stepMode ? '1' : ''); } catch (_) {} }
     if (m === 'restart') clearCur(), startGame({ name: S.name, gender: S.gender, era: lastOpt && lastOpt.era });
     if (m === 'quit') { runId++; pendingChoice = null; $('#choice').hidden = true; go('title'); }
     if (m === 'abandon') { runId++; pendingChoice = null; clearCur(); $('#choice').hidden = true; go('title'); }
   });
+  $('#stock-cancel').addEventListener('click', () => { $('#stock-clear').hidden = true; $('#menu [data-m="purge"]').focus(); });
+  $('#stock-confirm').addEventListener('click', () => {
+    if (!CITY.store.clearAll()) { toast('无法完成整理：浏览器没有允许清除存档。'); return; }
+    runId++; REC = null; pendingChoice = null; resultPending = null;
+    location.reload();
+  });
   document.addEventListener('keydown', (ev) => {
+    if (!$('#stock-clear').hidden) {
+      if (ev.key === 'Escape') { ev.preventDefault(); $('#stock-clear').hidden = true; $('#menu [data-m="purge"]').focus(); }
+      if (ev.key === 'Tab') {
+        ev.preventDefault();
+        const first = $('#stock-cancel'), last = $('#stock-confirm');
+        (document.activeElement === first ? last : first).focus();
+      }
+      return;
+    }
+    if (!$('#menu').hidden) { if (ev.key === 'Escape') $('#menu').hidden = true; return; }
     if (!$('#scr-game').classList.contains('active')) return;
     if (ev.target.tagName === 'INPUT') return;
     if (typeof resultPending === 'function' && (ev.key === ' ' || ev.key === 'Enter')) { ev.preventDefault(); resultPending(); return; }

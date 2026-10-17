@@ -44,17 +44,26 @@
   CITY.birth = function (S, opt) {
     const r = S.rng;
     S.wy = opt.wy != null ? opt.wy : opt.era === 'lob' ? r.int(-55, -25) : opt.era === 'dist' ? r.int(1, 8) : r.int(-50, 5);
+    if (S.rulesVersion >= 2 && opt.wy == null && !opt.era) {
+      const band = CITY.varietyPick(S, ['early', 'eve', 'after'], (x) => ({ early: 40, eve: 35, after: 25 }[x]), 'eraBand');
+      S.wy = band === 'early' ? r.int(-55, -31) : band === 'eve' ? r.int(-30, -3) : r.int(1, 8);
+    }
     if (!S.name) S.name = CITY.randName(r, S.gender);
     const roll = r.next();
+    const birthplace = S.rulesVersion >= 2
+      ? CITY.varietyPick(S, ['backstreet', 'nest', 'outskirts'], (x) => ({ backstreet: 62, nest: 28, outskirts: 10 }[x]), 'loc')
+      : roll < 0.2 ? 'nest' : roll < 0.97 ? 'backstreet' : 'outskirts';
     const era = CITY.eraOf(S.wy);
-    if (roll < 0.2) {
+    if (birthplace === 'nest') {
       S.loc = 'nest';
       const ws = Object.keys(CITY.WINGS).filter((k) => !CITY.WINGS[k].era || CITY.WINGS[k].era.includes(era));
-      S.wing = r.wpick(ws, (k) => CITY.WINGS[k].w);
+      S.wing = S.rulesVersion >= 2
+        ? CITY.varietyPick(S, ws, (k) => CITY.WINGS[k].w, 'home', (k) => k + '巢')
+        : r.wpick(ws, (k) => CITY.WINGS[k].w);
       S.home = S.wing + '巢';
       S.d = r.int(1, 25);
       S.fam.wealth = r.chance(0.25) ? 3 : 2;
-    } else if (roll < 0.97) {
+    } else if (birthplace === 'backstreet') {
       S.loc = 'backstreet';
       S.d = r.int(1, 25);
       S.home = S.d + '区后巷';
@@ -75,11 +84,15 @@
     ['body', 'mind', 'wit', 'skill', 'social'].forEach((k, i) => (S.st[k] = clamp(base[i] + r.int(-8, 8), 5, 70)));
     S.money = [500, 3000, 30000, 300000][S.fam.wealth];
     // 特质
-    const pool = Object.keys(CITY.TRAITS).filter((k) => { const T = CITY.TRAITS[k]; return !T.req || CITY.test(S, T.req); });
+    const pool = Object.keys(CITY.TRAITS).filter((k) => { const T = CITY.TRAITS[k]; return T.birth !== false && (!T.req || CITY.test(S, T.req)); });
     const n = r.chance(0.3) ? 3 : 2;
     for (let i = 0; i < n; i++) {
-      const left = pool.filter((k) => !S.traits.includes(k) && !(CITY.TRAITS[k].ex || []).some((x) => S.traits.includes(x)));
-      const t = r.wpick(left, (k) => CITY.TRAITS[k].w || 10);
+      const left = pool.filter((k) => !S.traits.includes(k) && !(CITY.TRAITS[k].ex || []).some((x) => S.traits.includes(x))
+        && (S.rulesVersion < 3 || !S.traits.some((x) => (CITY.TRAITS[x].ex || []).includes(k))));
+      const t = r.wpick(left, (k) => {
+        const previous = S.rulesVersion >= 2 ? S.memory.births.slice(-3).filter((b) => (b.traits || []).includes(k)).length : 0;
+        return (CITY.TRAITS[k].w || 10) / (1 + previous * 1.5);
+      });
       if (!t) break;
       S.traits.push(t);
       CITY.TRAITS[t].on && CITY.TRAITS[t].on(S);
@@ -208,9 +221,10 @@
     if (S.st.mind < mBase) S.st.mind += (mBase - S.st.mind) * 0.15;
     if (S.age < 50 && S.st.body < 45) S.st.body += (45 - S.st.body) * 0.1;
     // 理智低下累积扭曲
-    if (S.st.mind < 15) S.dist += 2;
-    else if (S.st.mind > 60) S.dist = Math.max(0, S.dist - 1.2);
-    else if (S.st.mind > 45) S.dist = Math.max(0, S.dist - 0.5);
+    const effectiveMind = CITY.stat ? CITY.stat(S, 'mind') : S.st.mind;
+    if (effectiveMind < 15) S.dist += 2;
+    else if (effectiveMind > 60) S.dist = Math.max(0, S.dist - 1.2);
+    else if (effectiveMind > 45) S.dist = Math.max(0, S.dist - 0.5);
     // 债务
     if (S.money < 0) { S.c.debtYears = (S.c.debtYears || 0) + 1; S.st.mind = clamp(S.st.mind - 2, 0, 100); S.flags.debt = true; }
     else { S.c.debtYears = 0; delete S.flags.debt; }
@@ -226,7 +240,8 @@
     if (S.loc === 'outskirts') p += 0.015;
     const J = CITY.JOBS[S.job.id];
     if (J && J.danger) p += typeof J.danger === 'function' ? J.danger(S) : J.danger;
-    if (S.st.body < 15) p *= 2.2; else if (S.st.body < 30) p *= 1.4; else if (S.st.body > 70) p *= 0.7;
+    const body = CITY.stat ? CITY.stat(S, 'body') : S.st.body;
+    if (body < 15) p *= 2.2; else if (body < 30) p *= 1.4; else if (body > 70) p *= 0.7;
     if (S.flags.debt && (S.c.debtYears || 0) > 2) p += 0.01;
     if (S.flags.immortal) p = 0;
     if (S.flags.bloodfiend) p = Math.min(p, 0.004);
@@ -246,7 +261,7 @@
         if (S.loc === 'outskirts') add(6, '在营地外面玩耍时，被某种东西拖走了。');
         if (S.loc === 'nest') add(4, '一场突发的病，连巢里的医院也没能救回来。');
       }
-      return r.wpick(C, (x) => x.w).t;
+      return r.wpick(C, (x) => x.w / (S.rulesVersion >= 2 ? Math.sqrt(1 + (S.memory.deaths[x.t] || 0)) : 1)).t;
     }
     if (a >= 60) { add(20, '在睡梦中安静地停止了呼吸。'); add(10, '病倒之后，没能再站起来。'); add(6, '某天清晨坐在窗边，再也没有动过。'); }
     if (S.loc === 'backstreet') { add(5, '凌晨三点之后还没有回家。第二天，巷子里只剩下一滩血迹。清道夫来过了。'); add(4, '在后巷被一伙不认识的人捅了一刀。对方只是想要钱包。'); add(2, '被卷入两个帮派的火并之中。流弹不认人。'); }
@@ -270,17 +285,28 @@
     if (S.job.id === 'mech') add(3, '一件正在调试的工坊武器突然启动了。');
     if (S.job.id === 'doctor') add(3, '一个病人醒来后，没有付钱，而是拿起了手术刀。');
     if (S.job.id === 'labor') add(3, '货场的吊绳断了。');
-    return r.wpick(C, (x) => x.w).t;
+    return r.wpick(C, (x) => x.w / (S.rulesVersion >= 2 ? Math.sqrt(1 + (S.memory.deaths[x.t] || 0)) : 1)).t;
   };
 
   // ---------- 墓志 ----------
   CITY.makeEpitaph = function (S) {
-    if (S.age < 16) return '生于' + S.home + '，只活了' + S.age + '年。都市没有记住这个名字，但总有人记得。';
+    const birthplace = S.rulesVersion >= 2 ? S.birthHome : S.home;
+    const personal = S.rulesVersion >= 2 && CITY.lifeSummary ? CITY.lifeSummary(S) : '';
+    if (S.age < 16) return '生于' + birthplace + '，只活了' + S.age + '年。都市没有记住这个名字，但总有人记得。' + personal;
     const parts = [];
-    parts.push('生于' + S.home + '，');
+    parts.push('生于' + birthplace + '，');
     if (S.titles.length) parts.push('人称「' + S.titles[S.titles.length - 1] + '」，');
     parts.push('作为' + CITY.jobTitle(S, true) + '，');
     parts.push('活了' + S.age + '年。');
+    if (S.rulesVersion >= 4 && CITY.storySummary) parts.push(CITY.storySummary(S));
+    if (S.rulesVersion >= 2) {
+      if (personal) parts.push(personal);
+      else if (S.spouse && S.spouse.alive) parts.push('你们共用那把门钥匙，已经' + (S.age - S.spouse.since) + '年。');
+      else if (S.c.req >= 10) parts.push('委托记录上留下了' + S.c.req + '次结算。');
+      else if (S.flags.widowed && S.spouse && !S.spouse.left) parts.push('你比' + S.spouse.name + '多活了几年。');
+      else if (S.flags['曾任_wing']) parts.push('公司曾给过你一个编号，后来又收了回去。');
+      else if (S.birthHome !== S.home) parts.push('最后的住址已经离出生的地方很远。');
+    }
     return parts.join('');
   };
 

@@ -142,6 +142,38 @@ input { font-family: inherit; }
 .traits { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
 .chip { font-size: 12px; padding: 3px 8px; border: 1px solid var(--line2); color: var(--ink2); cursor: help; }
 .chip.t { border-color: #4a3d2a; color: #cdb07a; }
+.trait-entry { max-width: 100%; }
+.trait-entry summary { list-style: none; display: block; cursor: pointer; }
+.trait-entry summary::-webkit-details-marker, .inventory-item summary::-webkit-details-marker { display: none; }
+.trait-entry[open] { flex: 1 0 100%; }
+.trait-entry .bad { border-color: #57373b; color: #c78688; }
+.trait-entry .mixed { border-color: #4b405e; color: #b4a3ca; }
+.trait-earned { font-style: normal; margin-left: 4px; color: var(--teal); }
+.trait-description { white-space: normal; padding: 8px; border: 1px solid var(--line); color: var(--ink2); font-size: 12px; line-height: 1.8; }
+.inventory { margin: 20px 0; border-top: 1px solid var(--line2); padding-top: 12px; }
+.inventory-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; color: var(--ink2); font-size: 12px; letter-spacing: .15em; }
+.inventory-heading small { letter-spacing: 0; font: 11px var(--sans); color: var(--ink3); }
+.inventory-empty { padding: 12px 8px; margin: 0; border: 1px dashed var(--line2); color: var(--ink3); font-size: 12px; line-height: 1.8; }
+.inventory-item { border: 1px solid var(--line2); background: rgba(255,255,255,.015); margin-bottom: 7px; border-left: 2px solid #514534; }
+.inventory-item summary { display: flex; align-items: center; gap: 8px; padding: 9px 8px; cursor: pointer; list-style: none; }
+.item-mark { flex: 0 0 27px; height: 29px; display: grid; place-items: center; border: 1px solid #514534; color: #b7a078; font-size: 13px; }
+.item-heading { flex: 1; min-width: 0; }
+.item-heading b { display: block; font-size: 12px; font-weight: 600; overflow-wrap: anywhere; color: var(--ink2); }
+.item-heading small { display: block; font-size: 10px; margin-top: 3px; color: var(--ink3); }
+.item-count { color: var(--ink3); font: 11px var(--sans); }
+.rarity-rare { border-left-color: #719a96; }
+.rarity-rare .item-mark { color: #94bab4; border-color: #3f5956; }
+.rarity-epic { border-left-color: #ac87bb; }
+.rarity-epic .item-mark { color: #c1a3cd; border-color: #594564; }
+.item-description { border-top: 1px solid var(--line); padding: 0 9px 10px; font-size: 12px; line-height: 1.75; color: var(--ink2); }
+.item-description p { margin: 9px 0 0; }
+.item-description .item-effect { color: var(--gold); }
+.item-description .item-origin { font-size: 11px; color: var(--ink3); }
+.item-actions { display: flex; gap: 6px; margin-top: 10px; }
+.item-actions button { border: 1px solid var(--line2); background: transparent; padding: 5px 12px; font-size: 12px; color: var(--gold); }
+.item-actions button:disabled { color: var(--ink3); cursor: default; }
+.check-bonuses { grid-column: 2 / -1; line-height: 1.6; }
+.trait-entry summary:focus-visible, .inventory-item summary:focus-visible, .item-actions button:focus-visible { outline: 1px solid var(--gold); outline-offset: 3px; }
 .pc-rel, .pc-titles { font-size: 13px; color: var(--ink2); line-height: 1.8; }
 .pc-titles b { color: var(--gold); font-weight: 600; }
 
@@ -217,6 +249,17 @@ input { font-family: inherit; }
 .menu-card { width: min(360px, 100%); display: grid; gap: 8px; padding: 22px; }
 .menu-card button { background: none; border: 1px solid var(--line2); padding: 12px; font-size: 15px; }
 .menu-card button:hover { border-color: var(--gold); color: var(--gold); }
+.menu-card button[hidden] { display: none; }
+.menu-card .stock-clear-entry { margin-top: 10px; border-color: #664047; color: #c89a9b; }
+.stock-clear-entry small { display: block; margin-top: 5px; font-size: 11px; color: var(--ink3); }
+.stock-modal { z-index: 40; }
+.stock-card { width: min(440px, 100%); border-top: 3px solid var(--red); }
+.stock-eyebrow { color: var(--gold); font-size: 11px; letter-spacing: .2em; }
+.stock-card h2 { font-size: 24px; margin: 6px 0 2px; }
+.stock-card p { margin: 5px 0 10px; color: var(--ink2); font-size: 13px; line-height: 1.9; }
+.stock-card .stock-flavor { color: var(--ink3); }
+.stock-card .stock-warning { color: #cf9698; }
+.stock-card .stock-confirm { border-color: #8c4a50; background: rgba(140,74,80,.12); color: #e0b2b4; }
 
 /* 出生登记 */
 .birth-card { position: relative; width: min(520px, 100%); background: linear-gradient(180deg, #19171b, #0f0e11); border: 1px solid var(--line2); padding: 30px 30px 22px; box-shadow: 0 30px 80px rgba(0,0,0,.7); animation: cardin .5s cubic-bezier(.2,.8,.2,1); }
@@ -344,3 +387,11 @@ html { scrollbar-width: thin; scrollbar-color: #3a3236 transparent; }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-thumb { background: #2f292c; }
 ::-webkit-scrollbar-track { background: transparent; }
+.story-list { margin-top: 18px; border-top: 1px solid #3a3236; padding-top: 12px; }
+.story-note { border-left: 2px solid #78623c; padding: 5px 0 5px 9px; margin: 9px 0; overflow-wrap: anywhere; }
+.story-note b { display: block; font-size: 12px; color: #c9b58c; font-weight: 600; }
+.story-note small { display: block; color: #918779; font-size: 11px; margin: 4px 0; }
+.story-note p { font-size: 11px; color: #b5ada0; line-height: 1.65; margin: 3px 0; }
+.story-past summary { cursor: pointer; color: #918779; font-size: 11px; }
+.save-note { color: #b4a282; font-size: 12px; max-width: 32em; margin: 12px auto; line-height: 1.8; }
+.save-note:empty { display: none; }
