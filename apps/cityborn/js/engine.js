@@ -295,7 +295,8 @@
     const P = (T) => { let p = 0; for (let k = 0; k <= n; k++) if (base + k * cp >= T) p += binom(n, k) * Math.pow(h, k) * Math.pow(1 - h, n - k); return p; };
     if (ck.max != null) while (P(target) > ck.max && target <= base + n * cp) target++;
     if (ck.min != null) while (P(target) < ck.min && target > 0) target--;
-    return { n, cp, base, h, target, p: P(target), bonuses, stat: arr(ck.s).map((s) => CITY.STAT_NAMES[s]).join('/') };
+    const need = Math.max(0, Math.ceil((target - base) / cp)); // 成功所需的最少正面数
+    return { n, cp, base, h, target, need, p: P(target), bonuses, stat: arr(ck.s).map((s) => CITY.STAT_NAMES[s]).join('/') };
   };
   function binom(n, k) { let r = 1; for (let i = 1; i <= k; i++) r = (r * (n - k + i)) / i; return r; }
   CITY.checkP = (S, ck, key) => CITY.coinSpec(S, ck, key).p;

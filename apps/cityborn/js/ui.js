@@ -296,7 +296,7 @@
           const c = o.coin, lv = oddsLv(o.p);
           b.className = 'has-check';
           odds = '<span class="odds o' + lv + '">' + o.odds + ' ' + Math.round(o.p * 100) + '%</span>';
-          row = '<span class="coinrow"><b>' + esc(o.stat) + '判定</b><span>基础威力 <em>' + c.base + '</em></span>' + coinDots(c.n) + '<span>硬币威力 <em>+' + c.cp + '</em></span><span>判定阈值 <em>' + c.target + '</em></span></span>';
+          row = '<span class="coinrow"><b>' + esc(o.stat) + '判定</b><span>基础威力 <em>' + c.base + '</em></span>' + coinDots(c.n) + '<span>硬币威力 <em>+' + c.cp + '</em></span><span>判定阈值 <em>' + c.target + '</em></span><span>' + needText(c) + '</span></span>';
           if (c.bonuses && c.bonuses.length) row += '<span class="hint check-bonuses">' + esc(c.bonuses.map((x) => x.name + (x.bonus ? ' 判定属性' + (x.bonus > 0 ? '+' : '') + x.bonus : '') + (x.heads ? ' 正面率' + (x.heads > 0 ? '+' : '') + Math.round(x.heads * 100) + '%' : '')).join('、')) + '</span>';
         }
         b.innerHTML = '<span class="n">' + (i + 1) + '</span><span class="ot">' + esc(o.t) + (o.hint ? '<span class="hint">' + esc(o.hint) + '</span>' : '') + '</span>' + odds + row;
@@ -321,6 +321,8 @@
     });
   };
 
+  const needText = (c) => c.need <= 0 ? '无需正面' : c.need > c.n ? '全部正面也不够' : '需 <em>' + c.need + '</em>/' + c.n + ' 枚正面';
+
   // 投币演出：结果在引擎里已经确定，这里只负责一枚一枚地揭晓
   CITY.hooks.coins = async function (S, J) {
     if (REPLAY) return;
@@ -329,7 +331,7 @@
     inner.classList.add('judging');
     const max = J.base + J.n * J.cp;
     const jg = $('#cc-judge');
-    jg.innerHTML = '<div class="jg-head">' + esc(J.stat) + '判定 <small>理智越高，硬币越容易正面（正面率 ' + Math.round(J.h * 100) + '%）</small></div>' +
+    jg.innerHTML = '<div class="jg-head">' + esc(J.stat) + '判定 <small>成功率 ' + Math.round(J.p * 100) + '% · ' + needText(J) + ' · 每枚正面率 ' + Math.round(J.h * 100) + '%（理智越高越容易正面）</small></div>' +
       '<div class="jg-power"><span class="jg-lab">最终威力</span><span class="jg-num" id="jg-num">' + J.base + '</span><span class="jg-sep">/</span><span class="jg-th">' + J.target + '</span><span class="jg-lab">判定阈值</span></div>' +
       '<div class="jg-meter"><i id="jg-fill" style="width:' + (J.base / max * 100) + '%"></i><b style="left:' + Math.min(100, J.target / max * 100) + '%"></b></div>' +
       '<div class="jg-coins">' + J.flips.map(() => '<span class="coin spin"><span class="cf h">正</span><span class="cf t">反</span><em>+' + J.cp + '</em></span>').join('') + '</div>' +

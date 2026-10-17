@@ -76,6 +76,7 @@
 .cc-judge { margin: 4px 0 6px; padding: 18px 16px 14px; border: 1px solid var(--line2); background: radial-gradient(500px 120px at 50% 0, rgba(214,168,78,.08), transparent), #0e0d10; position: relative; animation: lineIn .4s var(--ease); }
 .jg-head { font-size: 13px; color: var(--gold); letter-spacing: .15em; text-align: center; }
 .jg-head small { display: block; letter-spacing: 0; color: var(--ink3); font-size: 11.5px; margin-top: 3px; font-family: var(--sans); }
+.jg-head small em { font-style: normal; color: var(--ink); font-weight: 700; }
 .jg-power { display: flex; align-items: baseline; justify-content: center; gap: 10px; margin: 12px 0 8px; font-variant-numeric: tabular-nums; }
 .jg-lab { font-size: 11px; color: var(--ink3); font-family: var(--sans); }
 .jg-num { font-size: 44px; font-weight: 900; color: var(--ink); line-height: 1; min-width: 1.4em; text-align: right; display: inline-block; }
