@@ -62,7 +62,10 @@
         <div class="tb-name" id="tb-name"></div>
         <div class="tb-era" id="tb-era"></div>
       </div>
-      <div class="tb-age"><span id="tb-age">0</span><small>岁</small></div>
+      <div class="tb-mid">
+        <div class="tb-age"><span id="tb-age">0</span><small>岁</small></div>
+        <span class="tb-status" id="yb-label"></span>
+      </div>
       <div class="tb-right">
         <div class="speed" id="speed">
           <button data-sp="0" title="暂停 (空格)">❚❚</button>
@@ -75,46 +78,48 @@
         <button class="tb-btn" id="btn-menu" title="菜单">⋯</button>
       </div>
     </header>
-    <div class="yearbar" id="yearbar" title="距离下一年"><i id="yb-fill"></i><span id="yb-label"></span></div>
+    <div class="yearbar" id="yearbar" title="距离下一年"><i id="yb-fill"></i></div>
 
     <main class="game-grid">
-      <aside class="panel p-char">
-        <div class="pc-head">
-          <div class="pc-job" id="pc-job"></div>
-          <div class="pc-home" id="pc-home"></div>
-        </div>
-        <div class="stats" id="stats"></div>
-        <div class="money-row"><span>资金</span><b id="pc-money"></b></div>
-        <div class="money-row"><span>名声</span><b id="pc-fame"></b></div>
-        <div class="traits" id="pc-traits"></div>
-        <section class="inventory" id="pc-inventory" aria-label="随身物品">
-          <div class="inventory-heading"><span>随身物品</span><small id="inventory-count">0 件</small></div>
-          <div id="inventory-list"></div>
-        </section>
-        <section class="story-list" id="pc-stories" aria-label="人物与约定">
-          <div class="inventory-head"><span>人物与约定</span></div>
-          <div id="stories-list"></div>
-        </section>
-        <div class="pc-rel" id="pc-rel"></div>
-        <div class="pc-titles" id="pc-titles"></div>
-      </aside>
-
       <section class="panel p-log">
-        <div class="log" id="log"></div>
+        <div class="log" id="log" tabindex="0" aria-label="人生记录"></div>
+        <button type="button" class="log-latest" id="log-latest" hidden>回到最新</button>
       </section>
 
-      <aside class="panel p-side">
-        <div class="side-h">今年的方针</div>
-        <div class="focus" id="focus"></div>
-        <div class="side-h">主动行动 <small>明年年初执行</small></div>
-        <div class="acts" id="acts"></div>
-        <div class="side-h">人生图景 <small>一格一年</small></div>
-        <div class="lifegrid" id="lifegrid"></div>
-        <div class="side-h">状态</div>
-        <div class="cond" id="cond"></div>
-        <div class="side-h" style="margin-top:22px">同年出生的人</div>
-        <div class="mates" id="mates"></div>
-      </aside>
+      <div class="dock">
+        <aside class="panel p-char">
+          <div class="pc-head">
+            <div class="pc-job" id="pc-job"></div>
+            <div class="pc-home" id="pc-home"></div>
+          </div>
+          <div class="stats" id="stats"></div>
+          <div class="money-row"><span>资金</span><b id="pc-money"></b></div>
+          <div class="money-row"><span>名声</span><b id="pc-fame"></b></div>
+          <div class="traits" id="pc-traits"></div>
+          <section class="inventory" id="pc-inventory" aria-label="随身物品">
+            <div class="side-h">随身物品 <small id="inventory-count">0 件</small></div>
+            <div id="inventory-list"></div>
+          </section>
+          <section class="story-list" id="pc-stories" aria-label="人物与约定">
+            <div class="side-h">人物与约定</div>
+            <div id="stories-list"></div>
+          </section>
+          <div class="pc-rel" id="pc-rel"></div>
+          <div class="pc-titles" id="pc-titles"></div>
+        </aside>
+        <aside class="panel p-side">
+          <div class="side-h">今年的方针</div>
+          <div class="focus" id="focus"></div>
+          <div class="side-h">主动行动 <small>明年年初执行</small></div>
+          <div class="acts" id="acts"></div>
+          <div class="side-h">人生图景 <small>一格一年</small></div>
+          <div class="lifegrid" id="lifegrid"></div>
+          <div class="side-h">状态</div>
+          <div class="cond" id="cond"></div>
+          <div class="side-h">同年出生的人</div>
+          <div class="mates" id="mates"></div>
+        </aside>
+      </div>
     </main>
 
     <!-- 出生登记 -->
@@ -128,7 +133,7 @@
         <p class="bc-note">都市并不在意又多了一个人。但从今天起，这就是你的人生。</p>
         <div class="bc-btns">
           <button class="btn-pri" id="bc-go">开始这一生</button>
-          <button id="bc-reroll">重新投胎</button>
+          <button class="btn-ghost" id="bc-reroll">重新投胎</button>
         </div>
       </div>
     </div>
@@ -142,20 +147,28 @@
         <div class="cc-opts" id="cc-opts"></div>
         <div class="cc-judge" id="cc-judge" hidden></div>
         <div class="cc-result" id="cc-result" hidden></div>
-        <div class="cc-foot" id="cc-foot">时间已停止 · 按 1–4 选择</div>
+        <div class="cc-foot" id="cc-foot"></div>
       </div>
     </div>
 
     <!-- 菜单 -->
     <div class="modal" id="menu" hidden>
-      <div class="menu-card">
-        <button data-m="resume">继续</button>
-        <button data-m="step" id="m-step">逐年模式：关</button>
-        <label class="m-vol">音量 <input type="range" id="m-vol" min="0" max="100" step="5" /></label>
-        <button data-m="restart">同名重生</button>
-        <button data-m="quit">回到标题（自动保存）</button>
-        <button data-m="abandon">放弃这一生</button>
-        <button data-m="purge" class="stock-clear-entry">整理库存<small>清除所有存档</small></button>
+      <div class="menu-card" role="dialog" aria-modal="true" aria-labelledby="menu-title">
+        <header class="mc-head"><h2 id="menu-title">设置</h2><button class="btn-ghost mc-close" data-m="resume">继续</button></header>
+        <div class="mc-group">
+          <button class="mc-row" data-m="step" id="m-step" aria-pressed="false"><span>逐年模式<small>每年结束时自动暂停</small></span><b class="sw" aria-hidden="true"></b></button>
+          <button class="mc-row" data-m="timed" id="m-timed" aria-pressed="false"><span>日常选择倒计时<small>按篇幅计时，超时随机选择</small></span><b class="sw" aria-hidden="true"></b></button>
+          <label class="mc-row m-vol"><span>音量</span><input type="range" id="m-vol" min="0" max="100" step="5" /></label>
+        </div>
+        <div class="mc-group" id="mc-life">
+          <div class="mc-label">这一生</div>
+          <button class="mc-row" data-m="restart"><span>同名重生<small>以同样的名字重新出生</small></span></button>
+          <button class="mc-row" data-m="quit"><span>回到标题<small>进度会自动保存</small></span></button>
+          <button class="mc-row danger" data-m="abandon"><span>放弃这一生<small>不保存，直接回到标题</small></span></button>
+        </div>
+        <div class="mc-group">
+          <button class="mc-row danger stock-clear-entry" data-m="purge"><span>整理库存<small>清除所有存档与设置</small></span></button>
+        </div>
       </div>
     </div>
 
@@ -174,9 +187,9 @@
         <label class="dc-words"><span>留下一句话</span><input id="dc-words" maxlength="40" placeholder="可以留空" /></label>
         <div class="dc-btns">
           <button class="btn-pri" id="dc-again">再活一次</button>
-          <button id="dc-review">回顾这一生</button>
-          <button id="dc-copy">复制人生记录</button>
-          <button id="dc-home">回到标题</button>
+          <button class="btn-ghost" id="dc-review">回顾这一生</button>
+          <button class="btn-ghost" id="dc-copy">复制人生记录</button>
+          <button class="btn-ghost" id="dc-home">回到标题</button>
         </div>
       </div>
     </div>
@@ -308,6 +321,7 @@
 <script src="js/data/ev_stories_lcb2.js"></script>
 <script src="js/data/story_revisions.js"></script>
 <script src="js/data/achievements.js"></script>
+<script src="js/experience.js"></script>
 <script src="js/inventory.js"></script>
 <script src="js/sfx.js"></script>
 <script src="js/ui.js"></script>

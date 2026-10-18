@@ -206,7 +206,7 @@ CITY.addEvents('beyond', [
 
   // 图书馆：准备不消耗纪年，接待全部发生在wy=0；进门前可退出。
   { id: 'by_invitation', age: [16, 100], force: true, pri: 45, req: { wy: [0, 0], noflag: ['library_book', 'library_returned', 'by_inv_prep'], nojob: ['distorted', 'book'], fn: (S) => S.rng.chance(S.job.id === 'fixer' ? 0.6 : S.fame >= 30 ? 0.45 : S.flags.library_seek ? 1 : 0.15) }, w: 24, star: true, title: '签名之前',
-    text: (S) => (S.vars.by_hadInvitation ? '那封搁置的图书馆邀请函仍在。' : '图书馆的邀请函出现在你整理委托的桌上。') + '你先没有碰末尾的签名处，而是拿出纸，列出装备、同行者和想找的书。窗外有人推着货车经过，轮子磕过门槛的声音让你停了一下笔。',
+    text: (S) => (S.vars.by_hadInvitation ? '那封搁置的图书馆邀请函仍在。' : '图书馆邀请函落在委托桌上。') + '\n\n你避开签名处，另列装备、同行者和想找的书。货车磕过门槛，笔也停了一下。',
     eff: [S => { S.vars.by_hadInvitation = !!S.flags.library_invited; }, { flag: ['library_invited', 'by_inv_prep'] }], choices: [
       { t: '先核对装备', r: '你把邀请函压在清单下面。纸上的签名处一直空着，外面修理铺还没关门。', eff: { next: 'by_lib_gear' } },
       { t: '封好信不再准备', r: '你把封口粘了两遍，将清单折好压在信下。夜里纸封轻轻翘起，你又伸手按平。', eff: { mind: 2, dist: 2 } },

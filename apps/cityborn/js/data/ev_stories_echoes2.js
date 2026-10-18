@@ -13,7 +13,7 @@
   p({ id: 'echo_favor', pack: 'B20', title: '还人情的人', route: 'human', person: 'favor_man', theme: '前情', age: [22, 70], sources: ['S01'], req: FAVOR, fixture: S => { S.flags.of_paid_su = true; } }, [
     ['他记得',
       S => (S.flags.of_paid_su || S.flags.of_half_su ? '来的人自称姓苏的远亲。\n\n“他提过你的名字。”他说，“说那年押金是你先垫的。”\n\n他手里没有东西，是空着手来的。'
-        : S.flags.lu_debt || S.flags.paid_lu_debt ? '来的人在巷口那家面摊坐了很久。\n\n“摊子换了人。”他说，“但账还在。”\n\n他从口袋里摸出一张纸，纸上是老王的字。'
+        : S.flags.lu_debt || S.flags.paid_lu_debt ? '来的人在巷口那家面摊坐了很久。\n\n“摊子换了人。”他说，“但账还在。”\n\n他从口袋里摸出一张纸，纸上是{old_lu}的字。'
         : S.flags.fed_thief ? '来的人是当年那个孩子的哥哥。\n\n他现在比当年那个孩子高，说话也慢。\n\n“我一直想问一件事。”他说。'
         : '来人报了自己的名字，你没有印象。\n\n“那年你替我说过一句话。”他说，“我一直记着。”'),
       [

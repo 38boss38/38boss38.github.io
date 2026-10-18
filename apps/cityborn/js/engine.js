@@ -96,7 +96,8 @@
       spouse: null, kids: [], pros: 0,
       log: [], titles: [], queue: [], focus: 'play',
       death: null, lastWords: '', epitaph: '', ach: [],
-      vars: {}, rulesVersion: [1, 2, 3, 4, 5].includes(opt.rulesVersion) ? opt.rulesVersion : 5,
+      vars: {}, rulesVersion: [1, 2, 3, 4, 5, 6, 7].includes(opt.rulesVersion) ? opt.rulesVersion : 7,
+      firstLife: !!opt.firstLife,
       items: {}, equipment: {}, traitOrigins: {}, traitJournal: [], itemJournal: [],
       memory: CITY.copyMemory(opt.memory || (CITY.store && CITY.store.load().variety)),
       discovered: { events: {}, branches: {}, groups: {}, outcomes: {} }, life: null,
@@ -127,6 +128,7 @@
         const v = CITY.tvars[k];
         if (v) return v(S);
         if (S.vars[k] != null) return S.vars[k];
+        if (S.contacts && S.contacts[k]) return S.contacts[k].name; // {人物id} → 这一生里那个人的名字
         return m;
       });
   }
@@ -226,6 +228,10 @@
     if (e.pros) S.pros += e.pros;
     if (e.job) {
       const j = e.job;
+      if (S.rulesVersion >= 6 && j.id && j.id !== S.job.id && !['none', 'student', 'labor'].includes(j.id)) {
+        delete S.flags.want_work; delete S.flags.want_change_work;
+        S.queue = S.queue.filter(q => q.id !== 'y_job_hunt');
+      }
       if (S.rulesVersion >= 4 && j.id && j.id !== S.job.id && S.job.id === 'fixer') {
         for (const f of ['assoc', 'as_zwei', 'as_shi', 'as_liu', 'as_seven', 'as_dieci', 'as_cinq', 'as_oufi', 'as_devyat', 'as_tres', 'office_member', 'office_own', 'freelance', 'section_director']) {
           if (S.flags[f]) { S.flags['曾任_' + f] = true; delete S.flags[f]; }
@@ -259,8 +265,8 @@
     if (e.queue) for (const q of Array.isArray(e.queue[0]) ? e.queue : [e.queue]) S.queue.push({ id: q[0], at: S.age + (q[1] || 1) });
     if (e.next) out && (out.next = e.next);
     if (e.fn) e.fn(S, out);
-    if (e.death) { S.alive = false; S.death = fmt(S, e.death); }
-    if (e.risk) { let p = e.risk[0]; for (const t of S.traits) { const T = CITY.TRAITS[t]; if (T && T.luck) p -= T.luck; } if (S.rng.chance(Math.max(0, p))) { S.alive = false; S.death = fmt(S, e.risk[1]); } }
+    if (e.death && !CITY.protectedChild(S)) { S.alive = false; S.death = fmt(S, e.death); }
+    if (e.risk) { let p = e.risk[0]; for (const t of S.traits) { const T = CITY.TRAITS[t]; if (T && T.luck) p -= T.luck; } if (S.rng.chance(Math.max(0, p)) && !CITY.protectedChild(S)) { S.alive = false; S.death = fmt(S, e.risk[1]); } }
   }
   CITY.apply = apply;
 
@@ -309,9 +315,9 @@
   };
 
   // ---------- 日志 ----------
-  function log(S, text, kind, ev) {
+  function log(S, text, kind, ev, details) {
     if (!text) return;
-    const ent = { age: S.age, wy: S.wy, text, kind: kind || 'n', ev: ev || '' };
+    const ent = { age: S.age, wy: S.wy, text, kind: kind || 'n', ev: ev || '', ...details };
     S.log.push(ent);
     CITY.hooks.log && CITY.hooks.log(ent, S);
   }
@@ -329,7 +335,8 @@
 
   function eligible(S, e) {
     if (e.manual || e.birth) return false;
-    if (e.age && !inRange(S.age, e.age)) return false;
+    const age = S.rulesVersion < 6 && e.legacyAge ? e.legacyAge : e.age;
+    if (age && !inRange(S.age, age)) return false;
     if (!e.repeat && S.used[e.id]) return false;
     // 同一生不再重播环境日常；强制剧情、职业晋升和主动行动各按自身规则处理。
     if (S.rulesVersion >= 2 && !e.choices && !e.force && S.used[e.id]) return false;
@@ -359,13 +366,22 @@
     const q = e.req;
     const continuity = q && typeof q === 'object' && (q.flag || q.used) ? 1.4 : 1;
     const story = CITY.storyWeight ? CITY.storyWeight(S, e) : 1;
-    return base * novelty * rhythm * affinity * continuity * story;
+    const tones = S.life && S.life.recentTones || [];
+    let breathing = 1;
+    if (S.rulesVersion >= 6 && !e.choices && !e.birth) {
+      if (e.tone && tones.slice(-2).every(t => t === 'quiet') && tones.length >= 2) breathing = 3;
+      else if (e.tone && tones.at(-1) === e.tone) breathing = 0.5;
+    }
+    return base * novelty * rhythm * affinity * continuity * story * breathing;
   };
 
   // 运行一个事件：可能产生选择（异步）。返回 Promise
-  async function runEvent(S, e) {
+  async function runEvent(S, e, context = {}) {
     if (e.story && (!CITY.storyCanRun || !CITY.storyCanRun(S, e))) return;
     if (CITY.hooks.pace && !e.birth) await CITY.hooks.pace(S, e);
+    const serial = (S.eventSerial || 0) + 1;
+    if (CITY.hooks.beforeEvent) CITY.hooks.beforeEvent(S, e, serial);
+    S.eventSerial = serial;
     const previousEvent = S._event;
     S._event = e;
     try {
@@ -376,6 +392,7 @@
     if (S.life && !e.manual && !e.force && !e.birth) {
       S.life.recentMods.push(e.mod);
       S.life.recentMods = S.life.recentMods.slice(-4);
+      if (S.rulesVersion >= 6 && !e.choices) S.life.recentTones = [...(S.life.recentTones || []), e.tone || 'quiet'].slice(-4);
     }
     const out = {};
     const kind = e.tag === 'major' || e.star ? 'star' : e.choices ? 'choice' : 'n';
@@ -383,14 +400,16 @@
     if (S.rulesVersion >= 3 && !e.choices && CITY.afterSimpleEvent) CITY.afterSimpleEvent(S, e);
     const text = fmt(S, e.text);
     const choices = (e.choices || []).filter((c) => test(S, c.req));
+    const major = !!context.major || !!(CITY.isMajorChoice && CITY.isMajorChoice(S, e, choices));
     if (choices.length) {
       const view = choices.map((c) => {
         const v = { t: fmt(S, c.t), hint: c.hint ? fmt(S, c.hint) : '' };
+        if (CITY.choiceCosts) v.cost = CITY.choiceCosts(S, c).text;
         if (c.check) { const sp = CITY.coinSpec(S, c.check, e.id + '#' + c.t); v.coin = sp; v.p = sp.p; v.odds = CITY.oddsLabel(sp.p); v.stat = sp.stat; }
         return v;
       });
       log(S, text, 'q', e.id);
-      const idx = await CITY.hooks.choose(S, e, text, view);
+      const idx = await CITY.hooks.choose(S, e, text, view, { major });
       const c = choices[idx] || choices[0];
       const choiceIndex = e.choices.indexOf(c);
       let res, judged = null;
@@ -417,11 +436,22 @@
         if (c !== res) apply(S, c.eff, o2);
         const extra = S.rulesVersion >= 3 && CITY.afterEventResult ? CITY.afterEventResult(S, e, c, res, judged, baseBefore) : '';
         const rt = fmt(S, res.r) + (extra || '');
-        log(S, rt, res.star || e.star ? 'star' : 'r', e.id);
         if (o2.next) out.next = o2.next;
+        const deltas = CITY.diff(before, CITY.snap(S), S);
+        const oldQueue = before.queue.map(q => q.id + ':' + q.at);
+        const notes = S.queue.filter(q => {
+          const index = oldQueue.indexOf(q.id + ':' + q.at);
+          if (index < 0) return true;
+          oldQueue.splice(index, 1); return false;
+        }).map(q => {
+          const future = byId()[q.id];
+          return (q.at === S.age + 1 ? '明年' : (q.at - S.age) + '年后') + ' · ' + (future && future.title || '继续这段约定');
+        });
         const nextE = out.next && byId()[out.next];
-        const chain = !!(nextE && nextE.story && nextE.choices && nextE.choices.length && test(S, nextE.req));
-        if (CITY.hooks.result) await CITY.hooks.result(S, { text: rt, judged, deltas: CITY.diff(before, CITY.snap(S), S), chain });
+        const chain = !!(nextE && nextE.choices && nextE.choices.length && test(S, nextE.req));
+        if (chain) notes.push('接下来 · ' + (nextE.title || '继续这段经历'));
+        if (rt || deltas.length) log(S, rt, res.star || e.star ? 'star' : 'r', e.id, S.rulesVersion >= 6 ? { choice: fmt(S, c.t), impacts: deltas, notes } : undefined);
+        if (CITY.hooks.result) await CITY.hooks.result(S, { text: rt, judged, deltas, notes, chain, event: e.id });
       } else if (CITY.hooks.result) await CITY.hooks.result(S, { text: '', judged, deltas: [] });
     } else {
       log(S, text, kind, e.id);
@@ -429,7 +459,8 @@
     if (CITY.sweepStories) CITY.sweepStories(S);
     if (out.next && S.alive) {
       const n = byId()[out.next];
-      if (n && test(S, n.req)) await runEvent(S, n);
+      // 规则7起，只有玩家主动发起的行动会把“重大”延续给后续；其余后续按自身后果判断。
+      if (n && test(S, n.req)) await runEvent(S, n, S.rulesVersion >= 7 ? { major: !!context.act, act: !!context.act } : { major });
     }
     if (CITY.hooks.update) CITY.hooks.update(S);
     } finally { S._event = previousEvent; }
@@ -437,7 +468,7 @@
   CITY.runEvent = runEvent;
 
   // ---------- 状态快照与差异（用于向玩家展示“这次选择改变了什么”） ----------
-  CITY.snap = (S) => ({ st: Object.fromEntries(STATS.map((k) => [k, CITY.stat ? CITY.stat(S, k) : S.st[k]])), items: Object.fromEntries(Object.entries(S.items || {}).map(([id, x]) => [id, x.count])), money: S.money, fame: S.fame, dist: S.dist, job: CITY.jobTitle ? CITY.jobTitle(S) : '', traits: S.traits.slice(), titles: S.titles.slice(), pros: S.pros, spouse: S.spouse ? S.spouse.name + (S.spouse.alive ? '' : '×') : '', kids: S.kids.filter((k) => k.alive).length, home: S.home, alive: S.alive });
+  CITY.snap = (S) => ({ st: Object.fromEntries(STATS.map((k) => [k, CITY.stat ? CITY.stat(S, k) : S.st[k]])), items: Object.fromEntries(Object.entries(S.items || {}).map(([id, x]) => [id, x.count])), queue: S.queue.map(q => ({ ...q })), money: S.money, fame: S.fame, dist: S.dist, job: CITY.jobTitle ? CITY.jobTitle(S) : '', traits: S.traits.slice(), titles: S.titles.slice(), pros: S.pros, parents: S.fam.parents, spouse: S.spouse ? S.spouse.name + (S.spouse.alive ? '' : '×') : '', kids: S.kids.filter((k) => k.alive).length, home: S.home, alive: S.alive });
   CITY.diff = function (a, b, S) {
     const D = [];
     for (const k of STATS) { const d = Math.round(b.st[k] - a.st[k]); if (d) D.push({ k, label: CITY.STAT_NAMES[k], v: d }); }
@@ -455,6 +486,10 @@
     if (b.pros > a.pros) D.push({ k: 'pros', label: '义体', text: '+' + (b.pros - a.pros) + ' 处', v: 0 });
     if (b.spouse !== a.spouse) D.push({ k: 'spouse', label: '伴侣', text: !b.spouse ? '离开了' : b.spouse.endsWith('×') ? '失去了' + b.spouse.slice(0, -1) : b.spouse, v: b.spouse && !b.spouse.endsWith('×') ? 1 : -1 });
     if (b.kids !== a.kids) D.push({ k: 'kids', label: '子女', text: (b.kids > a.kids ? '+' : '') + (b.kids - a.kids), v: b.kids > a.kids ? 1 : -1 });
+    if (b.parents !== a.parents) {
+      const counts = { both: 2, father: 1, mother: 1, none: 0 };
+      D.push({ k: 'parents', label: '家中亲人', text: { both: '父母', father: '父亲', mother: '母亲', none: '已无双亲陪伴' }[b.parents], v: Math.sign(counts[b.parents] - counts[a.parents]) });
+    }
     if (b.home !== a.home) D.push({ k: 'home', label: '住处', text: b.home, v: 0 });
     if (a.alive && !b.alive) D.push({ k: 'death', label: '死亡', text: '', v: -1 });
     return D;
@@ -485,7 +520,7 @@
         log(S, '你决定：' + A.name + '。', 'sys');
         if (A.pre) apply(S, A.pre);
         const e = byId()[typeof A.ev === 'function' ? A.ev(S) : A.ev];
-        if (e) await runEvent(S, e);
+        if (e) await runEvent(S, e, { major: true, act: true });
       }
     }
     // 2) 强制事件（世界大事/剧情）
@@ -498,7 +533,7 @@
     for (const q of due) {
       if (!S.alive) break;
       const e = byId()[q.id];
-      if (e && test(S, e.req)) await runEvent(S, e);
+      if (e && test(S, e.req)) await runEvent(S, e, { major: S.rulesVersion < 7 });
     }
     // 4) 随机事件
     if (S.alive) {

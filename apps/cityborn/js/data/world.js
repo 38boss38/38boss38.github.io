@@ -233,11 +233,15 @@
   };
 
   // ---------- 死亡率 ----------
+  // 规则7：第一段人生在12岁前不会死去，让新玩家至少走到能自己做决定的年纪。
+  CITY.protectedChild = S => S.rulesVersion >= 7 && S.firstLife && S.age < 12;
   CITY.mortality = function (S) {
     const a = S.age;
+    if (CITY.protectedChild(S)) return 0;
     let p = a < 2 ? 0.01 : a < 15 ? 0.0015 : a < 40 ? 0.002 : 0.002 + 0.002 * Math.exp((a - 40) / 10);
     if (S.loc === 'backstreet') p += 0.002;
-    if (S.loc === 'outskirts') p += 0.015;
+    // 郊区仍然危险，但孩子多半有大人看着；规则7把童年的额外风险降到成年的三分之一。
+    if (S.loc === 'outskirts') p += S.rulesVersion >= 7 && a < 15 ? 0.005 : 0.015;
     const J = CITY.JOBS[S.job.id];
     if (J && J.danger) p += typeof J.danger === 'function' ? J.danger(S) : J.danger;
     const body = CITY.stat ? CITY.stat(S, 'body') : S.st.body;

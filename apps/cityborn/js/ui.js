@@ -52,7 +52,7 @@
   let pendingChoice = null;
   let lastOpt = null;
   // 每一年的长度按这一年产生的文字量计算（×1 时约每字 45 毫秒），速度档位只是倍率
-  let yearDur = 4500, yearT = 0, yearStepped = false, stepMode = false, resultPending = null, DEMO_MS = 0;
+  let yearDur = 4500, yearT = 0, yearStepped = false, stepMode = false, timedChoices = false, resultPending = null, DEMO_MS = 0;
   const MODAL_KINDS = { q: 1, pick: 1, r: 1 };
   function calcYearDur(age) {
     let chars = 0;
@@ -71,6 +71,7 @@
     const halted = !speed || majorOpen || resultPending;
     bar.classList.toggle('halt', !!halted);
     bar.classList.toggle('full', r >= 1);
+    lb.classList.toggle('halt', !!halted);
     lb.textContent = !S || !S.alive ? '' : majorOpen || resultPending ? '时间已停止' : !speed ? (r >= 1 && stepMode ? '按空格进入下一年' : '已暂停 · 空格继续') : '距离 ' + (S.age + 1) + ' 岁';
   }
 
@@ -88,10 +89,13 @@
     lastOpt = opt;
     runId++;
     const myRun = runId;
-    S = CITY.newState(Object.assign({}, opt, { rulesVersion: 5 }));
-    REC = { format: 5, o: { name: opt.name || '', gender: opt.gender || null, era: opt.era || null, seed: S.seed,
-      rulesVersion: S.rulesVersion, memory: CITY.copyMemory(S.memory) }, p: [], y: [], x: [] };
+    // 第一段人生受童年保护；这个判断写进存档，读档重放时保持一致。
+    const firstLife = opt.firstLife != null ? opt.firstLife : !(CITY.store.load().total || 0);
+    S = CITY.newState(Object.assign({}, opt, { rulesVersion: opt.rulesVersion || 7, firstLife }));
+    REC = { format: S.rulesVersion >= 6 ? 6 : 5, o: { name: opt.name || '', gender: opt.gender || null, era: opt.era || null, seed: S.seed,
+      rulesVersion: S.rulesVersion, firstLife, memory: CITY.copyMemory(S.memory) }, p: [], y: [], x: [] };
     $('#log').innerHTML = '';
+    userScrolled = false; lastLogTop = 0; $('#log-latest').hidden = true;
     $('#lifegrid').innerHTML = '';
     yearBlocks = {};
     $('#death').hidden = true; $('#choice').hidden = true; $('#menu').hidden = true; document.body.classList.remove('choice-open');
@@ -115,7 +119,7 @@
       if (go2 === 'reroll') {
         const memory = CITY.copyMemory(S.memory);
         memory.births.push(CITY.birthRecord(S));
-        startGame({ name: opt.name, gender: opt.gender, era: opt.era, memory }); return;
+        startGame({ name: opt.name, gender: opt.gender, era: opt.era, memory, rulesVersion: S.rulesVersion, firstLife }); return;
       }
     }
     await CITY.startLife(S);
@@ -151,21 +155,28 @@
 
   // ---------- 存档：记录种子与所有输入，读档时重放 ----------
   let REC = null, REPLAY = null;
-  const CUR = 'citylife.cur5';
+  const CUR = 'citylife.cur6';
   function saveCur() { try { if (REC && S && S.alive) localStorage.setItem(CUR, JSON.stringify(Object.assign({ age: S.age, name: S.name, job: CITY.jobTitle(S) }, REC))); } catch (_) {} }
-  function clearCur() { try { localStorage.removeItem(CUR); } catch (_) {} }
-  function loadCur() { try { const c = JSON.parse(localStorage.getItem(CUR)); return c && c.format === 5 ? c : null; } catch (_) { return null; } }
+  function clearCur() { try { localStorage.removeItem(CUR); localStorage.removeItem('citylife.cur5'); } catch (_) {} }
+  function loadCur() {
+    for (const key of [CUR, 'citylife.cur5']) {
+      try { const c = JSON.parse(localStorage.getItem(key)); if (c && [5, 6].includes(c.format)) return c; } catch (_) {}
+    }
+    return null;
+  }
   async function replayLife(rec, myRun) {
     REPLAY = { p: rec.p, i: 0 };
     const quiet = CITY.hooks.ach; CITY.hooks.ach = null;
     let itemCursor = 0;
-    const replayItems = (at) => {
-      while (itemCursor < (rec.x || []).length && rec.x[itemCursor].at === at) {
+    const replayItems = (at, beforeEvent) => {
+      while (itemCursor < (rec.x || []).length && rec.x[itemCursor].at === at && rec.x[itemCursor].beforeEvent === beforeEvent) {
         const action = rec.x[itemCursor++];
         if (!CITY.inventoryAction(S, action)) throw new Error('物品操作记录无法恢复');
         REC.x.push({ ...action });
       }
     };
+    const beforeEvent = CITY.hooks.beforeEvent;
+    CITY.hooks.beforeEvent = (state, event, serial) => { if (state === S) replayItems(REC.y.length, serial); };
     try {
       await CITY.startLife(S);
       replayItems(0);
@@ -177,7 +188,8 @@
         await tickMates();
         replayItems(REC.y.length);
       }
-    } finally { REPLAY = null; CITY.hooks.ach = quiet; }
+      if (itemCursor !== (rec.x || []).length) throw new Error('物品操作记录未能完整恢复');
+    } finally { REPLAY = null; CITY.hooks.ach = quiet; CITY.hooks.beforeEvent = beforeEvent; }
   }
   function renderContinue() {
     const c = loadCur();
@@ -237,6 +249,7 @@
   }
   async function paceYear(S0, e) {
     if (REPLAY || !yearBusy || !S0 || S0.age <= 0) return;
+    renderInventory();
     const myRun = runId;
     const budget = DEMO_MS ? 120 : Math.min(3000, Math.max(800, yearDur * (e.choices ? 0.3 : 0.18)));
     let spent = 0;
@@ -260,9 +273,11 @@
         await CITY.yearTick(S);
         if (myRun !== runId) return;
         yearBusy = false;
+        await tickMates();
+        if (myRun !== runId) return;
+        renderAll(); saveCur();
         const ok = await waitYearEnd(myRun);
         if (!ok && !S.alive) break;
-        await tickMates();
       } finally { if (myRun === runId) yearBusy = false; }
       renderAll();
       saveCur();
@@ -305,11 +320,13 @@
     if (!paras.length) return text;
     if (paras.length === 1) {
       const ss = splitSentences(paras[0]);
-      if (ss.length >= 2 && len(paras[0]) >= 70) paras = group(ss, 78, 100);
+      if (ss.length >= 2 && len(paras[0]) >= 90) paras = group(ss, 52, 76);
     }
-    // 相邻短段合并；保留 2–3 个自然停顿。
+    // 较长的原稿至少保留两段，避免把作者安排的转折重新粘成一整块。
+    // 很短的结果仍可合为一段，过碎的正文收拢到 2–3 段。
+    const minParas = len(paras.join('')) >= 65 ? 2 : 1;
     let merged = true;
-    while (merged) {
+    while (merged && paras.length > minParas) {
       merged = false;
       for (let i = 0; i < paras.length - 1; i++) {
         if (len(paras[i]) + len(paras[i + 1]) <= 88) {
@@ -372,40 +389,63 @@
       p.style.animationDelay = Math.round(n * 520 / Math.max(1, speed)) + 'ms';
     } else p.style.animationDelay = '0ms';
     host.appendChild(p);
+    if (ent.choice && ent.impacts && ent.impacts.length) {
+      const changes = document.createElement('div'); changes.className = 'inline-result';
+      changes.innerHTML = resultChanges({ deltas: ent.impacts, notes: ent.notes });
+      host.appendChild(changes);
+    }
     stickBottom();
   };
   function stickBottom() {
     const log = $('#log');
-    if (log.scrollHeight - log.scrollTop - log.clientHeight < 400 || !userScrolled) log.scrollTop = log.scrollHeight;
+    if (!userScrolled) log.scrollTop = log.scrollHeight;
+    $('#log-latest').hidden = !userScrolled;
   }
-  let userScrolled = false;
-  $('#log').addEventListener('wheel', () => { userScrolled = true; clearTimeout(window._us); window._us = setTimeout(() => (userScrolled = false), 4000); });
+  let userScrolled = false, lastLogTop = 0;
+  const readingHistory = () => { userScrolled = true; lastLogTop = $('#log').scrollTop; $('#log-latest').hidden = false; };
+  $('#log').addEventListener('wheel', ev => { if (ev.deltaY < 0) readingHistory(); }, { passive: true });
+  $('#log').addEventListener('touchstart', readingHistory, { passive: true });
+  $('#log').addEventListener('keydown', ev => { if (['PageUp', 'Home', 'ArrowUp'].includes(ev.key)) readingHistory(); });
+  $('#log').addEventListener('scroll', () => {
+    const log = $('#log');
+    if (userScrolled && log.scrollTop >= lastLogTop && log.scrollHeight - log.scrollTop - log.clientHeight <= 2) { userScrolled = false; $('#log-latest').hidden = true; }
+    lastLogTop = log.scrollTop;
+  }, { passive: true });
+  $('#log-latest').addEventListener('click', () => { userScrolled = false; stickBottom(); });
 
   let lastPick = '';
   let lastChoiceMajor = false;
   const oddsLv = (p) => (p >= 0.8 ? 5 : p >= 0.6 ? 4 : p >= 0.4 ? 3 : p >= 0.2 ? 2 : 1);
   const coinDots = (n) => '<span class="cr-coins">' + '<i></i>'.repeat(n) + '</span>';
 
-  // 小抉择：贴在正文下面，不暂停年份；10 秒后随机选一个。
+  // 日常选择留在正文里；默认等待读完，可在设置中开启按篇幅计时。
   function showInlineChoice(S, e, text, opts, resolve) {
     const blk = yearBlocks[S.age];
     const body = blk && $('.yr-body', blk);
     const wrap = document.createElement('div');
     wrap.className = 'inline-choice';
-    wrap.innerHTML = '<div class="ic-head"><span>选择 · 超时随机</span><span class="ic-timer"><i></i></span><span class="ic-left">10s</span></div><div class="ic-opts"></div>';
+    wrap.innerHTML = '<div class="ic-head"><span class="ic-label">日常选择</span><span class="ic-timer"><i></i></span><span class="ic-left"></span></div><div class="ic-opts"></div>';
     const box = $('.ic-opts', wrap);
     opts.forEach((o, i) => {
       const b = document.createElement('button');
       b.className = 'ic-opt';
       const odds = o.coin ? '<span class="odds o' + oddsLv(o.p) + '">' + esc(o.odds) + ' ' + Math.round(o.p * 100) + '%</span>' : '';
-      b.innerHTML = '<span class="ic-n">' + (i + 1) + '</span><span class="ic-t">' + esc(o.t) + (o.hint ? '<span class="hint">' + esc(o.hint) + '</span>' : '') + '</span>' + odds;
+      b.innerHTML = '<span class="ic-n">' + (i + 1) + '</span><span class="ic-t">' + esc(o.t) + (o.hint ? '<span class="hint">' + esc(o.hint) + '</span>' : '') + (o.cost ? '<span class="choice-cost">' + esc(o.cost) + '</span>' : '') + '</span>' + odds;
       b.addEventListener('click', () => done(i));
       box.appendChild(b);
     });
     if (body) body.appendChild(wrap); else $('#log').appendChild(wrap);
     stickBottom();
-    let left = 10;
-    const fill = $('.ic-timer i', wrap), leftEl = $('.ic-left', wrap);
+    const duration = CITY.choiceSeconds(text, opts);
+    let left = duration, autoWait = 0, lastTick = performance.now();
+    const fill = $('.ic-timer i', wrap), leftEl = $('.ic-left', wrap), timerBar = $('.ic-timer', wrap), label = $('.ic-label', wrap);
+    const showClock = () => {
+      timerBar.hidden = !timedChoices && !auto;
+      label.textContent = auto ? '日常选择 · 自动' : '日常选择';
+      leftEl.textContent = auto || !timedChoices ? '' : Math.max(0, Math.ceil(left)) + 's';
+      fill.style.width = (auto ? 100 : Math.max(0, left / duration * 100)).toFixed(1) + '%';
+    };
+    showClock();
     const done = (i) => {
       if (!pendingChoice || pendingChoice.done !== done) return;
       clearInterval(pendingChoice.timer);
@@ -419,14 +459,15 @@
     pendingChoice = { done, n: opts.length, major: false, timer: 0, clock: 0 };
     const timerId = setInterval(() => {
       if (!pendingChoice || pendingChoice.done !== done) { clearInterval(timerId); return; }
+      const now = performance.now(), dt = Math.min(1, (now - lastTick) / 1000); lastTick = now;
+      showClock();
       if (speed <= 0 || !$('#menu').hidden) return;
-      left -= 0.1;
-      fill.style.width = Math.max(0, (left / 10) * 100).toFixed(1) + '%';
-      leftEl.textContent = Math.max(0, Math.ceil(left)) + 's';
-      if (left <= 0) {
+      if (auto) autoWait += dt;
+      else if (timedChoices) left -= dt;
+      if (auto && autoWait >= 1.1 || !auto && timedChoices && left <= 0) {
         clearInterval(timerId);
         const i = Math.floor(Math.random() * opts.length);
-        toast('时间到 · 自动选择「' + (opts[i] ? opts[i].t : '') + '」');
+        if (!auto) toast('时间到 · 自动选择「' + (opts[i] ? opts[i].t : '') + '」');
         done(i);
       }
     }, 100);
@@ -442,20 +483,24 @@
     pendingChoice.clock = clockId;
   }
 
-  CITY.hooks.choose = function (S, e, text, opts) {
+  CITY.hooks.choose = function (S, e, text, opts, decision = {}) {
     if (REPLAY) { const i = REPLAY.p[REPLAY.i++]; if (REC) REC.p.push(i); return Promise.resolve(i == null ? 0 : Math.min(i, opts.length - 1)); }
+    renderAll(false);
+    const balance = $('#pc-money');
+    cancelAnimationFrame(balance._raf); balance._v = S.money; balance.textContent = CITY.fmtMoney(S.money);
     return new Promise((resolve) => {
-      const major = !!(e.manual || e.story || e.force || e.star || e.tag === 'major');
+      const major = decision.major == null ? CITY.isMajorChoice(S, e) : decision.major;
       lastChoiceMajor = major;
       if (!major) { showInlineChoice(S, e, text, opts, resolve); return; }
       const card = $('#choice');
       const inner = $('.choice-card', card);
+      inner.scrollTop = 0;
       inner.classList.remove('judging', 'resolved');
       $('#cc-judge').hidden = true; $('#cc-result').hidden = true;
       $('#cc-timer').hidden = true;
       $('#cc-age').textContent = S.age + ' 岁 · 重大抉择' + (e.title ? ' · ' + e.title : '');
       $('#cc-text').textContent = prose(text);
-      $('#cc-foot').textContent = '时间已停止 · 按 1–' + opts.length + ' 选择';
+      $('#cc-foot').textContent = '按 1–' + opts.length + ' 选择';
       const box = $('#cc-opts');
       box.hidden = false;
       box.innerHTML = '';
@@ -470,7 +515,7 @@
           row = '<span class="coinrow"><b>' + esc(o.stat) + '判定</b><span>基础威力 <em>' + c.base + '</em></span>' + coinDots(c.n) + '<span>硬币威力 <em>+' + c.cp + '</em></span><span>判定阈值 <em>' + c.target + '</em></span><span>' + needText(c) + '</span></span>';
           if (c.bonuses && c.bonuses.length) row += '<span class="hint check-bonuses">' + esc(c.bonuses.map((x) => x.name + (x.bonus ? ' 判定属性' + (x.bonus > 0 ? '+' : '') + x.bonus : '') + (x.heads ? ' 正面率' + (x.heads > 0 ? '+' : '') + Math.round(x.heads * 100) + '%' : '')).join('、')) + '</span>';
         }
-        b.innerHTML = '<span class="n">' + (i + 1) + '</span><span class="ot">' + esc(o.t) + (o.hint ? '<span class="hint">' + esc(o.hint) + '</span>' : '') + '</span>' + odds + row;
+        b.innerHTML = '<span class="n">' + (i + 1) + '</span><span class="ot">' + esc(o.t) + (o.hint ? '<span class="hint">' + esc(o.hint) + '</span>' : '') + (o.cost ? '<span class="choice-cost">' + esc(o.cost) + '</span>' : '') + '</span>' + odds + row;
         b.addEventListener('click', () => done(i));
         box.appendChild(b);
       });
@@ -494,7 +539,7 @@
       };
       pendingChoice = { done, n: opts.length, major: true };
       updateBar();
-      if (auto) setTimeout(() => { if (pendingChoice && pendingChoice.done === done) done(Math.floor(Math.random() * opts.length)); }, 1100);
+      if (auto) autoLater(() => done(Math.floor(Math.random() * opts.length)), 1100, () => pendingChoice && pendingChoice.done === done);
     });
   };
 
@@ -545,30 +590,51 @@
   };
 
   const D_ICON = { body: '体魄', mind: '理智', wit: '才智', skill: '武艺', social: '人脉' };
+  function autoLater(done, ms, current) {
+    let elapsed = 0;
+    const timer = setInterval(() => {
+      if (!auto || !current()) { clearInterval(timer); return; }
+      if (speed <= 0 || !$('#menu').hidden) return;
+      elapsed += 100;
+      if (elapsed >= ms) { clearInterval(timer); done(); }
+    }, 100);
+  }
+  function resultChanges(R) {
+    const chips = R.deltas.map((d, i) => {
+      const cls = d.v > 0 ? 'up' : d.v < 0 ? 'down' : 'neu';
+      const val = d.text != null ? d.text : (d.v > 0 ? '+' : '') + d.v;
+      return '<span class="dchip ' + cls + '" style="animation-delay:' + (250 + i * 90) + 'ms"><b>' + esc(d.label) + '</b>' + (val ? ' ' + esc(val) : '') + '</span>';
+    }).join('');
+    return chips ? '<div class="cr-chips">' + chips + '</div>' : '';
+  }
   CITY.hooks.result = function (S, R) {
-    if (REPLAY || !lastChoiceMajor) { resultPending = null; renderAll(); return Promise.resolve(); }
-    if (R.chain) { resultPending = null; renderAll(); return Promise.resolve(); }
+    if (REPLAY) { resultPending = null; renderAll(); return Promise.resolve(); }
+    if (!lastChoiceMajor) {
+      const host = yearBlocks[S.age]?._scene;
+      if (host && S.rulesVersion < 6) {
+        const result = document.createElement('div'); result.className = 'inline-result';
+        result.innerHTML = (R.judged ? '<span class="ir-verdict ' + (R.judged.ok ? 'ok' : 'no') + '">' + (R.judged.ok ? '判定成功' : '判定失败') + '</span>' : '') + resultChanges(R);
+        host.appendChild(result); stickBottom();
+      }
+      if (!DEMO_MS) yearDur = Math.max(yearDur, yearT + Math.min(8000, 2000 + (R.text || '').length * 45));
+      resultPending = null; renderAll(); return Promise.resolve();
+    }
     return new Promise((resolve) => {
       renderAll();
       const box = $('#cc-result');
       const inner = $('#choice .choice-card');
       inner.classList.add('resolved');
       $('#cc-opts').hidden = true;
-      const chips = R.deltas.map((d, i) => {
-        const cls = d.v > 0 ? 'up' : d.v < 0 ? 'down' : 'neu';
-        const val = d.text != null ? d.text : (d.v > 0 ? '+' : '') + d.v;
-        return '<span class="dchip ' + cls + '" style="animation-delay:' + (250 + i * 90) + 'ms"><b>' + esc(d.label) + '</b>' + (val ? ' ' + esc(val) : '') + '</span>';
-      }).join('');
       box.innerHTML = (lastPick ? '<div class="cr-pick">▸ ' + esc(lastPick) + (R.judged ? (R.judged.ok ? '<span class="ok">判定成功</span>' : '<span class="no">判定失败</span>') : '') + '</div>' : '') + (R.text ? '<p class="cr-text">' + esc(prose(R.text)) + '</p>' : '') +
-        (chips ? '<div class="cr-chips">' + chips + '</div>' : '<div class="cr-chips"><span class="dchip neu"><b>什么都没有改变</b></span></div>') +
-        '<button class="cr-next" id="cr-next">继续 <small>空格 / 回车</small></button>';
+        resultChanges(R) + '<button class="cr-next" id="cr-next">' + (R.chain ? '继续这段经历' : '继续') + ' <small>空格 / 回车</small></button>';
       box.hidden = false;
       requestAnimationFrame(() => {
+        inner.scrollTop = Math.max(0, box.offsetTop - 32);
         const pad = Math.min(window.innerHeight * 0.8, inner.offsetHeight + 28);
         document.documentElement.style.setProperty('--choice-pad', Math.round(pad) + 'px');
         stickBottom();
       });
-      $('#cc-foot').textContent = S.alive ? '看完了就继续吧，时间会等你' : '';
+      $('#cc-foot').textContent = '';
       const finish = () => {
         if (resultPending !== finish) return;
         resultPending = null;
@@ -584,7 +650,7 @@
       resultPending = finish;
       $('#cr-next').addEventListener('click', finish);
       setTimeout(() => { try { $('#cr-next').focus({ preventScroll: true }); } catch (_) {} }, 50);
-      if (auto) setTimeout(finish, Math.max(1400, (R.text || '').length * 35));
+      if (auto) autoLater(finish, Math.max(1400, (R.text || '').length * 35), () => resultPending === finish);
     });
   };
   CITY.hooks.update = () => renderAll();
@@ -600,7 +666,7 @@
   };
 
   // ---------- 渲染 ----------
-  function renderAll() {
+  function renderAll(refreshPlans = true) {
     if (!S) return;
     $('#tb-name').textContent = S.name + (S.gender === 'f' ? ' ♀' : ' ♂');
     $('#tb-era').textContent = ERA_NAME[CITY.eraOf(S.wy)] + ' · ' + S.home;
@@ -626,8 +692,7 @@
     if (S.kids.length) rel.push('子女：' + S.kids.map((k) => k.name + (k.alive ? '' : '（已故）')).join('、'));
     $('#pc-rel').innerHTML = rel.map(esc).join('<br>');
     $('#pc-titles').innerHTML = S.titles.length ? '名号：' + S.titles.map((t) => '<b>' + esc(t) + '</b>').join(' / ') : '';
-    renderFocus();
-    renderActs();
+    if (refreshPlans) { renderFocus(); renderActs(); }
     renderGrid();
     renderMates();
     renderCond();
@@ -667,15 +732,16 @@
     const box = $('#inventory-list');
     const opened = $$('details[open]', box).map((el) => el.dataset.possession);
     $('#inventory-count').textContent = Object.values(S.items).reduce((n, x) => n + x.count, 0) + ' 件';
-    box.innerHTML = CITY.inventoryMarkup(S, opened);
+    const busy = pendingChoice || resultPending ? '完成眼前的选择后，就能整理物品。' : S._event ? '这一段经历结束后，就能整理物品。' : yearBusy && S.rulesVersion < 6 ? '这段旧人生请在年末暂停后整理物品。' : '';
+    box.innerHTML = CITY.inventoryMarkup(S, opened, busy);
   }
   $('#inventory-list').addEventListener('click', (ev) => {
     const button = ev.target.closest('button[data-item-action]'); if (!button || !S) return;
-    if (yearBusy || pendingChoice || resultPending || !$('#birthcard').hidden) { toast('先处理完眼前的事件，再整理随身物品。'); return; }
+    if (pendingChoice || resultPending || !$('#birthcard').hidden || S._event || yearBusy && S.rulesVersion < 6) { toast(pendingChoice || resultPending ? '先完成眼前的选择，再整理随身物品。' : '这一段经历尚未结束，继续时间后就能整理物品。'); return; }
     const action = { id: button.dataset.item, type: button.dataset.itemAction };
     if (!CITY.inventoryAction(S, action)) return;
-    if (REC) REC.x.push({ at: REC.y.length, ...action });
-    renderAll(); saveCur();
+    if (REC) REC.x.push({ at: REC.y.length, ...(yearBusy ? { beforeEvent: (S.eventSerial || 0) + 1 } : {}), ...action });
+    renderAll(); if (!yearBusy) saveCur();
     toast((action.type === 'use' ? '已使用：' : action.type === 'equip' ? '已装备：' : '已收起：') + CITY.ITEMS[action.id].name);
   });
   function tweenMoney(el, to) {
@@ -708,9 +774,6 @@
       return '<button data-f="' + k + '" class="' + (S.focus === k ? 'on' : '') + '">' + F.name + '<small>' + F.desc + '</small></button>';
     }).join('');
     $('#focus').innerHTML = html;
-    let ms = $('.m-side', $('.p-char'));
-    if (!ms) { ms = document.createElement('div'); ms.className = 'm-side'; ms.innerHTML = '<div class="side-h">今年的方针</div><div class="focus"></div>'; $('.p-char').insertBefore(ms, $('.stats')); }
-    $('.focus', ms).innerHTML = html;
   }
   function renderActs() {
     const list = CITY.actionList ? CITY.actionList(S) : [];
@@ -720,8 +783,6 @@
     const tips = S.alive && CITY.actionHints ? CITY.actionHints(S, 3) : [];
     if (tips.length) html += '<div class="act-tips">' + tips.map((t) => '<span><b>' + esc(t.name) + '</b>' + esc(t.why) + '</span>').join('') + '</div>';
     $('#acts').innerHTML = html;
-    let ms = $('.m-side', $('.p-char'));
-    if (ms) { let a = $('.acts', ms); if (!a) { const h = document.createElement('div'); h.className = 'side-h'; h.textContent = '主动行动'; ms.appendChild(h); a = document.createElement('div'); a.className = 'acts'; ms.appendChild(a); } a.innerHTML = html; }
   }
   document.addEventListener('click', (ev) => {
     const a = ev.target.closest('.acts button'); if (!a || !S || !S.alive) return;
@@ -774,6 +835,7 @@
   function setSpeed(sp) {
     speed = sp;
     $$('#speed button').forEach((b) => b.classList.toggle('on', +b.dataset.sp === sp));
+    updateBar();
   }
   let lastSpeed = 1;
   $('#speed').addEventListener('click', (ev) => { const b = ev.target.closest('button'); if (!b) return; const sp = +b.dataset.sp; if (sp) lastSpeed = sp; setSpeed(sp); });
@@ -785,7 +847,7 @@
   document.body.appendChild($('#menu'));
   function openSettings() {
     const activeLife = !!S && $('#scr-game').classList.contains('active');
-    for (const name of ['restart', 'quit', 'abandon']) $('#menu [data-m="' + name + '"]').hidden = !activeLife;
+    $('#mc-life').hidden = !activeLife;
     $('#menu [data-m="resume"]').textContent = activeLife ? '继续' : '返回';
     $('#menu').hidden = false;
   }
@@ -795,8 +857,10 @@
     const b = ev.target.closest('button'); if (!b) { if (ev.target.id === 'menu') $('#menu').hidden = true; return; }
     const m = b.dataset.m;
     if (m === 'purge') { $('#stock-clear').hidden = false; $('#stock-cancel').focus(); return; }
+    // 开关留在面板里，直接看到状态变化
+    if (m === 'step') { stepMode = !stepMode; renderSwitches(); try { localStorage.setItem('citylife.step', stepMode ? '1' : ''); } catch (_) {} return; }
+    if (m === 'timed') { timedChoices = !timedChoices; renderSwitches(); try { localStorage.setItem('citylife.timed-choices', timedChoices ? '1' : ''); } catch (_) {} return; }
     $('#menu').hidden = true;
-    if (m === 'step') { stepMode = !stepMode; $('#m-step').textContent = '逐年模式：' + (stepMode ? '开' : '关'); toast(stepMode ? '每年结束时自动暂停' : '时间会自动流逝'); try { localStorage.setItem('citylife.step', stepMode ? '1' : ''); } catch (_) {} }
     if (m === 'restart') clearCur(), startGame({ name: S.name, gender: S.gender, era: lastOpt && lastOpt.era });
     if (m === 'quit') { runId++; pendingChoice = null; $('#choice').hidden = true; document.body.classList.remove('choice-open'); go('title'); }
     if (m === 'abandon') { runId++; pendingChoice = null; clearCur(); $('#choice').hidden = true; document.body.classList.remove('choice-open'); go('title'); }
@@ -838,15 +902,15 @@
     $('#dc-name').textContent = S.name;
     $('#dc-years').textContent = '享年 ' + S.age + ' 岁 · ' + ERA_NAME[CITY.eraOf(S.birthWY)] + ' — ' + ERA_NAME[CITY.eraOf(S.wy)];
     $('#dc-cause').textContent = S.death;
-    $('#dc-epi').textContent = S.epitaph;
+    const flat = (t) => String(t || '').replace(/\s*\n+\s*/g, ''); // 摘录的段落在卡片里接成一段
+    $('#dc-epi').textContent = flat(S.epitaph);
     $('#dc-titles').innerHTML = S.titles.map((t) => '<span>' + esc(t) + '</span>').join('');
-    const stars = S.log.filter((l) => l.kind === 'star' && l.age > 0);
-    const pick = stars.length <= 6 ? stars : [0, 1, 2, 3, 4, 5].map((i) => stars[Math.round(i * (stars.length - 1) / 5)]);
-    $('#dc-mates').innerHTML = MATES.length ? '<div class="side-h" style="text-align:center">与你同年出生的人</div>' + MATES.map((m) => '<div class="dm"><b>' + esc(m.name) + '</b>　' + esc(m.home) + ' · ' + (m.alive ? '仍然活着，' + esc(CITY.jobTitle(m)) : '享年' + m.age + '岁，' + esc(CITY.jobTitle(m, true)) + '。' + esc(m.death || '')) + '</div>').join('') : '';
-    $('#dc-tl').innerHTML = pick.map((l) => '<li><b>' + l.age + '岁</b>' + esc(l.text.length > 60 ? l.text.slice(0, 58) + '……' : l.text) + '</li>').join('');
+    const pick = CITY.lifeHighlights(S);
+    $('#dc-mates').innerHTML = MATES.length ? '<div class="side-h">与你同年出生的人</div>' + MATES.map((m) => '<div class="dm"><b>' + esc(m.name) + '</b>　' + esc(m.home) + ' · ' + (m.alive ? '仍然活着，' + esc(CITY.jobTitle(m)) : '享年' + m.age + '岁，' + esc(CITY.jobTitle(m, true)) + '。' + esc(m.death || '')) + '</div>').join('') : '';
+    $('#dc-tl').innerHTML = pick.map((l) => '<li><b>' + l.age + '岁</b>' + esc(flat(l.text).length > 100 ? flat(l.text).slice(0, 98) + '……' : flat(l.text)) + '</li>').join('');
     const achs = S.ach.map((id) => [id, CITY.ach[id]]).filter((x) => x[1]).sort((a, b) => TIER_ORDER.indexOf(a[1].tier) - TIER_ORDER.indexOf(b[1].tier));
     const shown = achs.filter(([id]) => fresh.includes(id)).concat(achs.filter(([id]) => !fresh.includes(id))).slice(0, 8);
-    $('#dc-ach').innerHTML = (achs.length ? '<div class="side-h" style="text-align:center;margin-top:6px">这一生的见闻 · ' + achs.length + ' 项（新 ' + fresh.length + '）</div>' : '') + shown.map(([id, A], i) => '<div class="ach-row" style="animation-delay:' + (i * 0.08) + 's"><span class="tier t-' + A.tier + '">' + TIERS[A.tier] + '</span><div>' + esc(A.name) + '<small>' + esc(A.desc) + '</small></div>' + (fresh.includes(id) ? '<span class="new">NEW</span>' : '') + '</div>').join('') + (achs.length > 8 ? '<div class="ach-more">……以及另外 ' + (achs.length - 8) + ' 项，可在见闻录中查看</div>' : '');
+    $('#dc-ach').innerHTML = (achs.length ? '<div class="side-h">这一生的见闻 · ' + achs.length + ' 项（新 ' + fresh.length + '）</div>' : '') + shown.map(([id, A], i) => '<div class="ach-row" style="animation-delay:' + (i * 0.08) + 's"><span class="tier t-' + A.tier + '">' + TIERS[A.tier] + '</span><div>' + esc(A.name) + '<small>' + esc(A.desc) + '</small></div>' + (fresh.includes(id) ? '<span class="new">NEW</span>' : '') + '</div>').join('') + (achs.length > 8 ? '<div class="ach-more">……以及另外 ' + (achs.length - 8) + ' 项，可在见闻录中查看</div>' : '');
     $('#dc-words').value = '';
     $('#death').hidden = false;
   }
@@ -908,7 +972,12 @@
   const vol = $('#m-vol');
   if (vol && window.SFX) { vol.value = Math.round(window.SFX.vol * 100); vol.addEventListener('input', () => { window.SFX.vol = vol.value / 100; }); vol.addEventListener('change', () => window.SFX.play('heads', 0)); }
   renderSfxBtn();
-  try { stepMode = localStorage.getItem('citylife.step') === '1'; $('#m-step').textContent = '逐年模式：' + (stepMode ? '开' : '关'); } catch (_) {}
+  function renderSwitches() {
+    for (const [id, on] of [['#m-step', stepMode], ['#m-timed', timedChoices]]) { $(id).classList.toggle('on', on); $(id).setAttribute('aria-pressed', on); }
+  }
+  try { stepMode = localStorage.getItem('citylife.step') === '1'; } catch (_) {}
+  try { timedChoices = localStorage.getItem('citylife.timed-choices') === '1'; } catch (_) {}
+  renderSwitches();
   go('title');
 
   // 调试：?demo=种子&ms=每年毫秒&choice=1（停在选择上）

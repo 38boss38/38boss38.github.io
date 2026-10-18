@@ -99,7 +99,13 @@
     let person = A.person || A.id;
     if (A.route === 'family') person += ':' + familyKey(S);
     const familyName = A.route === 'family' ? S.spouse && S.spouse.alive ? S.spouse.name : S.kids.some(k => k.alive) ? S.kids.find(k => k.alive).name : '家人' : '';
-    if (!S.contacts[person]) S.contacts[person] = { name: familyName || (A.person === 'lifeline' ? S.vars.lf_name : '') || C.randName(S.rng, S.rng.chance(0.5) ? 'm' : 'f'), trust: 0, visits: 0 };
+    if (!S.contacts[person]) {
+      // 规则7：名字跟着正文里的“他／她”走，避免“玛丽……他说”。
+      // 与旧规则相同：只有真的要起新名字时才投这枚硬币，保持随机序列。
+      const fixed = familyName || (A.person === 'lifeline' ? S.vars.lf_name : '');
+      const coin = fixed ? '' : S.rng.chance(0.5) ? 'm' : 'f', g = S.rulesVersion >= 7 ? A.gender : coin;
+      S.contacts[person] = { name: fixed || C.randName(S.rng, g), g, trust: 0, visits: 0 };
+    }
     S.contacts[person].visits++;
     S.stories[A.id] = { id: A.id, status: 'active', person, next: 0, since: S.age, due: S.age,
       home: S.home, employer: S.job.org, family: familyKey(S), data: {}, decisions: [], summary: '', world: C.worldStage(S) };
@@ -125,7 +131,7 @@
         : A.route === 'family' && x.family !== familyKey(S) ? '关系改变' : '';
       if (!reason) continue;
       close(S, A, 'interrupted', reason);
-      if (S.alive) C.log(S, '「' + A.title + '」暂告一段落。' + (A.exit || '你把已经接手的部分交还，未做完的事没有再算成你的功劳。'), 'sys');
+      if (S.alive) C.log(S, '「' + A.title + '」暂告一段落。' + (A.exit || ''), 'sys');
     }
   };
   // 内容工厂只负责身份与推进；每个节点的选择、线索和结果由作者分别写出。
@@ -133,6 +139,10 @@
     if (C.STORIES[A.id]) throw new Error('重复剧情包：' + A.id);
     if (!C.storyRoutes[A.route]) throw new Error('未知剧情路线：' + A.route);
     A.age ||= [18, 85]; C.STORIES[A.id] = A;
+    if (!A.gender) {
+      const text = JSON.stringify(A.nodes, (k, v) => typeof v === 'function' ? String(v) : v);
+      A.gender = (text.match(/她(?!们)/g) || []).length > (text.match(/他(?!们)/g) || []).length ? 'f' : 'm';
+    }
     const advance = (S, step, spec, out) => {
       const x = S.stories[A.id];
       if (spec.data) Object.assign(x.data, typeof spec.data === 'function' ? spec.data(S, x.data) : spec.data);
@@ -150,16 +160,20 @@
       }
       x.next = spec.goto == null ? step + 1 : typeof spec.goto === 'function' ? spec.goto(S, x.data) : spec.goto;
       if (!Number.isInteger(x.next) || x.next <= step || x.next >= A.nodes.length) throw new Error('无效剧情分歧：' + A.id);
-      const delay = A.nodes[step].gap == null ? (step % 3 === 2 ? 1 : 0) : A.nodes[step].gap;
+      // 规则7：一段故事一年只走一步，除非作者明确写了 gap: 0（同一个晚上接着发生的事）。
+      // 图书馆一类只存在一年的窗口仍按旧节奏，否则故事会在窗口关闭时被打断。
+      const v7 = S.rulesVersion >= 7 && A.route !== 'library' && !(A.window && A.window.every(w => ['fall', 'lib'].includes(w)));
+      const delay = A.nodes[step].gap == null ? (v7 ? 1 : step % 3 === 2 ? 1 : 0) : A.nodes[step].gap;
       x.due = S.age + delay;
       const next = A.nodes[x.next].id;
-      if (!delay && S.storyYear.steps < 3) out.next = next;
+      if (!delay && S.storyYear.steps < (v7 ? 2 : 3)) out.next = next;
       else { x.due = Math.max(x.due, S.age + 1); S.queue.push({ id: next, at: x.due }); }
     };
     const option = (spec, step) => {
       const make = branch => ({ r: branch.r, eff: (S, out) => advance(S, step, { ...spec, ...branch }, out) });
       for (const x of [spec, spec.ok, spec.no]) if (x && x.effect) C.storyEffects.push(x.effect);
       return { t: spec.t, ...(spec.hint ? { hint: spec.hint } : {}),
+        costEffects: spec.check ? { ok: { ...spec, ...spec.ok }.effect, no: { ...spec, ...spec.no }.effect } : { base: spec.effect },
         ...(spec.req ? { req: spec.req } : {}),
         ...(spec.check ? { check: spec.check, ok: make(spec.ok), no: make(spec.no) } : make(spec)) };
     };
@@ -180,7 +194,7 @@
       age: A.age, w: A.w || 18, story: { id: A.id, step, route: A.route, theme: A.theme, sources: A.sources },
       ...(step ? { manual: true } : {}), req: { ...(job ? { job } : {}), fn: S => C.storyCanRun(S, { story: { id: A.id, step } }) },
       eff: S => enter(S, A), choices: (step || N.options.some(o => o.end === '拒绝') ? N.options : [...N.options, {
-        t: '这次先不参与', r: '你把眼下的打算说清，对方另外安排。事情没有算成你已经答应的责任，往后仍能按自己的节奏生活。', end: '拒绝',
+        t: '这次先不参与', r: '', end: '拒绝',
       }]).map(o => option(o, step)) })));
   };
   // 作者使用的短记法，仍生成普通、可检查的事件和选项。
