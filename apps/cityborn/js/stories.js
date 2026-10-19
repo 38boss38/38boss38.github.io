@@ -213,10 +213,10 @@
     return x ? '你与' + C.storyPerson(S, x.id) + '经历过「' + C.STORIES[x.id].title + '」。' + (x.summary === '完成' ? '' : x.summary) : '';
   };
   C.installStoryActions = () => {
-    C.ACTIONS.visit = { name: '处理手头的约定', desc: '回到已经接下的事情里', req: { fn: S => S.rulesVersion >= 4 && !!C.storyNext(S) }, ev: S => C.storyNext(S)?.id, cd: 1 };
-    C.ACTIONS.findstory = { name: '打听身边的事', desc: '寻找当前身份能参与的新经历', req: { fn: S => S.rulesVersion >= 4 && C.storyEntries(S).length > 0 },
+    C.ACTIONS.visit = { name: '处理手头的约定', desc: '赴约去见那个还在等你的人，把未了的承诺办完', req: { fn: S => S.rulesVersion >= 4 && !!C.storyNext(S) }, ev: S => C.storyNext(S)?.id, cd: 1 };
+    C.ACTIONS.findstory = { name: '打听身边的事', desc: '在如今混迹的圈子里留心风声，看看有什么找上门来的因果', req: { fn: S => S.rulesVersion >= 4 && C.storyEntries(S).length > 0 },
       ev: S => S.rng.wpick(C.storyEntries(S), e => C.eventWeight(S, e))?.id, cd: 2 };
-    C.ACTIONS.associations = { name: '打听协会的招募', desc: '达到条件后，主动接触愿意面谈的协会', req: { age: [20, 55], job: 'fixer', rank: [1, 6], noflag: ['assoc', 'office_own'], fn: S => S.rulesVersion >= 4 }, ev: 'fx_assoc_invite', cd: 3 };
-    C.ACTIONS.beastwork = { name: '打听H公司方向的运货差事', desc: '以普通帮工的身份接触外围运输', req: { age: [18, 70], wing: 'H', loc: 'backstreet', nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'distorted', 'book'], noflag: ['finger_quit'], fn: S => S.rulesVersion >= 4 && !S.used.sy_beast_road }, ev: 'sy_beast_road', cd: 3 };
+    C.ACTIONS.associations = { name: '打听协会的招募', desc: '带着过往的委托履历，主动接触各大收尾人协会的考官', req: { age: [20, 55], job: 'fixer', rank: [1, 6], noflag: ['assoc', 'office_own'], fn: S => S.rulesVersion >= 4 }, ev: 'fx_assoc_invite', cd: 3 };
+    C.ACTIONS.beastwork = { name: '打听H公司方向的运货差事', desc: '去H巢外围的车马行揽活，替鸿园深宅押送不许开封的黑漆货箱', req: { age: [18, 70], wing: 'H', loc: 'backstreet', nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'distorted', 'book'], noflag: ['finger_quit'], fn: S => S.rulesVersion >= 4 && !S.used.sy_beast_road }, ev: 'sy_beast_road', cd: 3 };
   };
 })();

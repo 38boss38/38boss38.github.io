@@ -9,23 +9,23 @@
     ['family_evening', 3, 1, 5], ['nest_hobby', 3, 1, 5],
   ];
   for (const [id, step, choice, target] of branches) C.STORIES[id].nodes[step].options[choice].goto = target;
-  C.STORIES.ice.appendOption(1, o('先售冷柜贵货，不另开灶', '你把有限人手留给冷柜与提货，没再承诺一顿来不及做的热饭。贵货卖完一些，街坊的灶位由别人接下。', { meal: 'cold', kept: true }, { money: 6500, social: -1 }, { req: { fn: S => C.storyData(S, 'ice').data.stock === 'price' }, goto: 3 }));
-  C.STORIES.ice.appendOption(2, o('让合用冷藏的邻店接应', '你们提前分过车位，邻店把留出的那部分接进冷藏。剩余热食仍由你当面交清，多付一次搬运，没有再让顾客等车。', { kept: true }, { money: 500, body: -1 }, { req: { fn: S => C.storyData(S, 'ice').data.stock === 'shared' }, trust: 1 }));
-  C.STORIES.zwei_exit.appendOption(2, o('从清出的后门分批撤离', '带路的人按演练站好，你们不用临场把人全挤在正门。后门留出的空间真正派上用场，人和接应顺序都按准备接上。', { protected: true }, { money: 23000, merit: 2 }, { req: { fn: S => { const d = C.storyData(S, 'zwei_exit').data; return d.plan === 'back' && d.drill === 'route'; } }, trust: 1 }));
-  C.STORIES.zwei_exit.appendOption(2, o('按预定增援的分工接应', '雇主先前确认的增援接到明确位置，你和搭档不用独自守完两边。新增费用由原约承担，保护也按约完成。', { protected: true }, { money: 21000, merit: 2 }, { req: { fn: S => C.storyData(S, 'zwei_exit').data.plan === 'help' }, trust: 1 }));
-  C.STORIES.dieci_morning.appendOption(2, o('保留知识，配合同伴完成', '你按准备过的分工完成外围，让更适合的人承担正面。留住的知识明天仍能用，今天也确实接住了自己的那一段。', { spent: 0 }, { money: 15000, merit: 1 }, { req: { fn: S => C.storyData(S, 'dieci_morning').data.reserve >= 2 } }));
-  C.STORIES.seven_return.appendOption(1, o('与信任的联系人共同核验', '对方知道你上次怎样处理证人，愿意开放先前保留的一处普通材料。你们只核其中能确认的部分，下一次合作也终于不全从陌生开始。', null, { money: 5000, wit: 2 }, { req: { fn: S => { const x = C.storyData(S, 'seven_return'); return S.contacts[x.person].trust >= 1; } }, end: '你以先前留下的信任换来了一次更可靠的核验。' }));
-  C.STORIES.thumb_rounds.appendOption(4, o('用确实留下的余量补这次', '你交出先前保住的实际余量，领用按真实数量登记。少掉的那部分不再算作仍在你枪里，也没让新人替空缺签字。', (S, d) => ({ ammo: d.ammo - 1, teach: true }), { money: -2000, merit: 1 }, { req: { fn: S => C.storyData(S, 'thumb_rounds').data.ammo > 0 } }));
+  C.STORIES.ice.appendOption(1, o('先售冷柜贵货，不另开灶', '你把人手全钉在冷柜与提货窗口，没去凑门口大锅饭的热闹。\n\n高价罐头赶在断电前出了大半，街坊的热汤则由隔壁摊子接了过去。', { meal: 'cold', kept: true }, { money: 6500, social: -1 }, { req: { fn: S => C.storyData(S, 'ice').data.stock === 'price' }, goto: 3 }));
+  C.STORIES.ice.appendOption(2, o('让合用冷藏的邻店接应', '靠着先前拼车的交情，隔壁黑诊所腾出保温箱帮你兜住了大半鲜货。\n\n剩下的热食由你当面交到主顾手里，多贴了一笔脚力钱，没让一个熟客在黑灯瞎火里空等。', { kept: true }, { money: 500, body: -1 }, { req: { fn: S => C.storyData(S, 'ice').data.stock === 'shared' }, trust: 1 }));
+  C.STORIES.zwei_exit.appendOption(2, o('从清出的后门分批撤离', '早上蒙眼练熟的领班们死死卡住楼梯拐角，没让惊慌的主顾往正门乱挤。\n\n提前清出来的后楼梯救了全楼的命，三层人马按哨音一批接一批撤进了安全巷。', { protected: true }, { money: 23000, merit: 2 }, { req: { fn: S => { const d = C.storyData(S, 'zwei_exit').data; return d.plan === 'back' && d.drill === 'route'; } }, trust: 1 }));
+  C.STORIES.zwei_exit.appendOption(2, o('按预定增援的分工接应', '雇主提前花钱请来的两名同僚准时锁死了后巷两侧，你和搭档不用分心两头跑。\n\n增援费走的是商行公账，整栋楼连一块玻璃柜台都没多碎。', { protected: true }, { money: 21000, merit: 2 }, { req: { fn: S => C.storyData(S, 'zwei_exit').data.plan === 'help' }, trust: 1 }));
+  C.STORIES.dieci_morning.appendOption(2, o('保留知识，配合同伴完成', '凭着昨晚拆章互背攒下的深厚储备，你只动用最表层的常识便封死了侧翼，将正面破敌的重任交给了同伴。\n\n昨晚背熟的古籍一页没烧，明早醒来依然历历在目。', { spent: 0 }, { money: 15000, merit: 1 }, { req: { fn: S => C.storyData(S, 'dieci_morning').data.reserve >= 2 } }));
+  C.STORIES.seven_return.appendOption(1, o('与信任的联系人共同核验', '联络人记得你上回替两名年轻学徒隐去真名的厚道，破例打开了支部的内部比对档。\n\n你们一页页筛掉掺水的假口供，下一次联手办案再也不用从头试探彼此的底线了。', null, { money: 5000, wit: 2 }, { req: { fn: S => { const x = C.storyData(S, 'seven_return'); return S.contacts[x.person].trust >= 1; } }, end: '你凭着先前结下的厚道信誉，与Seven协会联络人打开了深度核查的默契。' }));
+  C.STORIES.thumb_rounds.appendOption(4, o('用确实留下的余量补这次', '你从兜里掏出上回严丝合缝保下的两发实弹，当着军需官的面咔哒按进空槽。\n\n账目一发不差，既没靠假签名糊弄上面，也没让身后的新兵替空弹匣背黑锅。', (S, d) => ({ ammo: d.ammo - 1, teach: true }), { money: -2000, merit: 1 }, { req: { fn: S => C.storyData(S, 'thumb_rounds').data.ammo > 0 } }));
   // 八条旧怪谈各补一个清晰的参与或退出办法，仍使用原来的后续与结局。
   const alternatives = {
-    st_hour_shop: { t: '只问现付价格，不赊账', r: '老板始终不肯说付多少就能结清，你把碗放回去，改到街角买了普通热食。两点之前，门洞里的灯还亮着。', eff: { money: -300, mind: 1 }, req: { money: [300, null] } },
-    st_arm: { t: '抄下刻字，交给原摊主查询', r: '你只把已看见的地址交给摊主，没领走手臂。走远时，它还在柜台上敲，摊主终于把方向正常那张标签翻了过去。', eff: { wit: 1, social: 1 } },
-    st_lift: { t: '不留名，只观察后退回', r: '你看见每件外套的补口都在同一处，没把手伸向访客簿。门合上以后，你在正常楼层看了看自己的袖口，那里没有补丁。', eff: { wit: 2, mind: -1 } },
-    st_lamps: { t: '先和邻居补一处普通照明', r: '你们不解开灯为什么消失，只把确实能用的小灯装到门边。那一夜有人从光下回家，没被要求先看懂所有影子。', eff: { money: -1000, social: 1, mind: 1 } },
-    st_letter: { t: '封好信，照常安排自己的事', r: '你记下日期，不替它预先放弃那几天。信封封好放进抽屉，明天该做的普通活仍照常接下。', eff: { flag: 'st_letter_kept', queue: ['st_letter_date', 3], mind: 1 } },
-    st_lottery: { t: '放弃奖金，取回未签的票据', r: '你没有签样本追踪，奖金也没有领取。走出窗口时听见补光灯又亮了，自己手上仍只有那张不再打算兑现的彩票。', eff: { mind: 2 } },
-    st_memory: { t: '只谈清交易范围，再决定不卖', r: '你让店员先说究竟会取走哪段，对方始终不肯保证。那点记忆仍不值多少，却没有为了一个价钱立刻从你这里消失。', eff: { wit: 1, mind: 1 } },
-    st_night_job: { t: '只做白天能核清的搬运', r: '你在仓库外做完一趟普通搬运，领清当天工钱。夜班邀请没有签下，天黑以前，你也没有留在那扇门前。', eff: { money: 1500, body: -1 } },
+    st_hour_shop: { t: '只问现付价格，不赊账', r: '掌柜耷拉着眼皮，死活不肯报出现钱结清的实数。你心里一凛，把还没动筷子的面碗轻轻推回柜台，转身去街角买了块冷硬的合成面包。\n\n凌晨两点前，那扇窄门洞里的红灯笼还在雾里晃荡。', eff: { money: -300, mind: 1 }, req: { money: [300, null] } },
+    st_arm: { t: '抄下刻字，交给原摊主查询', r: '你没敢把那条乱动的手臂拎回家，只拿铅笔拓下金属腕上的门牌号塞给旧货摊主。\n\n走出半条街回头看，那五根铁指头还在柜台上笃笃敲着，摊主脸色发白地把价签翻到了背面。', eff: { wit: 1, social: 1 } },
+    st_lift: { t: '不留名，只观察后退回', r: '你一眼瞥见轿厢里每个人的后领下方都打着一块一模一样的灰补丁，伸向访客簿的手硬生生缩了回来。\n\n等电梯门合拢，你退回正常楼层的灯光下摸了摸自己的后领——那里干干净净，没有针脚。', eff: { wit: 2, mind: -1 } },
+    st_lamps: { t: '先和邻居补一处普通照明', r: '你们没去深究消失的路灯究竟走去了哪条巷子，只凑钱买来一盏带铁丝网的普通矿灯钉在单元门头。\n\n至少今天夜里赶路回家的人，不用先数清地上有几道影子才敢迈步了。', eff: { money: -1000, social: 1, mind: 1 } },
+    st_letter: { t: '封好信，照常安排自己的事', r: '你记下了信纸上那个尚未到来的日子，却没打算为了它提前把日子过成守灵。\n\n火漆重新封死、锁进抽屉最底层，明早该出的工一趟不落。', eff: { flag: 'st_letter_kept', queue: ['st_letter_date', 3], mind: 1 } },
+    st_lottery: { t: '放弃奖金，取回未签的票据', r: '你盯着协议背面那行“中奖者须定期提供生理样本追踪”的小字，一言不发地抽回了还没签字的奖券。\n\n走出兑奖窗口时，身后的强光灯咔嚓亮起，对准了下一个欢天喜地凑上去的幸运儿。', eff: { mind: 2 } },
+    st_memory: { t: '只谈清交易范围，再决定不卖', r: '你逼着店员先写明抽取器会连带刮走哪几年的记忆，对方支支吾吾地始终不肯画押。\n\n你拔掉额角的吸盘推门而出——那点回忆确实卖不出几个钱，但好歹还长在你自己脑子里。', eff: { wit: 1, mind: 1 } },
+    st_night_job: { t: '只做白天能核清的搬运', r: '你只赶在日落前替仓库卸完了外院的三车明面货，当场点清白班工钱。\n\n至于那份高薪的守夜合约，你在天擦黑前拍拍屁股走出了大铁门，连名字都没往花名册上留。', eff: { money: 1500, body: -1 } },
   };
   const groups = [
     ['hour', ['st_hour_shop', 'st_hour_bill', 'st_hour_guest']], ['arm', ['st_arm', 'st_arm_knock', 'st_arm_box']],
@@ -40,5 +40,6 @@
   const before = tools.eff;
   tools.eff = S => { if (S.rulesVersion >= 4) C.apply(S, { item: ['patched_case', 'work_gloves'], ach: 'st_hand_home' }); else C.apply(S, before); };
   const oldResult = tools.r;
-  tools.r = S => S.rulesVersion >= 4 ? '箱里的普通工具与手套还能用，你收进随身物品。你没有尝那袋面粉，将它留在已经封好的旧箱角。' : oldResult;
+  tools.r = S => S.rulesVersion >= 4 ? '木箱底层的旧工具箱与防滑手套还算趁手，你抖掉灰尘收进随身行囊。\n\n至于箱角那袋泛着甜腥气的灰白面粉，你连封口都没敢拆，原样钉死在了旧木箱里。' : oldResult;
 })();
+

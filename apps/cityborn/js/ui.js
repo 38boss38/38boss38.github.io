@@ -13,13 +13,19 @@
     sfx('click');
   }, true);
   const QUOTES = [
-    '在都市，活下去本身就是一种才能。',
-    '凌晨三点之后，别出门。',
-    '翼的庇护之下是巢，巢的阴影之下是后巷。',
-    '收尾人收下报酬，便替人了结一切。',
-    '所有人都在争夺着什么，哪怕只是明天的一顿饭。',
-    '这座都市不缺奇迹，只是奇迹从不降临在你身上。',
-    '规矩就是规矩。违反禁忌的人，会被“爪”找上门来。',
+    '在都市，活到自然老死本身就是一种罕见的才能。',
+    '凌晨三点十三分之后，听见任何敲门声都别开锁。',
+    '翼的羽翼之下是温暖的巢，羽毛照不到的阴影里全是后巷。',
+    '收尾人只认白纸黑字的委托与眼，不问善恶。',
+    '所有人都在拼命抢夺着什么，哪怕只是锅里多出的一颗卤蛋。',
+    '这座都市从不缺奇点与奇迹，只是每一份奇迹都在暗中标好了血肉的价码。',
+    '规矩就是规矩。触犯首脑禁忌的人，连后悔的时间都不会有。',
+    '十秒钟的WARP列车准点到站，没人关心车厢在次元缝隙里熬过了多少年。',
+    '食指的纺织机永不停歇，只要照着黑纸条上的指令去做，就不必再为选择而痛苦。',
+    'K公司的翠绿安瓿能长出被打碎的骨肉，只要你还得起下个月的分期账单。',
+    '在T公司的街道上，连抬头看一眼彩色的天空都是富人的特权。',
+    '当耳边响起那个温柔得让人想哭的声音时，握紧你手里的刀，或者顺从地化作怪物。',
+    '如果收到了一封烫着金印的红色邀请函——愿你在那里找到想要的书。',
   ];
   const ERA_NAME = { lob: '脑叶公司时代', fall: 'L公司崩溃', lib: '图书馆时期', dist: '扭曲时代' };
   const ERA_SHORT = { lob: '脑叶', fall: '白夜黑昼', lib: '图书馆', dist: '扭曲' };
@@ -760,11 +766,11 @@
     el._raf = requestAnimationFrame(step);
   }
   function fameName(f) {
-    if (f >= 90) return '整座都市都知道这个名字';
-    if (f >= 70) return '声名远扬';
-    if (f >= 45) return '小有名气';
-    if (f >= 20) return '附近有人认识你';
-    return '无名之辈';
+    if (f >= 90) return '整座都市都流传着这个名字';
+    if (f >= 70) return '各区事务所与堂口皆知其名';
+    if (f >= 45) return '在几条街区与同行间叫得响字号';
+    if (f >= 20) return '附近街坊与熟客认得你的脸';
+    return '芸芸众生里的无名之辈';
   }
   function renderFocus() {
     const list = CITY.focusList(S);
@@ -778,7 +784,7 @@
   function renderActs() {
     const list = CITY.actionList ? CITY.actionList(S) : [];
     if (S.act && !list.includes(S.act)) S.act = null;
-    let html = list.length ? list.map((k) => { const A = CITY.ACTIONS[k]; return '<button data-a="' + k + '" class="' + (S.act === k ? 'on' : '') + '" title="' + esc(A.desc) + '">' + A.name + '</button>'; }).join('') : '<span class="muted" style="font-size:12px">现在没有什么能做的。</span>';
+    let html = list.length ? list.map((k) => { const A = CITY.ACTIONS[k]; return '<button data-a="' + k + '" class="' + (S.act === k ? 'on' : '') + '" title="' + esc(A.desc) + '">' + A.name + '</button>'; }).join('') : '<span class="muted" style="font-size:12px">眼下没有多余的门路可走，只能先熬过今年。</span>';
     // 路线线索：把还锁着的入口写清缺什么，不代替玩家作决定。
     const tips = S.alive && CITY.actionHints ? CITY.actionHints(S, 3) : [];
     if (tips.length) html += '<div class="act-tips">' + tips.map((t) => '<span><b>' + esc(t.name) + '</b>' + esc(t.why) + '</span>').join('') + '</div>';
@@ -823,11 +829,11 @@
     c.push('时代：' + ERA_NAME[CITY.eraOf(S.wy)]);
     c.push('收入：约 ' + CITY.fmtMoney(CITY.income(S)) + ' / 年');
     if (S.pros) c.push('义体：' + S.pros + ' 处');
-    if (S.flags.debt) c.push('<span class="warnc">负债中</span>');
-    if (S.dist >= 70) c.push('<span class="violet">你的内心正在发出奇怪的声音</span>');
-    else if (S.dist >= 40) c.push('<span class="violet">最近，你常常做同一个梦</span>');
-    if (CITY.stat(S, 'body') < 20) c.push('<span class="warnc">身体很差</span>');
-    if (CITY.stat(S, 'mind') < 20) c.push('<span class="warnc">精神濒临崩溃</span>');
+    if (S.flags.debt) c.push('<span class="warnc">负债累累（催收人随时登门）</span>');
+    if (S.dist >= 70) c.push('<span class="violet">耳畔正回荡着那个温柔如暖阳的劝诱声</span>');
+    else if (S.dist >= 40) c.push('<span class="violet">心底的裂隙正渗出挥之不去的执念与低语</span>');
+    if (CITY.stat(S, 'body') < 20) c.push('<span class="warnc">肉体濒临油尽灯枯</span>');
+    if (CITY.stat(S, 'mind') < 20) c.push('<span class="warnc">理智之弦濒临崩断</span>');
     $('#cond').innerHTML = c.join('<br>');
   }
 
@@ -958,13 +964,13 @@
       }
       h += '</div></div>';
     }
-    $('#codex').innerHTML = h || '<div class="empty">还没有任何见闻。</div>';
+    $('#codex').innerHTML = h || '<div class="empty">书页尚空，你还未在这座都市留下任何见闻。</div>';
     $('#codex-count').textContent = got + ' / ' + tot;
   }
   function renderLives() {
     const d = CITY.store.load();
     $('#lives-count').textContent = '共 ' + (d.total || 0) + ' 次人生';
-    $('#lives').innerHTML = d.lives.length ? d.lives.map((l) => '<div class="life"><b>' + esc(l.name) + '</b>　' + esc(l.job) + ' · 享年' + l.age + '岁<div>' + esc(l.death) + '</div>' + (l.titles && l.titles.length ? '<div class="meta">名号：' + l.titles.map(esc).join('、') + '</div>' : '') + (l.words ? '<div class="words">“' + esc(l.words) + '”</div>' : '') + '<div class="meta">生于' + esc(l.home) + ' · ' + new Date(l.t).toLocaleString() + ' · 种子 ' + esc(l.seed) + '</div></div>').join('') : '<div class="empty">还没有人在这里活过。</div>';
+    $('#lives').innerHTML = d.lives.length ? d.lives.map((l) => '<div class="life"><b>' + esc(l.name) + '</b>　' + esc(l.job) + ' · 享年' + l.age + '岁<div>' + esc(l.death) + '</div>' + (l.titles && l.titles.length ? '<div class="meta">名号：' + l.titles.map(esc).join('、') + '</div>' : '') + (l.words ? '<div class="words">“' + esc(l.words) + '”</div>' : '') + '<div class="meta">生于' + esc(l.home) + ' · ' + new Date(l.t).toLocaleString() + ' · 种子 ' + esc(l.seed) + '</div></div>').join('') : '<div class="empty">名录尚空，还没有人走完这一生。</div>';
   }
 
   function renderSfxBtn() { const b = $('#btn-sfx'); if (!b || !window.SFX) return; b.classList.toggle('on', window.SFX.on); b.textContent = window.SFX.on ? '♪' : '♪̸'; b.title = window.SFX.on ? '音效：开' : '音效：关'; }

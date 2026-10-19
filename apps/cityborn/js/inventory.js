@@ -12,7 +12,7 @@
   };
   C.inventoryMarkup = function (S, opened = [], busy = '') {
     const ids = Object.keys(S.items).filter((id) => C.ITEMS[id] && C.hasItem(S, id));
-    if (!ids.length) return '<p class="inventory-empty">口袋里暂时没有值得记下的东西。</p>';
+    if (!ids.length) return '<p class="inventory-empty">贴身衣袋里空空如也，还没有攒下值得带在身上的器物。</p>';
     return ids.map((id) => {
       const I = C.ITEMS[id], entry = S.items[id], equipped = I.slot && S.equipment[I.slot] === id;
       const inactive = !S.alive || ['book', 'distorted'].includes(S.job.id), blocked = inactive || !!busy;
@@ -20,7 +20,7 @@
       if (I.slot) actions += '<button type="button" data-item="' + esc(id) + '" data-item-action="' + (equipped ? 'unequip' : 'equip') + '"' + (blocked || S.age < (I.minAge || 0) ? ' disabled' : '') + '>' + (equipped ? '收起' : S.age < (I.minAge || 0) ? I.minAge + '岁后装备' : '装备') + '</button>';
       if (I.use) actions += '<button type="button" data-item="' + esc(id) + '" data-item-action="use"' + (blocked || I.useReq && !C.test(S, I.useReq) ? ' disabled' : '') + '>使用一' + esc(I.unit || '支') + '</button>';
       if (busy && actions) actions += '<p class="item-wait">' + esc(busy) + '</p>';
-      const effect = I.mods ? '装备后：' + C.modText(I.mods) : I.use ? '使用后：' + C.modText(I.use) : I.kind === 'quest' ? '后续事件可能用到，不会自动消耗。' : '留下来的一段经历。';
+      const effect = I.mods ? '装备后：' + C.modText(I.mods) : I.use ? '使用后：' + C.modText(I.use) : I.kind === 'quest' ? '牵连着某桩未了的因果或手续，后续抉择可能派上用场。' : '在漫长岁月里留存下来的旧物与念想。';
       return '<details class="inventory-item rarity-' + esc(I.rarity || 'common') + '" data-possession="' + esc(id) + '"' + (opened.includes(id) ? ' open' : '') + '><summary><span class="item-mark" aria-hidden="true">' + marks[I.kind] + '</span><span class="item-heading"><b>' + esc(I.name) + '</b><small>' + kinds[I.kind] + (equipped ? inactive && S.alive ? ' · 暂不生效' : ' · 已装备' : '') + '</small></span><span class="item-count">' + (entry.count > 1 ? '×' + entry.count : '⌄') + '</span></summary><div class="item-description"><p>' + esc(I.desc) + '</p><p class="item-effect">' + esc(effect) + '</p><p class="item-origin">' + entry.age + '岁 · ' + esc(entry.source) + '</p>' + (actions ? '<div class="item-actions">' + actions + '</div>' : '') + '</div></details>';
     }).join('');
   };
@@ -35,7 +35,7 @@
       const detail = x.status === 'active' ? '' : x.summary;
       return '<div class="story-note"><b>' + esc(A.title) + '</b><small>' + esc(name) + ' · ' + status[x.status] + '</small>' + (detail ? '<p>' + esc(detail) + '</p>' : '') + '</div>';
     };
-    return (current.length ? current.map(card).join('') : '<p class="inventory-empty">眼下没有未了的约定。</p>')
-      + (past.length ? '<details class="story-past"><summary>记得的人与事</summary>' + past.map(card).join('') + '</details>' : '');
+    return (current.length ? current.map(card).join('') : '<p class="inventory-empty">眼下没有未了的承诺与牵挂。</p>')
+      + (past.length ? '<details class="story-past"><summary>铭记于心的人与旧事</summary>' + past.map(card).join('') + '</details>' : '');
   };
 })();
