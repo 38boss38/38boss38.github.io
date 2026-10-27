@@ -4,30 +4,30 @@
 (function () {
   const W = (n) => n * 10000;
   CITY.ACTIONS = {
-    license: { name: '考收尾人证', desc: '去하나协会地下考场闯三分钟生死关，搏一张9阶收尾人执照', req: { age: [17, 45], noflag: 'fixer_license', nojob: ['finger', 'kurokumo', 'distorted', 'book', 'heishou'] }, ev: 'fx_license', cd: 1 },
-    wingexam: { name: '参加翼的招考', desc: '数千名考生挤破脑袋，争一张通往高墙之巢的正式工牌', req: { age: [18, 48], nojob: ['wing', 'retired', 'distorted', 'book', 'finger'], noflag: ['wg_exam_wait', 'wg_offer'] }, ev: 'wg_exam', cd: 3 },
-    findjob: { name: '找工作', desc: '顺着电线杆上的招工启事，找一份能混口热饭的营生', req: { age: [16, 64], job: ['none', 'labor', 'shop', 'chef'] }, ev: 'act_findjob', cd: 1 },
-    quit: { name: '辞职', desc: '把磨白边的工牌拍回桌上，彻底离开这口泥潭', req: { age: [16, 99], nojob: ['none', 'student', 'retired', 'distorted', 'book', 'finger', 'kurokumo', 'heishou'] }, ev: 'act_quit', cd: 1 },
-    gang: { name: '去找帮派入伙', desc: '提上铁管去堂口拜码头，在后巷拿命换一口江湖饭', req: { age: [14, 45], loc: 'backstreet', nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'fixer', 'wing', 'distorted', 'book'], noflag: 'finger_quit' }, pre: { flag: 'want_gang' }, ev: 'y_gang_join', cd: 3 },
-    move: { name: '搬去别的区', desc: '赶在深宵前卷铺盖上黑车，换个没人认得你的区重新落脚', req: { age: [16, 90], loc: 'backstreet' }, ev: 'act_move', cd: 2 },
-    gonest: { name: '申请搬进巢', desc: '砸下重金与连坐担保，跨越后巷与巢的武装检疫线', req: { age: [18, 80], loc: 'backstreet', money: [W(300), null] }, ev: 'act_gonest', cd: 3 },
-    casino: { name: '去J公司赌场', desc: '踏进没有挂钟的奇点轮盘赌厅，拿手里的眼赌一把气运', req: { age: [18, 90], money: [W(1), null] }, ev: 'act_casino', cd: 1 },
-    pros: { name: '做义体手术', desc: '躺上冰冷的手术台锯肉接铁——更强的躯壳，更少的自己', req: { age: [18, 80], money: [W(30), null] }, ev: 'act_pros', cd: 2 },
-    clinic: { name: '去诊所看病', desc: '去弥漫着劣质消毒水味的诊所缝合清创，拿钞票续命', req: { age: [10, 130], st: { body: [null, 55] }, money: [W(2), null] }, ev: 'act_clinic', cd: 1 },
-    dojo: { name: '拜师学艺', desc: '奉上束脩请退隐老手喂招，学几手真刀真枪的保命杀人技', req: { age: [12, 50], money: [W(5), null], nojob: ['distorted', 'book'] }, ev: 'act_dojo', cd: 2 },
-    school: { name: '上夜校', desc: '在昏黄的煤油灯下苦读条文与算学，免得被人卖了还帮着数钱', req: { age: [14, 70], money: [W(3), null], nojob: ['distorted', 'book'] }, ev: 'act_school', cd: 2 },
-    date: { name: '去认识一个人', desc: '在冷酷的都市里寻找另一双手，哪怕温情是最昂贵的奢侈品', noHint: 1, req: { age: [18, 60], spouse: false, nojob: ['distorted', 'book'] }, ev: 'act_date', cd: 2 },
-    propose: { name: '求婚', desc: '拿出攒下的信物，问那个人愿不愿意和你共用一把门钥匙', noHint: 1, req: { age: [18, 70], spouse: false, flag: 'act_dating' }, ev: 'act_propose', cd: 1 },
-    child: { name: '要一个孩子', desc: '在这座吃人的都市里，决定再添一双碗筷与一条新生命', noHint: 1, req: { age: [20, 48], spouse: true, nojob: ['distorted', 'book'] }, ev: 'act_child', cd: 3 },
-    office: { name: '开一家事务所', desc: '去하나协会缴纳保证金挂牌立户，自己坐上事务所代表的交椅', req: { job: 'fixer', rank: [1, 5], noflag: 'office_own', money: [W(100), null] }, ev: 'fx_open_office', cd: 3 },
-    retire: { name: '退休', desc: '趁着还没横死街头，把兵刃与工牌收进箱底，安度余生', req: { age: [45, 130], nojob: ['none', 'student', 'retired', 'distorted', 'book', 'finger'] }, ev: 'act_retire', cd: 1 },
+    license: { name: '考收尾人证', desc: '参加하나协会的资格考试', req: { age: [17, 45], noflag: 'fixer_license', nojob: ['finger', 'kurokumo', 'distorted', 'book', 'heishou'] }, ev: 'fx_license', cd: 1 },
+    wingexam: { name: '参加翼的招考', desc: '数千人争一个名额', req: { age: [18, 48], nojob: ['wing', 'retired', 'distorted', 'book', 'finger'], noflag: ['wg_exam_wait', 'wg_offer'] }, ev: 'wg_exam', cd: 3 },
+    findjob: { name: '找工作', desc: '换一份糊口的活', req: { age: [16, 64], job: ['none', 'labor', 'shop', 'chef'] }, ev: 'act_findjob', cd: 1 },
+    quit: { name: '辞职', desc: '不干了', req: { age: [16, 99], nojob: ['none', 'student', 'retired', 'distorted', 'book', 'finger', 'kurokumo', 'heishou'] }, ev: 'act_quit', cd: 1 },
+    gang: { name: '去找帮派入伙', desc: '在后巷，这也是一条路', req: { age: [14, 45], loc: 'backstreet', nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'fixer', 'wing', 'distorted', 'book'], noflag: 'finger_quit' }, pre: { flag: 'want_gang' }, ev: 'y_gang_join', cd: 3 },
+    move: { name: '搬去别的区', desc: '换个地方重新开始', req: { age: [16, 90], loc: 'backstreet' }, ev: 'act_move', cd: 2 },
+    gonest: { name: '申请搬进巢', desc: '需要一大笔钱和担保', req: { age: [18, 80], loc: 'backstreet', money: [W(300), null] }, ev: 'act_gonest', cd: 3 },
+    casino: { name: '去J公司赌场', desc: '也许今晚就是转机', req: { age: [18, 90], money: [W(1), null] }, ev: 'act_casino', cd: 1 },
+    pros: { name: '做义体手术', desc: '更强的身体，更少的自己', req: { age: [18, 80], money: [W(30), null] }, ev: 'act_pros', cd: 2 },
+    clinic: { name: '去诊所看病', desc: '体魄恢复，钱包变薄', req: { age: [10, 130], st: { body: [null, 55] }, money: [W(2), null] }, ev: 'act_clinic', cd: 1 },
+    dojo: { name: '拜师学艺', desc: '花钱请人教你打架', req: { age: [12, 50], money: [W(5), null], nojob: ['distorted', 'book'] }, ev: 'act_dojo', cd: 2 },
+    school: { name: '上夜校', desc: '花钱读书', req: { age: [14, 70], money: [W(3), null], nojob: ['distorted', 'book'] }, ev: 'act_school', cd: 2 },
+    date: { name: '去认识一个人', desc: '在都市里，孤独是一种奢侈', noHint: 1, req: { age: [18, 60], spouse: false, nojob: ['distorted', 'book'] }, ev: 'act_date', cd: 2 },
+    propose: { name: '求婚', desc: '和那个人一起过下去', noHint: 1, req: { age: [18, 70], spouse: false, flag: 'act_dating' }, ev: 'act_propose', cd: 1 },
+    child: { name: '要一个孩子', desc: '让另一个人来到都市', noHint: 1, req: { age: [20, 48], spouse: true, nojob: ['distorted', 'book'] }, ev: 'act_child', cd: 3 },
+    office: { name: '开一家事务所', desc: '自己当代表', req: { job: 'fixer', rank: [1, 5], noflag: 'office_own', money: [W(100), null] }, ev: 'fx_open_office', cd: 3 },
+    retire: { name: '退休', desc: '放下这一切', req: { age: [45, 130], nojob: ['none', 'student', 'retired', 'distorted', 'book', 'finger'] }, ev: 'act_retire', cd: 1 },
     // ---------- 稀有路线的主动入口 ----------
-    seekLib: { name: '打听图书馆的邀请函', desc: '向白雾翻涌的旧L巢放出风声，等待那封烫金的红色邀请函', planReq: { age: [15, 89], wy: [-1, -1], noflag: ['library_invited', 'library_seek'], nojob: ['distorted', 'book'] }, req: { age: [16, 90], wy: [0, 0], noflag: ['library_invited', 'library_seek'], nojob: ['distorted', 'book'] }, pre: { flag: 'library_seek' }, ev: 'act_seeklib', cd: 1 },
-    kk: { name: '去黑云会拜门', desc: '按极道规矩备齐礼数登门试刀，投身黑云会的仁义与血债', req: { age: [16, 45], loc: 'backstreet', st: { skill: [40, null] }, nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'wing', 'distorted', 'book'], noflag: ['kk_member', 'finger_quit'] }, ev: 'sy_kk_gate', cd: 3 },
-    blade: { name: '寻找剑契组', desc: '循着暗巷凛冽的刀鸣，寻访那群落魄却孤傲的亡命剑客', req: { age: [16, 50], loc: 'backstreet', any: [{ flag: 'blade_contact' }, { trait: '剑术天分' }, { st: { skill: [50, null] } }], nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'wing', 'distorted', 'book'], noflag: 'blade_member' }, ev: 'sy_blade_gate', cd: 3 },
-    finger: { name: '托人引荐给手指', desc: '跨过普通帮派的门槛，将性命押进五指统治后巷的阴影之中', req: { age: [18, 50], job: 'syndicate', st: { skill: [40, null] }, noflag: ['finger_member', 'finger_quit'] }, ev: (S) => { const g = ['sy_thumb_gate', 'sy_index_gate', 'sy_middle_gate', 'sy_ring_gate']; return g[Math.floor(S.rng.next() * g.length)]; }, cd: 4 },
-    hunt: { name: '主动接高风险委托', desc: '揭下公告栏底层盖着红印的死单，在刀尖上搏越阶的功绩与赏金', req: { job: 'fixer', age: [18, 70] }, ev: 'act_hunt', cd: 2 },
-    donate: { name: '捐给孤儿院', desc: '去漏风的旧礼拜堂孤儿院送一笔粮药钱，替孩子们撑起一片屋檐', req: { age: [18, 130], money: [W(50), null] }, ev: 'act_donate', cd: 3 },
+    seekLib: { name: '打听图书馆的邀请函', desc: '据说进去的人能得到想要的书', planReq: { age: [15, 89], wy: [-1, -1], noflag: ['library_invited', 'library_seek'], nojob: ['distorted', 'book'] }, req: { age: [16, 90], wy: [0, 0], noflag: ['library_invited', 'library_seek'], nojob: ['distorted', 'book'] }, pre: { flag: 'library_seek' }, ev: 'act_seeklib', cd: 1 },
+    kk: { name: '去黑云会拜门', desc: '需要一手好刀法', req: { age: [16, 45], loc: 'backstreet', st: { skill: [40, null] }, nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'wing', 'distorted', 'book'], noflag: ['kk_member', 'finger_quit'] }, ev: 'sy_kk_gate', cd: 3 },
+    blade: { name: '寻找剑契组', desc: '贫穷而骄傲的剑客们', req: { age: [16, 50], loc: 'backstreet', any: [{ flag: 'blade_contact' }, { trait: '剑术天分' }, { st: { skill: [50, null] } }], nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'wing', 'distorted', 'book'], noflag: 'blade_member' }, ev: 'sy_blade_gate', cd: 3 },
+    finger: { name: '托人引荐给手指', desc: '一旦进去，就很难出来', req: { age: [18, 50], job: 'syndicate', st: { skill: [40, null] }, noflag: ['finger_member', 'finger_quit'] }, ev: (S) => { const g = ['sy_thumb_gate', 'sy_index_gate', 'sy_middle_gate', 'sy_ring_gate']; return g[Math.floor(S.rng.next() * g.length)]; }, cd: 4 },
+    hunt: { name: '主动接高风险委托', desc: '功绩与名声来得更快，也更容易死', req: { job: 'fixer', age: [18, 70] }, ev: 'act_hunt', cd: 2 },
+    donate: { name: '捐给孤儿院', desc: '把钱交给需要的人', req: { age: [18, 130], money: [W(50), null] }, ev: 'act_donate', cd: 3 },
   };
   CITY.actionList = (S) => Object.keys(CITY.ACTIONS).filter((k) => {
     const A = CITY.ACTIONS[k];
@@ -290,8 +290,8 @@
   ]);
 
   CITY.addAch({
-    act_married: { name: '在都市里成家', desc: '在这座冷酷的都市里主动求婚，并与那个人握住了同一把门钥匙。', tier: 'uncommon', group: '羁绊' },
-    act_donor: { name: '深宵里的新屋顶', desc: '倾囊捐出一半身家，替后巷孤儿院的孩子们换上了挡得住深宵的防爆铁门与屋顶。', tier: 'rare', group: '人生' },
+    act_married: { name: '在都市里结婚', desc: '主动求婚，并且被答应了。', tier: 'uncommon', group: '羁绊' },
+    act_donor: { name: '新屋顶', desc: '把一半身家捐给了孤儿院。', tier: 'rare', group: '人生' },
   });
 
   // ---------- 路线线索 ----------
@@ -328,12 +328,13 @@
     for (const f of asArr(q.noflag)) if (S.flags[f]) out.push({ neg: 1, t: '' });
     for (const f of asArr(q.trait)) if (!S.traits.includes(f)) out.push({ neg: 0, t: '需要特质「' + f + '」' });
     for (const f of asArr(q.notrait)) if (S.traits.includes(f)) out.push({ neg: 1, t: '' });
+    if (q.dist != null) { const lo = Array.isArray(q.dist) ? q.dist[0] : q.dist; if (lo != null && S.dist < lo) out.push({ neg: 0, t: '需要内心杂音更深（当前 ' + Math.round(S.dist) + '/' + lo + '）' }); }
     if (q.loc && !asArr(q.loc).includes(S.loc)) out.push({ neg: 1, t: '只能在' + asArr(q.loc).map((x) => LOC_WORD[x] || x).join('或') + '做' });
     if (q.wy) out.push({ neg: 1, t: '' });
-    if (q.era) out.push({ neg: 1, t: '' });
+    if (q.era && (!S.rulesVersion || S.rulesVersion < 8 || !asArr(q.era).includes(CITY.eraOf(S.wy)))) out.push({ neg: 1, t: '' });
     if (q.spouse === true && !(S.spouse && S.spouse.alive)) out.push({ neg: 0, t: '需要一位伴侣' });
     if (q.spouse === false && S.spouse && S.spouse.alive) out.push({ neg: 1, t: '' });
-    if (q.fn) return null;
+    if (q.fn && !String(q.fn).includes('rulesVersion')) return null;
     if (q.any) {
       const alts = q.any.map((x) => reasonsFor(S, x)).filter(Boolean);
       if (!alts.length) return null;

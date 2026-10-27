@@ -400,15 +400,15 @@
       ], { cd: 6 }),
   ]);
   CITY.addAch({
-    fx2_names: { name: '死人名册的复写本', desc: '多年后凭着私下留存的旧名册副本，替战死同行的遗物寻回了真正的苦主。', tier: 'uncommon', group: '收尾人' },
-    fx2_shoes: { name: '深宵前抱回的两只鞋', desc: '当年在三点十三分前从巷口抢回来的走失孩童，在长大后给你寄来了一封报平安的信。', tier: 'rare', group: '收尾人' },
-    fx2_seventh: { name: '第七次试刀以前', desc: '拿出未篡改的工坊武器原始试斩记录，硬是从奸商手里逼出了全额召回赔付。', tier: 'uncommon', group: '收尾人' },
-    fx2_bait_paid: { name: '诱饵的买命钱另算', desc: '提刀找上当年拿你当弃子诱饵的黑心委托人，连本带利讨回了那笔买命旧账。', tier: 'rare', group: '收尾人' },
-    fx2_receipt: { name: '压箱底的旧交割单', desc: '亮出多年前亲手签下的货权交割原件，一锤定音地摆平了扯皮多年的黑市悬案。', tier: 'uncommon', group: '收尾人' },
-    fx2_door: { name: '死守侧门的人墙', desc: '在“都市恶疾”级联合讨伐战中死死顶住侧翼铁门，替重伤员撑开了最后的撤离通道。', tier: 'rare', group: '收尾人' },
-    fx2_back: { name: '写在菜单背面的撤离约', desc: '交接现场突遭重火力埋伏时，相识多年的老搭档毫不犹豫地横刀挡在了你身前。', tier: 'rare', group: '收尾人', hidden: true, hint: '记住酒馆里坐你隔壁的同行，也别丢掉那张画在菜单背面的撤退图。' },
-    fx2_old_account: { name: '老代表的遗留暗账', desc: '顺着已故代表留在夹层里的账本副本，替破产的事务所追回了最后一笔烂账。', tier: 'rare', group: '收尾人' },
-    fx2_wages: { name: '迟到两年的分成款', desc: '在事务所改组两年后，拍出原始出勤记录，一分不差地讨回了被压下的旧佣金。', tier: 'uncommon', group: '收尾人' },
-    fx2_appeal: { name: '重返9阶', desc: '在收尾人证被吊销的绝境下集齐铁证申诉翻案，从最底层的9阶重新拿回了执业资格。', tier: 'rare', group: '收尾人', hidden: true, hint: '把现场记录死死捂在怀里，直到听证会的窗口不得不重看它。' },
+    fx2_names: { name: '名册的副本', desc: '多年后凭旧名册副本核清遗物归属。', tier: 'uncommon', group: '收尾人' },
+    fx2_shoes: { name: '两只鞋', desc: '收到深宵前寻回的孩子多年后的来信。', tier: 'rare', group: '收尾人' },
+    fx2_seventh: { name: '第七次以前', desc: '用原始试刀记录拿到全额召回赔付。', tier: 'uncommon', group: '收尾人' },
+    fx2_bait_paid: { name: '撤离费另算', desc: '向拿你当诱饵的委托人讨回旧赔款。', tier: 'rare', group: '收尾人' },
+    fx2_receipt: { name: '签收件仍在', desc: '凭旧签收件结清多年前的货权争议。', tier: 'uncommon', group: '收尾人' },
+    fx2_door: { name: '撑住侧门', desc: '协助都市恶疾级讨伐，守住伤员撤离通道。', tier: 'rare', group: '收尾人' },
+    fx2_back: { name: '菜单背面', desc: '认识多年的搭档在交接埋伏中替你挡刀。', tier: 'rare', group: '收尾人', hidden: true, hint: '记住隔壁工位的人，也保留那份撤离约定。' },
+    fx2_old_account: { name: '最后一笔旧账', desc: '按老代表留下的账本副本追回旧赔款。', tier: 'rare', group: '收尾人' },
+    fx2_wages: { name: '工资条已结', desc: '两年后凭出勤记录讨回被压下的旧佣金。', tier: 'uncommon', group: '收尾人' },
+    fx2_appeal: { name: '回到9阶', desc: '执照被吊销后申诉翻案，从9阶重头再来。', tier: 'rare', group: '收尾人', hidden: true, hint: '保存记录，直到听证会愿意重看它。' },
   });
 })();

@@ -14,10 +14,16 @@
   ];
   C.initLifeThread = function (S) {
     const t = C.varietyPick(S, threads, (x) => x.w[S.loc], 'thread', (x) => x.id);
-    S.life = { id: t.id, intro: t.intro, mods: t.mods.slice(), firstAge: S.rng.int(6, 10), recentMods: [] };
+    const active = S.rulesVersion < 8 || (hashToFloat(S.seed + '/lifeline') < 0.42);
+    S.life = { id: t.id, intro: t.intro, mods: t.mods.slice(), firstAge: active ? S.rng.int(6, 10) : 999, recentMods: [] };
     const coin = S.rng.chance(0.5) ? 'm' : 'f';
     S.vars.lf_name = C.randName(S.rng, S.rulesVersion >= 7 ? 'm' : coin); // 个人经历的正文都用“他”
   };
+  function hashToFloat(str) {
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) h = Math.imul(h ^ str.charCodeAt(i), 16777619);
+    return ((h >>> 0) % 10000) / 10000;
+  }
   C.lifeSummary = function (S) {
     if (S.vars.lifeLegacy) return S.vars.lifeLegacy;
     const f = S.flags, name = S.vars.lf_name;

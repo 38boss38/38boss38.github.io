@@ -402,7 +402,7 @@
     E('blade_stone', blade, '磨刀石的凹槽',
       '院子里那块公用的青砥磨刀石正中央，已经被几代剑客磨出了一道深深的马鞍形凹槽，你只能捏着刀尖借着石头边缘仅存的一点平面小心翼翼地推磨锋刃——原本攒着去五金铺买新砥石的钱，昨天刚拿去抵了欠房东的房租。\n\n旁边的同门见状，默默把自己怀里揣着的那块私人磨刀石递了过来，叮嘱你用完记得还，尽管他那块石头中间的坑也好不到哪儿去。', null, { eff: { skill: 1, mind: -1 } }),
     // 黑兽，4 件：从外围差事远观，不替原作补造选拔制度。
-    E('beast_road', { ...civilian, wing: 'H' }, '路障后面',
+    E('beast_road', { ...civilian, fn: S => S.rulesVersion >= 8 ? (S.wing === 'H' || S.loc === 'backstreet') : S.wing === 'H' }, '路障后面',
       '通往H公司鸿园深宅方向的货运干道今晚突然被森严的铁马路障彻底封死，荷枪实弹的护卫将所有平民驱离街面——老街坊们都煞有介事地咬耳朵，说今夜有鸿园的【黑兽】暗卫押队过境。\n\n一名满头大汗的外围货站雇工在暗巷口拉住你的袖子，开出一万六千眼高价雇你帮他推一车药材从排污夹道绕行送达，反复叮嘱道：“今晚踩过的每一块砖，烂在肚子里也不准跟同行提半个字。”', [
       R('接下，绕路运货', '你压低帽檐推着独轮车钻进阴湿的夹道，贴着高耸的深宅风火墙绕行了整整两个时辰，一路上连大气都不敢喘。\n\n虽然自始至终没撞见黑兽的正身，但交割货物时雇工那双惊魂未定的眼睛，让你把这条密道死死锁进了心底。', { money: 16000, flag: 'sy_beast_route', queue: ['sy_beast_seal', 2] }),
       R('不接，原地等着', '你深知H公司大家族的忌讳沾不得，摇了摇头退回路障外蹲到天亮。\n\n虽然因为送货延误被货主扣掉了八千眼工钱，封路的人从头到尾也没给过半句解释，但你至少睡了一个不用提心吊胆的安稳觉。', { money: -8000, mind: 1 }),
@@ -422,22 +422,22 @@
   ]);
 
   C.addAch({
-    sy_door: { name: '堂口锅炉房的板凳', desc: '提刀迈过帮派堂口的门槛，在后巷的地下秩序里混上了一口江湖饭。', tier: 'common', group: '帮派与手指' },
-    sy_soup: { name: '面馆后门的逃生路', desc: '三年前替街坊垫付的一笔保护费，在绝境之中为你换来了一扇虚掩的后门。', tier: 'uncommon', group: '帮派与手指' },
-    sy_debt: { name: '当面撕毁的欠条', desc: '连本带利砸在堂口桌面上，彻底结清了帮派追讨的陈年血债。', tier: 'uncommon', group: '帮派与手指' },
-    sy_letter: { name: '没有落款的汇款信', desc: '将一笔匿名的抚恤钱，悄悄塞进了当年第一个死在你刀下之人的遗孀门缝里。', tier: 'rare', group: '帮派与手指', hidden: true, hint: '从死人内袋搜出的那张全家福里，他还笑着抱起一个年幼的孩子。' },
-    sy_escape: { name: '从追杀名单上抹名', desc: '在帮派覆灭的大清剿中花重金买下自己的名字，或借老面摊的后门金蝉脱壳。', tier: 'rare', group: '帮派与手指' },
-    sy_boss: { name: '铁栓帮当家', desc: '接过染血的堂口总账与弹簧刀，坐上了铁栓帮一把手的交椅。', tier: 'rare', group: '帮派与手指' },
-    sy_out: { name: '断指退帮', desc: '付出血淋淋的代价与买路钱，活着走出了后巷帮派的泥潭。', tier: 'uncommon', group: '帮派与手指' },
-    sy_finger: { name: '五指之影', desc: '通过残酷的投名状考验，正式成为统治后巷的“手指”麾下的一员。', tier: 'epic', group: '帮派与手指' },
-    sy_ammo: { name: '三枚空弹槽的礼数', desc: '在拇指严苛的军需复核前，不卑不亢地交清实弹去向，全身而退。', tier: 'rare', group: '帮派与手指' },
-    sy_quit: { name: '叛指逃亡者', desc: '活着撞破了手指的第一道处刑封锁线——哪怕往后余生都将活在追杀的阴影下。', tier: 'legend', group: '帮派与手指', hidden: true, hint: '背叛手指之人，走出堂口大门并不意味着逃出生天。' },
-    sy_prescript: { name: '传令员的黑木匣', desc: '不问缘由地连续完成至少四道纺织机指令，晋升为食指代行者。', tier: 'epic', group: '帮派与手指' },
-    sy_ledger: { name: '复仇账簿翻过一页', desc: '四年之后，携带着中指的沉重铁链，将复仇账簿上未竟的血债彻底勾销。', tier: 'rare', group: '帮派与手指' },
-    sy_exhibit: { name: '四道血辙的参展画', desc: '精心维护两年的血肉习作，在环指的地下画廊展览上获得了高分与买主。', tier: 'epic', group: '帮派与手指', hidden: true, hint: '只要按时交出令讲解员满意的“艺术品”，环指的画展总会为你留一个展位。' },
-    sy_work: { name: '展签上的活体艺术', desc: '在环指的画廊里，你连同身上的累累伤痕一起被装进画框，作为参展作品公开展出。', tier: 'epic', group: '帮派与手指', hidden: true, hint: '在环指眼中，你身上的陈年刀疤或许本身就是一件杰作。' },
-    sy_cloud: { name: '黑云翻涌的刀鞘', desc: '通过试刀场的见血考验，披上羽织成为黑云会若众。', tier: 'uncommon', group: '帮派与手指' },
-    sy_student: { name: '一诺千金的饭钱', desc: '四年后，当年你在暗巷里赠予一饭之恩的学剑少年，提着第一笔暗杀酬金回来报恩。', tier: 'rare', group: '帮派与手指' },
+    sy_door: { name: '锅炉房的凳子', desc: '加入一个后巷帮派。', tier: 'common', group: '帮派与手指' },
+    sy_soup: { name: '厨房后门', desc: '三年前垫下的保护费换来一条退路。', tier: 'uncommon', group: '帮派与手指' },
+    sy_debt: { name: '撕掉的那一页', desc: '还清帮派追讨的旧债。', tier: 'uncommon', group: '帮派与手指' },
+    sy_letter: { name: '没有署名', desc: '给第一次杀死的那个人的家人匿名寄钱。', tier: 'rare', group: '帮派与手指', hidden: true, hint: '照片里，他抱着一个孩子。' },
+    sy_escape: { name: '清单上的空格', desc: '从清剿名单上买下自己的名字，或从面摊后门脱身。', tier: 'rare', group: '帮派与手指' },
+    sy_boss: { name: '铁栓帮当家', desc: '接下铁栓帮的账本，成为头目。', tier: 'rare', group: '帮派与手指' },
+    sy_out: { name: '没有回头', desc: '付出代价离开后巷帮派。', tier: 'uncommon', group: '帮派与手指' },
+    sy_finger: { name: '五指之影', desc: '通过考验，被手指收为成员。', tier: 'epic', group: '帮派与手指' },
+    sy_ammo: { name: '三个空槽', desc: '靠说清交接经过，通过拇指的弹药复查。', tier: 'rare', group: '帮派与手指' },
+    sy_quit: { name: '远处的灯', desc: '逃离手指的第一道封锁，追杀尚未结束。', tier: 'legend', group: '帮派与手指', hidden: true, hint: '走出门不等于已经离开。' },
+    sy_prescript: { name: '装指令的盒子', desc: '执行至少四份指令后，成为食指代行者。', tier: 'epic', group: '帮派与手指' },
+    sy_ledger: { name: '翻页', desc: '四年后，再次处理中指复仇账簿上的旧债。', tier: 'rare', group: '帮派与手指' },
+    sy_exhibit: { name: '四道车轮印', desc: '维护两年的习作在环指画展上售出。', tier: 'epic', group: '帮派与手指', hidden: true, hint: '展览总会开幕。' },
+    sy_work: { name: '展签上的自己', desc: '在环指的展览里被作为作品展出。', tier: 'epic', group: '帮派与手指', hidden: true, hint: '旧伤疤也可能被看作美。' },
+    sy_cloud: { name: '鞘口朝向', desc: '通过试刀，成为黑云会若众。', tier: 'uncommon', group: '帮派与手指' },
+    sy_student: { name: '还饭钱', desc: '四年后，当年收留的学剑少年带回了第一笔暗杀酬金。', tier: 'rare', group: '帮派与手指' },
   });
 })();
 

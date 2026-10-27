@@ -29,15 +29,15 @@
   // ---------- 翼 ----------
   // 只使用设定中确有其巢的翼；数字区号不与翼字母硬绑定，避免与设定冲突。
   CITY.WINGS = {
-    K: { name: 'K公司', w: 10, desc: '翠绿的HP安瓿能瞬间重塑碎裂的骨肉，只要你付得起账单' },
-    L: { name: 'L公司', w: 10, desc: '脑叶公司。从深不见底的地下抽取脑啡肽，点亮整座都市的长夜', era: ['lob'] },
-    R: { name: 'R公司', w: 8, desc: '孵化场日夜轰鸣，豢养着第四集团军佣兵的武力之翼' },
-    T: { name: 'T公司', w: 8, desc: '连色彩与每日钟点都能明码标价、按秒征收的时间之翼' },
-    W: { name: 'W公司', w: 10, desc: '承诺“十秒钟准点抵达”，运营着跨区WARP列车的空间之翼' },
-    U: { name: 'U公司', w: 6, desc: '坐拥浩瀚大湖与无数船只，以共鸣音叉锚定航道与规则的翼' },
-    H: { name: 'H公司', w: 6, desc: '朱门深院的鸿园与世家大族盘踞之地，药膳与长生秘方暗流涌动' },
-    N: { name: 'N公司', w: 6, desc: '纯白建筑林立，兜售经验罐头、狂热崇拜纯粹肉体与钉锤的翼' },
-    J: { name: 'J公司', w: 6, desc: '不夜的轮盘赌场与铁栅当铺遍地开花，连气运与心愿皆可封存典当的翼' },
+    K: { name: 'K公司', w: 10, desc: '以HP安瓿与再生技术闻名的翼' },
+    L: { name: 'L公司', w: 10, desc: '脑叶公司。以“能源”供给整座都市', era: ['lob'] },
+    R: { name: 'R公司', w: 8, desc: '豢养第四集团军的翼' },
+    T: { name: 'T公司', w: 8, desc: '掌管“时间”的翼' },
+    W: { name: 'W公司', w: 10, desc: '运营WARP列车的翼' },
+    U: { name: 'U公司', w: 6, desc: '临着大湖的翼' },
+    H: { name: 'H公司', w: 6, desc: '鸿园与贾家所在的翼' },
+    N: { name: 'N公司', w: 6, desc: '钉与锤活跃的翼' },
+    J: { name: 'J公司', w: 6, desc: '赌场与当铺林立的翼' },
   };
 
   // ---------- 出生 ----------
@@ -45,8 +45,8 @@
     const r = S.rng;
     S.wy = opt.wy != null ? opt.wy : opt.era === 'lob' ? r.int(-55, -25) : opt.era === 'dist' ? r.int(1, 8) : r.int(-50, 5);
     if (S.rulesVersion >= 2 && opt.wy == null && !opt.era) {
-      const band = CITY.varietyPick(S, ['early', 'eve', 'after'], (x) => ({ early: 40, eve: 35, after: 25 }[x]), 'eraBand');
-      S.wy = band === 'early' ? r.int(-55, -31) : band === 'eve' ? r.int(-30, -3) : r.int(1, 8);
+      const band = CITY.varietyPick(S, ['early', 'eve', 'after'], (x) => (S.rulesVersion >= 8 ? { early: 22, eve: 50, after: 28 } : { early: 40, eve: 35, after: 25 })[x], 'eraBand');
+      S.wy = band === 'early' ? r.int(S.rulesVersion >= 8 ? -42 : -55, -31) : band === 'eve' ? r.int(S.rulesVersion >= 8 ? -24 : -30, S.rulesVersion >= 8 ? -14 : -3) : r.int(1, 8);
     }
     if (!S.name) S.name = CITY.randName(r, S.gender);
     const roll = r.next();
@@ -105,33 +105,33 @@
   // ---------- 特质 ----------
   // w: 抽取权重; on: 出生时; tick: 每年; luck: 判定加成
   CITY.TRAITS = {
-    '强韧体魄': { w: 10, desc: '骨头比后巷的铁管还硬几分，挨上两记闷棍也能咬牙爬起来。', on: (S) => (S.st.body += 15), ex: ['体弱多病'] },
-    '体弱多病': { w: 7, desc: '打小就是个药罐子，吹一阵后巷的冷风都能咳上半个月。', on: (S) => (S.st.body -= 15), ex: ['强韧体魄'] },
-    '聪慧': { w: 10, desc: '脑子转得极快，无论是工坊图纸还是合同里的霸王条款都一点就透。', on: (S) => (S.st.wit += 15) },
-    '战斗直觉': { w: 6, desc: '刀尖还没破风，你的肌肉就已经先一步替你做出了格挡反应。', on: (S) => (S.st.skill += 12) },
-    '讨人喜欢': { w: 9, desc: '天生带着几分让人放下戒心的亲和力，连冷脸管事都愿意多跟你说两句。', on: (S) => (S.st.social += 12) },
-    '坚韧心志': { w: 8, desc: '心肠像淬过火的老铁，再血腥的场面也休想轻易压垮你的神智。', on: (S) => (S.st.mind += 15), tick: (S) => (S.dist = Math.max(0, S.dist - 1)) },
-    '神经过敏': { w: 6, desc: '窗外掉根铁钉都能让你惊出一身冷汗，整夜盯着门栓睡不踏实。', on: (S) => (S.st.mind -= 10), ex: ['坚韧心志'] },
-    '浓烈的执念': { w: 5, desc: '心底死死攥着某样绝不肯放手的东西——在都市里，这往往是一切奇迹与扭曲的温床。', tick: (S) => (S.dist += 0.6) },
-    '好运': { w: 5, desc: '流弹偏寸、赌盘翻红。在朝不保夕的都市里，这比任何奇点造物都金贵。', luck: 0.06, ex: ['霉运'] },
-    '霉运': { w: 5, desc: '塌方的天花板与走火的流弹总能精准地找上你，连喝凉水都塞牙。', luck: -0.06, ex: ['好运'] },
-    '义体亲和': { w: 5, desc: '你的神经天生契合冰冷的钢铁，换上改装义肢就像原本就长在身上一样顺手。' },
-    '过目不忘': { w: 5, desc: '扫过一眼的账目、街图与面孔，像拿钢针刻在脑仁里一样分毫不差。', on: (S) => (S.st.wit += 8) },
-    '巧手': { w: 7, desc: '十指灵巧稳当，拆装发条、焊接线路或是缝合血口子都游刃有余。' },
-    '剑术天分': { w: 4, desc: '握住刀柄的那一刻，呼吸与刀锋自然连成一线，手腕稳得不晃分毫。', on: (S) => (S.st.skill += 6) },
-    '能说会道': { w: 8, desc: '见人说人话、见鬼说鬼话，三言两语就能把死局盘活。', on: (S) => (S.st.social += 6), ex: ['沉默寡言'] },
-    '沉默寡言': { w: 7, desc: '平时半天憋不出一句话，却在暗处把每个人的动作与软肋记了满肚子。', on: (S) => (S.st.mind += 5, S.st.social -= 5), ex: ['能说会道'] },
-    '夜行者': { w: 5, desc: '天生对黑暗与时刻有着野兽般的警觉，永远知道哪一分钟必须退回门内。' },
-    '好胃口': { w: 6, desc: '铁打的肠胃，无论是合成淀粉糊还是来历不明的后巷肉派都能面不改色地咽下去。', on: (S) => (S.st.body += 5) },
-    '冷血': { w: 4, desc: '路边的冻骨与身旁的惨叫都很难在你的瞳孔里惊起半点波澜。', on: (S) => (S.st.mind += 6, S.st.social -= 6) },
-    '烂好人': { w: 6, desc: '在这座连善意都要收税的都市里，你偏偏还改不掉伸手拉人一把的毛病。', on: (S) => (S.st.social += 5), ex: ['冷血'] },
-    '贪财': { w: 6, desc: '这世上没有什么歌声，比钞票点算声与眼落进钱袋的叮当声更动听。' },
-    '美貌': { w: 6, desc: '一副万里挑一的好皮囊，无论在体面的巢还是肮脏的后巷都会招来额外的注视。', on: (S) => (S.st.social += 6) },
+    '强韧体魄': { w: 10, desc: '骨头比别人硬一点，挨了闷棍也撑得住。', on: (S) => (S.st.body += 15), ex: ['体弱多病'] },
+    '体弱多病': { w: 7, desc: '从小就常往黑诊所跑。', on: (S) => (S.st.body -= 15), ex: ['强韧体魄'] },
+    '聪慧': { w: 10, desc: '学什么都快，账目与图纸一点就透。', on: (S) => (S.st.wit += 15) },
+    '战斗直觉': { w: 6, desc: '刀锋临头时，身体比脑子先一步反应。', on: (S) => (S.st.skill += 12) },
+    '讨人喜欢': { w: 9, desc: '让人容易放下戒心，总能交到朋友。', on: (S) => (S.st.social += 12) },
+    '坚韧心志': { w: 8, desc: '心肠像淬过火的铁，很难被击垮。', on: (S) => (S.st.mind += 15), tick: (S) => (S.dist = Math.max(0, S.dist - 1)) },
+    '神经过敏': { w: 6, desc: '门外掉根铁钉都会让你整夜睡不着。', on: (S) => (S.st.mind -= 10), ex: ['坚韧心志'] },
+    '浓烈的执念': { w: 5, desc: '一旦死死攥住什么，就绝不肯放手。', tick: (S) => (S.dist += 0.6) },
+    '好运': { w: 5, desc: '在都市里，这比任何奇点造物都珍贵。', luck: 0.06, ex: ['霉运'] },
+    '霉运': { w: 5, desc: '流弹与塌方总是先一步找上你。', luck: -0.06, ex: ['好运'] },
+    '义体亲和': { w: 5, desc: '神经对钢铁义体几乎没有排异反应。' },
+    '过目不忘': { w: 5, desc: '扫过一眼的账目与面孔都能记牢。', on: (S) => (S.st.wit += 8) },
+    '巧手': { w: 7, desc: '拆装发条、焊接、缝补，样样在行。' },
+    '剑术天分': { w: 4, desc: '握住刀柄的时候，手腕稳得不晃分毫。', on: (S) => (S.st.skill += 6) },
+    '能说会道': { w: 8, desc: '三言两语就能把死局说活。', on: (S) => (S.st.social += 6), ex: ['沉默寡言'] },
+    '沉默寡言': { w: 7, desc: '平时不声不响，却把每件事都记在心里。', on: (S) => (S.st.mind += 5, S.st.social -= 5), ex: ['能说会道'] },
+    '夜行者': { w: 5, desc: '你天生知道三点十三分前该退回哪扇门内。' },
+    '好胃口': { w: 6, desc: '什么都能面不改色地咽下去。真的，什么都。', on: (S) => (S.st.body += 5) },
+    '冷血': { w: 4, desc: '旁人的死活很难在你眼里惊起波澜。', on: (S) => (S.st.mind += 6, S.st.social -= 6) },
+    '烂好人': { w: 6, desc: '明知会吃亏，还是改不掉伸手拉人一把的毛病。', on: (S) => (S.st.social += 5), ex: ['冷血'] },
+    '贪财': { w: 6, desc: '这世上还是眼落进钱袋的声音最好听。' },
+    '美貌': { w: 6, desc: '无论在巢还是后巷，都会被人多看两眼。', on: (S) => (S.st.social += 6) },
     '大胃袋': { w: 0, desc: '' },
-    '家族遗物': { w: 3, desc: '贴身藏着一件长辈留下的古旧器物，上面磨平的刻痕似乎牵连着某段往事。', req: { loc: ['backstreet', 'outskirts'] } },
-    '名门之后': { w: 3, desc: '你的姓氏在巢内高层的酒会上还算叫得响，生来便比旁人多一笔丰厚的启动金。', req: { loc: 'nest' }, on: (S) => (S.st.social += 8, S.money += 200000) },
-    '郊区之子': { w: 30, desc: '你在都市高墙之外的废土降生，从小听着非人怪物的嘶吼磨出了钢筋般的神经。', req: { loc: 'outskirts' }, on: (S) => (S.st.body += 8, S.st.mind += 5) },
-    '早熟': { w: 7, desc: '还没长到灶台高，就已经看懂了大人们在柴米油盐与生死面前的脸色。', on: (S) => (S.st.mind += 6, S.st.wit += 4) },
+    '家族遗物': { w: 3, desc: '家里传下来一件磨去刻痕的旧物。', req: { loc: ['backstreet', 'outskirts'] } },
+    '名门之后': { w: 3, desc: '你的姓氏在巢内还算有些分量。', req: { loc: 'nest' }, on: (S) => (S.st.social += 8, S.money += 200000) },
+    '郊区之子': { w: 30, desc: '你在都市高墙之外出生，见过墙外的怪物。', req: { loc: 'outskirts' }, on: (S) => (S.st.body += 8, S.st.mind += 5) },
+    '早熟': { w: 7, desc: '还没长到灶台高，就已经看懂了大人的脸色。', on: (S) => (S.st.mind += 6, S.st.wit += 4) },
   };
   delete CITY.TRAITS['大胃袋'];
 
@@ -157,10 +157,20 @@
     research: { name: (S) => S.job.org || '研究员', income: (S) => W(18 + S.job.rank * 10), danger: 0.002 },
     fixer: {
       name: (S) => (S.flags.color ? (S.vars.colorName ? '特色「' + S.vars.colorName + '」' : '特色') : (S.job.org ? S.job.org + ' ' : '') + S.job.rank + '阶收尾人'),
-      income: (S) => (S.flags.color ? W(800) : W([0, 300, 150, 80, 40, 22, 12, 7, 4, 2][S.job.rank] || 2)),
+      income: (S) => S.rulesVersion >= 8
+        ? (S.flags.color ? W(280) : W([0, 140, 85, 52, 32, 19, 11, 6.5, 4, 2][S.job.rank] || 2))
+        : (S.flags.color ? W(800) : W([0, 300, 150, 80, 40, 22, 12, 7, 4, 2][S.job.rank] || 2)),
       danger: (S) => (S.flags.color ? 0.015 : 0.008 + (S.job.rank >= 7 ? 0.008 : 0.004)),
       promote: (S, n) => { S.job.rank = Math.max(1, S.job.rank - n); },
-      tick: (S) => { S.st.skill = Math.min(100, S.st.skill + (S.st.skill < 60 ? 1.2 : 0.5)); S.st.body = Math.min(100, S.st.body + 0.4); if (S.focus === 'work') { S.c.req = (S.c.req || 0) + 1; } if (S.st.skill >= 40 + (9 - S.job.rank) * 5) S.job.merit += 1; },
+      tick: (S) => {
+        S.st.skill = Math.min(100, S.st.skill + (S.st.skill < 60 ? 1.2 : 0.5));
+        S.st.body = Math.min(100, S.st.body + 0.4);
+        if (S.focus === 'work') { S.c.req = (S.c.req || 0) + 1; }
+        // 规则8：高阶收尾人（5阶及以上）不能再仅靠挂机自动满功绩，必须靠实战委托积累最后临门一脚
+        if (S.st.skill >= 40 + (9 - S.job.rank) * 5) {
+          if (S.rulesVersion < 8 || S.job.rank >= 6 || CITY.fxNeed && S.job.merit + 1 < CITY.fxNeed(S.job.rank)) S.job.merit += 1;
+        }
+      },
     },
     wing: {
       name: (S) => S.job.org || ((S.vars.wingJob || S.wing + '公司') + ' 职员'),
@@ -190,13 +200,17 @@
   // ---------- 年度方针 ----------
   const up = (S, k, n) => { const v = S.st[k]; const g = v > 80 ? n * 0.3 : v > 60 ? n * 0.6 : n; S.st[k] = clamp(v + g, 0, 100); };
   CITY.FOCUS = {
-    play: { name: '玩耍', age: [0, 13], desc: '在巷弄与瓦砾间疯跑 · 体魄↑ 理智↑ 人脉↑', tick: (S) => { up(S, 'social', 1.2); up(S, 'mind', 0.8); up(S, 'body', 0.8); } },
-    study: { name: '读书', age: [6, 99], desc: '苦读条文与算学 · 才智↑', tick: (S) => { up(S, 'wit', 2.6); S.st.body -= 0.3; } },
-    train: { name: '锻炼', age: [8, 99], desc: '打磨筋骨与刀术 · 体魄↑ 武艺↑', tick: (S) => { up(S, 'body', 1.6); up(S, 'skill', 1.8); } },
-    friends: { name: '交际', age: [8, 99], desc: '走动人情与酒局 · 人脉↑', tick: (S) => { up(S, 'social', 2.4); up(S, 'mind', 0.4); } },
-    street: { name: '街头厮混', age: [10, 25], desc: '暗巷摸爬滚打 · 武艺↑ 人脉↑，惹祸↑', req: { loc: ['backstreet', 'outskirts'] }, tick: (S) => { up(S, 'skill', 1.6); up(S, 'social', 1); S.c.street = (S.c.street || 0) + 1; } },
-    work: { name: '埋头工作', age: [14, 99], desc: '拿命熬夜赶工 · 收入↑ 功绩↑ 理智↓', tick: (S) => { S.money += Math.max(5000, CITY.income(S) * 0.25); S.job.merit += 1; S.st.mind -= 0.8; } },
-    rest: { name: '休养', age: [14, 99], desc: '闭门养伤喘息 · 体魄↑ 理智↑ 收入↓', tick: (S) => { up(S, 'mind', 2.4); up(S, 'body', 1.2); S.money -= Math.max(0, CITY.income(S) * 0.3); S.dist = Math.max(0, S.dist - 3); } },
+    play: { name: '玩耍', age: [0, 13], desc: '小孩子就该玩。', tick: (S) => { up(S, 'social', 1.2); up(S, 'mind', 0.8); up(S, 'body', 0.8); } },
+    study: { name: '读书', age: [6, 99], desc: '才智↑', tick: (S) => { up(S, 'wit', 2.6); S.st.body -= 0.3; } },
+    train: { name: '锻炼', age: [8, 99], desc: '体魄↑ 武艺↑', tick: (S) => { up(S, 'body', 1.6); up(S, 'skill', 1.8); } },
+    friends: { name: '交际', age: [8, 99], desc: '人脉↑', tick: (S) => { up(S, 'social', 2.4); up(S, 'mind', 0.4); } },
+    street: { name: '街头厮混', age: [10, 25], desc: '武艺↑ 人脉↑，惹祸↑', req: { loc: ['backstreet', 'outskirts'] }, tick: (S) => { up(S, 'skill', 1.6); up(S, 'social', 1); S.c.street = (S.c.street || 0) + 1; } },
+    work: { name: '埋头工作', age: [14, 99], desc: '收入↑ 功绩↑ 理智↓', tick: (S) => {
+      S.money += Math.max(5000, CITY.income(S) * 0.25);
+      if (S.rulesVersion < 8 || S.job.id !== 'fixer' || S.job.rank >= 6 || CITY.fxNeed && S.job.merit + 1 < CITY.fxNeed(S.job.rank)) S.job.merit += 1;
+      S.st.mind -= S.rulesVersion >= 8 ? 1.1 : 0.8;
+    } },
+    rest: { name: '休养', age: [14, 99], desc: '体魄↑ 理智↑ 收入↓', tick: (S) => { up(S, 'mind', 2.4); up(S, 'body', 1.2); S.money -= Math.max(0, CITY.income(S) * 0.3); S.dist = Math.max(0, S.dist - (S.rulesVersion >= 8 ? 2.2 : 3)); } },
   };
   CITY.focusList = (S) => Object.keys(CITY.FOCUS).filter((k) => { const F = CITY.FOCUS[k]; return S.age >= F.age[0] && S.age <= F.age[1] && (!F.req || CITY.test(S, F.req)); });
 
@@ -206,9 +220,25 @@
   };
 
   // ---------- 每年被动 ----------
+  CITY.upkeep = function (S) {
+    if (S.rulesVersion < 8 || S.age < 18 || ['book', 'distorted'].includes(S.job.id)) return 0;
+    let cost = 0;
+    if (S.loc === 'nest') cost += 40000;
+    else if (S.loc === 'backstreet') cost += 8000;
+    if (S.pros > 0) cost += S.pros * 15000;
+    if (S.spouse && S.spouse.alive) cost += 10000;
+    cost += S.kids.filter(k => k.alive && S.age - k.born < 18).length * 12000;
+    if (S.job.id === 'fixer') {
+      cost += S.flags.color ? 900000 : ([0, 420000, 220000, 110000, 50000, 22000, 10000, 4000, 0, 0][S.job.rank] || 0);
+      if (S.flags.office_own) cost += 60000;
+    } else if (['wing', 'finger', 'kurokumo', 'lccb'].includes(S.job.id) && S.job.rank >= 1) {
+      cost += S.job.rank * 30000;
+    }
+    return cost;
+  };
   CITY.passive = function (S) {
-    // 收入
-    if (S.age >= 14 || S.job.id !== 'none') S.money += Math.round(CITY.income(S) * (0.8 + S.rng.next() * 0.4));
+    // 收入与阶层维护成本
+    if (S.age >= 14 || S.job.id !== 'none') S.money += Math.round(CITY.income(S) * (0.8 + S.rng.next() * 0.4)) - CITY.upkeep(S);
     // 家庭供养
     if (S.age < 18 && S.fam.parents !== 'none') S.money += [800, 1500, 3000, 20000][S.fam.wealth];
     if (S.age < 16 && S.money < 0) S.money = 0; // 孩子的债由大人背着
@@ -218,15 +248,18 @@
     if (S.age > 50) S.st.skill = clamp(S.st.skill - 0.6, 0, 100);
     // 人会慢慢习惯：理智与体魄向常态回归（伤病之后的恢复）
     const mBase = 50 + (S.spouse && S.spouse.alive ? 5 : 0) + (S.traits.includes('坚韧心志') ? 8 : 0) - (S.traits.includes('神经过敏') ? 8 : 0);
-    if (S.st.mind < mBase) S.st.mind += (mBase - S.st.mind) * 0.15;
-    if (S.age < 50 && S.st.body < 45) S.st.body += (45 - S.st.body) * 0.1;
-    // 理智低下累积扭曲
+    const mRate = S.rulesVersion >= 8 ? 0.08 : 0.15;
+    const bRate = S.rulesVersion >= 8 ? 0.06 : 0.1;
+    if (S.st.mind < mBase) S.st.mind += (mBase - S.st.mind) * mRate;
+    if (S.age < 50 && S.st.body < 45) S.st.body += (45 - S.st.body) * bRate;
+    // 理智低下累积扭曲；规则8下扭曲不再轻易自动消退，让高压人生能自然触及心象异变
     const effectiveMind = CITY.stat ? CITY.stat(S, 'mind') : S.st.mind;
-    if (effectiveMind < 15) S.dist += 2;
-    else if (effectiveMind > 60) S.dist = Math.max(0, S.dist - 1.2);
-    else if (effectiveMind > 45) S.dist = Math.max(0, S.dist - 0.5);
+    if (effectiveMind < (S.rulesVersion >= 8 ? 25 : 15)) S.dist += S.rulesVersion >= 8 ? 2.8 : 2;
+    else if (S.rulesVersion >= 8 && effectiveMind < 36) S.dist += 1.2;
+    else if (effectiveMind > (S.rulesVersion >= 8 ? 72 : 60)) S.dist = Math.max(0, S.dist - (S.rulesVersion >= 8 ? 0.6 : 1.2));
+    else if (S.rulesVersion < 8 && effectiveMind > 45) S.dist = Math.max(0, S.dist - 0.5);
     // 债务
-    if (S.money < 0) { S.c.debtYears = (S.c.debtYears || 0) + 1; S.st.mind = clamp(S.st.mind - 2, 0, 100); S.flags.debt = true; }
+    if (S.money < 0) { S.c.debtYears = (S.c.debtYears || 0) + 1; S.st.mind = clamp(S.st.mind - 2, 0, 100); if (S.rulesVersion >= 8) S.dist += 0.8; S.flags.debt = true; }
     else { S.c.debtYears = 0; delete S.flags.debt; }
     S.dist = clamp(S.dist, 0, 100);
     for (const k in S.st) S.st[k] = clamp(S.st[k], 0, 100);
@@ -256,39 +289,39 @@
     const r = S.rng, a = S.age, j = S.job.id;
     const C = [];
     const add = (w, t) => C.push({ w, t });
-    if (a < 3) { add(10, '还没学会说话，便因一场来势汹汹的高烧停止了呼吸。后巷的黑诊所当晚紧闭着铁门。'); add(4, '在一个供暖断绝的刺骨寒冬里，再也没能从摇篮中醒来。'); }
+    if (a < 3) { add(10, '还没学会说话，就因一场高烧离开了。后巷的诊所当晚没有开门。'); add(4, '在一个寒冷的冬天，没能醒来。'); }
     if (a < 14) {
       if (a >= 3) {
-        add(6, '染上了一场谁也叫不出名字的急症。家里的罐子翻了个底朝天，也没凑出买半支稀释安瓿的钱。');
-        add(3, '在街口追逐玩耍时，被一辆赶着送货、毫无减速的改装重卡撞飞进了污水沟。');
-        if (S.loc === 'backstreet') { add(5, '某个阴沉的傍晚攥着零钱出门跑腿，从此再也没有回到那扇铁门后面。'); add(3, '放学路上误入两伙帮派火并的十字街口，呼啸的流弹从不挑拣孩子的胸膛。'); }
-        if (S.loc === 'outskirts') add(6, '在营地铁丝网外捡拾废铁时，被沙暴里伸出的一只冰冷巨爪无声地拖进了废墟。');
-        if (S.loc === 'nest') add(4, '一场突如其来的器质性病变，即便送进了巢内洁白无菌的综合医院也没能抢救回来。');
+        add(6, '得了一场谁也说不清的病。家里凑不出买安瓿的钱。');
+        add(3, '在街上玩的时候，被一辆没有减速的货车撞倒了。');
+        if (S.loc === 'backstreet') { add(5, '一个傍晚出门买东西，再也没有回来。'); add(3, '被卷进了大人们的一场火并，流弹不认人。'); }
+        if (S.loc === 'outskirts') add(6, '在营地外面玩耍时，被某种东西拖走了。');
+        if (S.loc === 'nest') add(4, '一场突发的病，连巢里的医院也没能救回来。');
       }
       return r.wpick(C, (x) => x.w / (S.rulesVersion >= 2 ? Math.sqrt(1 + (S.memory.deaths[x.t] || 0)) : 1)).t;
     }
-    if (a >= 60) { add(20, '在某个寻常的深夜里，于睡梦中安静地停止了呼吸。'); add(10, '一场大病抽干了最后一点油水，卧床半月后再也没能站起来。'); add(6, '某天清晨端坐在窗边的旧藤椅上，迎着灰白的天色永远闭上了眼睛。'); }
-    if (S.loc === 'backstreet') { add(5, '凌晨三点十三分之后还没能跑回家门。第二天清晨，巷子里只剩下一只咬烂的鞋——后巷深宵的清道夫来过了。'); add(4, '在昏暗的死胡同里被几个红了眼的耗子捅穿了脾脏。对方只是想翻走你兜里的几百眼零钞。'); add(2, '下班途中被卷进两家帮派争夺地盘的血战，流弹不认人。'); }
-    if (S.loc === 'outskirts') add(8, '在郊区的铅灰荒原上，被某种人类语言无法形容的怪物拖进了地缝深处。');
-    if (j === 'fixer') { add(18, '在一次收尾人委托中力竭殉职。事务所只给家里寄去了一份不到三行字的阵亡通知单。'); add(6, '委托目标的真实威胁评级远超情报所写，你在交锋的第三合便被连刀带人劈碎在了现场。'); add(3, '在任务交割点被利欲熏心的同行从背后捅穿了心脏，连悬赏带性命一块儿换了别人的功绩。'); }
-    if (j === 'syndicate' || j === 'kurokumo' || j === 'finger') { add(16, '在帮派内部的血腥清洗中倒在了自家堂口的地板上。'); add(5, '被高阶收尾人半夜踹开了房门——委托书上的任务内容只有冷冰冰的“清除”二字。'); }
-    if (j === 'finger' && S.vars.finger === 'index') add(10, '未能在规定时限内完成纺织机降下的指令，迎来了食指代行者的处刑。');
-    if (j === 'blade') add(14, '在某条落雨暗巷的尽头，与对手同时拔刀出鞘。最终只有一个人缓缓收刀入鞘，而那个人不是你。');
-    if (j === 'wing') { add(8, '死于一场被严密封锁消息的“公司内部业务事故”。保密协议扣完违约金后，抚恤金准时打进了家属账户。'); }
-    if (S.flags.debt && a >= 18) add(8, '到底没能还上滚雪球般的高利贷。催债人带着黑医踹开门，收走了你身上所有能按斤变卖的零件与器官。');
-    if (S.st.body < 25) add(8, '长年透支的破败身躯终于熬干了最后一滴灯油，在某个清晨彻底散了架。');
-    if (S.pros >= 3) add(4, '全身多处改装义体在某个雨夜爆发了致命的连锁排异与神经短路。');
-    add(2, '在下班回家的路上，遭遇了一场连收尾人都不愿深究原因的离奇事故。');
-    add(1, '在都市某处突发的高危灾害波及下，连同半条街的建筑一起化作了瓦砾。');
+    if (a >= 60) { add(20, '在睡梦中安静地停止了呼吸。'); add(10, '病倒之后，没能再站起来。'); add(6, '某天清晨坐在窗边，再也没有动过。'); }
+    if (S.loc === 'backstreet') { add(5, '凌晨三点十三分之后还没有回家。第二天，巷子里只剩下一滩血迹。清道夫来过了。'); add(4, '在后巷被一伙不认识的人捅了一刀。对方只是想要钱包。'); add(2, '被卷入两个帮派的火并之中。流弹不认人。'); }
+    if (S.loc === 'outskirts') add(8, '在郊区，被某种说不出名字的东西拖走了。');
+    if (j === 'fixer') { add(18, '在一次委托中殉职。事务所寄来了一份简短的通知。'); add(6, '委托目标比情报里写的要强得多。'); add(3, '被同行出卖，死在了交接现场。'); }
+    if (j === 'syndicate' || j === 'kurokumo' || j === 'finger') { add(16, '在帮派的清算中倒下了。'); add(5, '被收尾人找上门来。委托内容是“清除”。'); }
+    if (j === 'finger' && S.vars.finger === 'index') add(10, '没能按时完成指令，迎来了代行者的处刑。');
+    if (j === 'blade') add(14, '在某条巷子的尽头，与对手同时拔刀。只有一个人收刀入鞘，那不是你。');
+    if (j === 'wing') { add(8, '死于一次“业务事故”。公司的赔偿金准时到账。'); }
+    if (S.flags.debt && a >= 18) add(8, '还不上债。有人来收走了能变卖的一切，包括你的身体。');
+    if (S.st.body < 25) add(8, '长年透支的身体终于撑不下去了。');
+    if (S.pros >= 3) add(4, '义体出现了严重的排异反应。');
+    add(2, '在下班路上，遭遇了一场谁也说不清原因的事故。');
+    add(1, '死在一场城市级灾害的波及之中。');
     const era = CITY.eraOf(S.wy);
-    if (era === 'dist') { add(4, '被一只毫无征兆在街角破茧而出的扭曲体正面波及。等协会的讨伐队赶到拉起警戒线时，现场已经没有活口了。'); add(2, '在一次高危扭曲讨伐的封锁区边缘，被穿透铁板的重武器流弹击中。'); }
-    if (era === 'lob') add(2, '死于一场被各大报纸轻描淡写报道为“地下能源管线例行检修”的惨烈事故。');
-    if (S.flags.debt && a >= 18) add(3, '在一个滴水成冰的寒冬，因为欠债交不起暖气费与药钱，悄无声息地冻僵在了硬板床上。');
-    if (a >= 18 && a < 60) { add(2, '在街边面馆埋头吃面时，被邻桌突然暴起的收尾人死斗掀飞的刀气割断了喉咙。'); add(1, '收到了一份门牌号写错一格的“目标清除”委托——直到刀锋临头，对方才发现杀错了人。'); }
-    if (S.job.id === 'chef') add(3, '后厨年久失修的高压燃气罐在晚高峰轰然炸裂。');
-    if (S.job.id === 'mech') add(3, '工作台上一件正在带电调试的禁忌工坊兵器突然失控走火。');
-    if (S.job.id === 'doctor') add(3, '手术台上一名神智错乱的帮派伤员醒来后，没有掏诊金，而是直接抓起了托盘里的解剖刀。');
-    if (S.job.id === 'labor') add(3, '码头货场锈蚀的钢丝吊索在半空崩断，数吨重的集装箱砸落下来。');
+    if (era === 'dist') { add(4, '被一只突然出现在街角的扭曲体波及。讨伐队赶到时，已经来不及了。'); add(2, '在一次扭曲讨伐的封锁区边缘，被流弹击中。'); }
+    if (era === 'lob') add(2, '死于一场被报道为“能源设施检修”的事故。');
+    if (S.flags.debt && a >= 18) add(3, '在一个寒冷的冬天，交不起暖气费，也交不起药钱。');
+    if (a >= 18 && a < 60) { add(2, '在面馆里吃面的时候，被卷进了邻桌的一场冲突。'); add(1, '收到了一份写错地址的“清除”委托——被清除的人是你。'); }
+    if (S.job.id === 'chef') add(3, '后厨的燃气罐爆炸了。');
+    if (S.job.id === 'mech') add(3, '一件正在调试的工坊武器突然启动了。');
+    if (S.job.id === 'doctor') add(3, '一个病人醒来后，没有付钱，而是拿起了手术刀。');
+    if (S.job.id === 'labor') add(3, '货场的吊绳断了。');
     return r.wpick(C, (x) => x.w / (S.rulesVersion >= 2 ? Math.sqrt(1 + (S.memory.deaths[x.t] || 0)) : 1)).t;
   };
 

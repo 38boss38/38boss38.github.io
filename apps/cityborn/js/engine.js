@@ -96,7 +96,7 @@
       spouse: null, kids: [], pros: 0,
       log: [], titles: [], queue: [], focus: 'play',
       death: null, lastWords: '', epitaph: '', ach: [],
-      vars: {}, rulesVersion: [1, 2, 3, 4, 5, 6, 7].includes(opt.rulesVersion) ? opt.rulesVersion : 7,
+      vars: {}, rulesVersion: [1, 2, 3, 4, 5, 6, 7, 8].includes(opt.rulesVersion) ? opt.rulesVersion : 8,
       firstLife: !!opt.firstLife,
       items: {}, equipment: {}, traitOrigins: {}, traitJournal: [], itemJournal: [],
       memory: CITY.copyMemory(opt.memory || (CITY.store && CITY.store.load().variety)),
@@ -205,13 +205,13 @@
     if (typeof e === 'function') { e(S, out); return; }
     if (Array.isArray(e)) { for (const x of e) apply(S, x, out); return; }
     if (e.st) for (const k in e.st) S.st[k] = clamp(S.st[k] + e.st[k], 0, 100);
-    for (const k of STATS) if (e[k] != null) S.st[k] = clamp(S.st[k] + (k === 'mind' && e[k] < 0 ? e[k] * 0.75 : e[k]), 0, 100);
+    for (const k of STATS) if (e[k] != null) S.st[k] = clamp(S.st[k] + (k === 'mind' && e[k] < 0 ? e[k] * (S.rulesVersion >= 8 ? 0.9 : 0.75) : e[k]), 0, 100);
     if (e.money != null) {
       if (typeof e.money === 'string' && e.money.endsWith('%')) S.money = Math.round(S.money * (1 + parseFloat(e.money) / 100));
       else S.money += e.money;
     }
     if (e.fame != null) S.fame = clamp(S.fame + e.fame, 0, 100);
-    if (e.dist != null) S.dist = clamp(S.dist + (e.dist > 0 ? e.dist * 1.1 : e.dist), 0, 100);
+    if (e.dist != null) S.dist = clamp(S.dist + (e.dist > 0 ? e.dist * (S.rulesVersion >= 8 ? 1.25 : 1.1) : e.dist), 0, 100);
     for (const f of arr(e.flag)) S.flags[f] = true;
     for (const f of arr(e.unflag)) delete S.flags[f];
     if (e.cnt) for (const k in e.cnt) S.c[k] = (S.c[k] || 0) + e.cnt[k];
@@ -291,10 +291,10 @@
     if (ck.coins) { n = ck.coins; cp = ck.cp || Math.max(2, Math.round(10 / n)); }
     else { const set = COIN_SETS[hashStr(String(key || '')) % COIN_SETS.length]; n = set[0]; cp = ck.cp || set[1]; }
     const base = Math.max(0, Math.round(v / 10));
-    let h = 0.5 + ((CITY.stat ? CITY.stat(S, 'mind') : S.st.mind) - 50) / 111;
+    let h = 0.5 + ((CITY.stat ? CITY.stat(S, 'mind') : S.st.mind) - 50) / (S.rulesVersion >= 8 ? 150 : 111);
     for (const t of S.traits) { const T = CITY.TRAITS[t]; if (T && T.luck) h += T.luck; }
     h += clamp(bonuses.reduce((n, b) => n + (b.heads || 0), 0), -0.12, 0.12);
-    h = clamp(h, 0.05, 0.95);
+    h = clamp(h, S.rulesVersion >= 8 ? 0.12 : 0.05, 0.95);
     const k0 = Math.ceil(n / 2);
     let target = Math.round((ck.dc || 50) / 10) + k0 * cp;
     target = Math.min(target, base + n * cp); // 至少保留“全部正面”的可能
@@ -333,6 +333,7 @@
   };
   CITY.getEvent = (id) => byId()[id];
 
+  const LOW_STAKES_MODS = new Set(['common2', 'common3', 'common4', 'common5', 'money', 'common6', 'common7', 'common8', 'common9', 'common10', 'common11', 'common12', 'angles', 'citytext', 'lastlight', 'secondpass']);
   function eligible(S, e) {
     if (e.manual || e.birth) return false;
     const age = S.rulesVersion < 6 && e.legacyAge ? e.legacyAge : e.age;
@@ -341,6 +342,12 @@
     // 同一生不再重播环境日常；强制剧情、职业晋升和主动行动各按自身规则处理。
     if (S.rulesVersion >= 2 && !e.choices && !e.force && S.used[e.id]) return false;
     if (e.repeat && e.cd && S.last[e.id] != null && S.age - S.last[e.id] < e.cd) return false;
+    // 规则8：身居高位或家底殷实时，不再触发为几百眼苦力钱折腰的底层琐事
+    if (S.rulesVersion >= 8 && !e.force && !e.story && LOW_STAKES_MODS.has(e.mod)) {
+      const highStatus = S.money >= 500000 || S.flags.color || S.job.id === 'fixer' && S.job.rank <= 4
+        || ['wing', 'finger', 'kurokumo', 'lccb'].includes(S.job.id) && S.job.rank >= 1;
+      if (highStatus && e.choices && (!e.req || !e.req.job)) return false;
+    }
     if (!test(S, e.req)) return false;
     if (CITY.storyEligible && !CITY.storyEligible(S, e)) return false;
     return true;
@@ -361,7 +368,7 @@
     if (used) novelty *= 0.12 / (used * used);
     const recent = S.life && S.life.recentMods || [];
     const rhythm = recent.slice(-2).includes(e.mod) ? 0.65 : 1;
-    const affinity = S.life && S.life.mods.includes(e.mod) ? 1.8 : 1;
+    const affinity = S.life && S.life.mods.includes(e.mod) ? (S.rulesVersion >= 8 ? 1.25 : 1.8) : 1;
     // 已打开的后续入口优先于新的独立插曲，仍须通过原有条件。
     const q = e.req;
     const continuity = q && typeof q === 'object' && (q.flag || q.used) ? 1.4 : 1;
@@ -372,7 +379,13 @@
       if (e.tone && tones.slice(-2).every(t => t === 'quiet') && tones.length >= 2) breathing = 3;
       else if (e.tone && tones.at(-1) === e.tone) breathing = 0.5;
     }
-    return base * novelty * rhythm * affinity * continuity * story * breathing;
+    let flavor = 1;
+    if (S.rulesVersion >= 8) {
+      if (LOW_STAKES_MODS.has(e.mod) && e.choices) flavor = S.focus === 'rest' ? 0.75 : 0.35;
+      else if (e.mod === 'lifelines2') flavor = 0.38;
+      else if (['world', 'beyond', 'limbus', 'strange', 'cameo'].includes(e.mod)) flavor = 1.6;
+    }
+    return base * novelty * rhythm * affinity * continuity * story * breathing * flavor;
   };
 
   // 运行一个事件：可能产生选择（异步）。返回 Promise
@@ -543,15 +556,20 @@
       const wf = (e) => CITY.eventWeight(S, e);
       const qCount = () => S.log.filter((l) => l.age === S.age && l.kind === 'q').length;
       // 职业事件（条件里限定了 job 的事件）每年单独抽一次，让职业线有足够的推进
-      const isCareer = (e) => e.req && typeof e.req === 'object' && e.req.job && S.job.id !== 'none';
+      const isCareer = (e) => (e.story && e.story.route !== 'human' && e.story.route !== 'child' && e.story.route !== 'family' && e.story.route !== 'late')
+        || (e.req && typeof e.req === 'object' && e.req.job && S.job.id !== 'none');
       const career = majors.filter(isCareer);
       const familiarOnly = pool => S.rulesVersion >= 4 && pool.length && pool.every(e => S.memory.events[e.id]);
-      const careerChance = familiarOnly(career) ? 0.3 : 0.6;
+      const careerChance = S.rulesVersion >= 8
+        ? (S.job.years <= 2 && career.some(e => e.story) ? 0.85 : familiarOnly(career) ? 0.35 : 0.65)
+        : (familiarOnly(career) ? 0.3 : 0.6);
       if (career.length && qCount() < 1 && S.rng.chance(careerChance)) {
         const e = S.rng.wpick(career, wf); if (e) await runEvent(S, e);
       }
       const general = majors.filter((e) => !isCareer(e) && eligible(S, e));
-      const pMajor = S.age < 4 ? 0.12 : S.age < 12 ? 0.5 : qCount() ? 0.4 : 0.7;
+      const pMajor = S.rulesVersion >= 8
+        ? (S.age < 4 ? 0.1 : S.age < 12 ? 0.42 : qCount() ? 0.15 : 0.52)
+        : (S.age < 4 ? 0.12 : S.age < 12 ? 0.5 : qCount() ? 0.4 : 0.7);
       if (S.alive && qCount() < 1 && general.length && S.rng.chance(pMajor * (familiarOnly(general) ? 0.5 : 1))) {
         const e = S.rng.wpick(general, wf); if (e) await runEvent(S, e);
       }
@@ -559,7 +577,9 @@
       if (S.rulesVersion >= 2) {
         const fresh = minors.filter((e) => !S.memory.events[e.id]).length;
         // 池子变薄时允许安静的一年，避免把剩下几条日常反复塞满。
-        nMin = minors.length < 6 ? (S.rng.chance(0.5) ? 1 : 0) : 1 + (fresh >= 8 && S.rng.chance(0.3) ? 1 : 0);
+        nMin = minors.length < 6 ? (S.rng.chance(0.5) ? 1 : 0) : 1 + (fresh >= 8 && S.rng.chance(S.rulesVersion >= 8 ? 0.18 : 0.3) ? 1 : 0);
+        if (S.rulesVersion >= 8 && qCount() >= 2) nMin = 0;
+        else if (S.rulesVersion >= 8 && qCount() === 1 && S.rng.chance(0.45)) nMin = 0;
         if (S.rulesVersion >= 4 && fresh === 0 && S.rng.chance(0.65)) nMin = 0;
       }
       for (let i = 0; i < nMin && S.alive; i++) {

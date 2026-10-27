@@ -33,21 +33,41 @@
   // 规则7：只有会改写人生走向的选择才停下时间——换工作、搬家、婚育、生死、重伤或一大笔钱。
   // 剧情节点、后续和函数效果不再自动算“重大”；函数只在源码里动到这些状态时才算。
   const LIFE_CHANGING = /.job|job:|.loc|loc:|spouse|kids|kidDie|.alive|death|.pros|home|setJob|startJob|leaveJob/;
-  function lifeChanging(effect) {
-    if (Array.isArray(effect)) return effect.some(lifeChanging);
-    if (typeof effect === 'function') return LIFE_CHANGING.test(String(effect));
-    return !!effect && typeof effect === 'object' && ((typeof effect.fn === 'function' && LIFE_CHANGING.test(String(effect.fn)))
+  function lifeChanging(effect, v8) {
+    if (Array.isArray(effect)) return effect.some(x => lifeChanging(x, v8));
+    if (typeof effect === 'function') return (v8 ? /\.job\s*=|\bjob\s*:\s*\{|\.loc\s*=|\bloc\s*:\s*\{|spouse|kids|kidDie|\.alive\s*=|death|setJob|startJob|leaveJob|joinAssoc|joinFinger|hire\(/ : LIFE_CHANGING).test(String(effect));
+    if (!effect || typeof effect !== 'object') return false;
+    if (v8) {
+      return (typeof effect.fn === 'function' && /\.job\s*=|\bjob\s*:\s*\{|\.loc\s*=|\bloc\s*:\s*\{|spouse|kids|kidDie|\.alive\s*=|death|setJob|startJob|leaveJob|joinAssoc|joinFinger|hire\(/.test(String(effect.fn)))
+        || (effect.body ?? effect.st?.body ?? 0) <= -14 || (effect.mind ?? effect.st?.mind ?? 0) <= -18 || (effect.dist || 0) >= 15
+        || ['job', 'loc', 'spouse', 'kid', 'kidDie', 'death'].some(k => effect[k] != null)
+        || (effect.risk && effect.risk[0] >= 0.12);
+    }
+    return (typeof effect.fn === 'function' && LIFE_CHANGING.test(String(effect.fn)))
       || (effect.body ?? effect.st?.body ?? 0) <= -10 || (effect.mind ?? effect.st?.mind ?? 0) <= -15 || (effect.dist || 0) >= 10
-      || ['job', 'loc', 'spouse', 'kid', 'kidDie', 'pros', 'death', 'risk'].some(k => effect[k] != null));
+      || ['job', 'loc', 'spouse', 'kid', 'kidDie', 'pros', 'death', 'risk'].some(k => effect[k] != null);
   }
   C.isMajorChoice = function (S, event, choices = event.choices || []) {
+    if (S.rulesVersion >= 8) {
+      if (event.star || event.tag === 'major') return true;
+      if (event.story) {
+        const A = C.STORIES && C.STORIES[event.story.id];
+        if (A && event.story.step === A.nodes.length - 1) return true;
+      }
+      return choices.some(choice => {
+        const source = choice.costEffects;
+        const effects = source ? [source.base, source.ok, source.no, ...(source.res || [])] : [choice.eff, choice.ok?.eff, choice.no?.eff, ...(choice.res || []).filter(x => C.test(S, x.req)).map(x => x.eff)];
+        const price = C.choiceCosts(S, choice).max;
+        return effects.some(x => lifeChanging(x, true)) || price >= 80000 || price >= Math.max(30000, Math.max(0, S.money) * 0.65);
+      });
+    }
     if (S.rulesVersion >= 7) {
       if (event.force || event.star || event.tag === 'major') return true;
       return choices.some(choice => {
         const source = choice.costEffects;
         const effects = source ? [source.base, source.ok, source.no, ...(source.res || [])] : [choice.eff, choice.ok?.eff, choice.no?.eff, ...(choice.res || []).filter(x => C.test(S, x.req)).map(x => x.eff)];
         const price = C.choiceCosts(S, choice).max;
-        return effects.some(lifeChanging) || price >= 30000 || price >= Math.max(5000, Math.max(0, S.money) * 0.4);
+        return effects.some(x => lifeChanging(x, false)) || price >= 30000 || price >= Math.max(5000, Math.max(0, S.money) * 0.4);
       });
     }
     if (event.manual || event.story || event.force || event.star || event.tag === 'major') return true;
@@ -58,7 +78,18 @@
       return effects.some(consequential) || price >= 20000 || price >= Math.max(1000, Math.max(0, S.money) * 0.2);
     });
   };
-  C.choiceSeconds = (text, options) => Math.min(60, Math.max(18, Math.ceil((String(text).length + options.reduce((n, o) => n + o.t.length + (o.hint || '').length + (o.cost || '').length, 0)) / 7) + 8));
+  C.choiceSeconds = (text, options, S) => S && S.rulesVersion >= 8
+    ? Math.min(18, Math.max(7, Math.ceil((String(text).length + options.reduce((n, o) => n + o.t.length, 0)) / 26) + 5))
+    : Math.min(60, Math.max(18, Math.ceil((String(text).length + options.reduce((n, o) => n + o.t.length + (o.hint || '').length + (o.cost || '').length, 0)) / 7) + 8));
+  C.smartPickChoice = function (S, opts) {
+    let best = 0, bestScore = -1e9;
+    opts.forEach((o, i) => {
+      let sc = (o.p != null ? o.p * 2 : 1) - (/拒绝|不参与|不接|算了|离开|放弃|退缩|不管/.test(o.t) ? 1.5 : 0) + (i === 0 ? 0.15 : 0);
+      if (o.cost && S.money < 20000) sc -= 0.8;
+      if (sc > bestScore) { bestScore = sc; best = i; }
+    });
+    return best;
+  };
   C.lifeHighlights = function (S, limit = 6) {
     const candidates = [];
     for (let i = 0; i < S.log.length; i++) {

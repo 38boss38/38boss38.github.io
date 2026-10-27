@@ -346,17 +346,17 @@
   add('spare_rice', '窗台晒干的锅底陈米', '你把每天砂锅底刮下来的剩米粒摊在旧报纸上，借着窗台一缕难得的日头晒成干米花，存进带螺纹盖的玻璃罐里备荒。\n\n半夜听见窗外有耗子翻找空垃圾桶的响动，你摸黑起身把玻璃罐盖子又使劲拧紧了一圈，抱进被窝里才安心睡去。', null, { req: { loc: ['backstreet', 'outskirts'] }, eff: { money: 1000, mind: 1 } });
   CITY.addEvents('backstreet', E);
   CITY.addAch({
-    bs_load: { name: '板车抵欠薪', desc: '在货运栈老板卷款跑路后，拉走库房里的铁轮板车与剩货抵回血汗钱。', tier: 'common', group: '后巷' },
-    bs_counter: { name: '招牌换姓人未走', desc: '经历街角杂货铺易主兼并，依旧守在熟悉的收银柜台后面。', tier: 'common', group: '后巷' },
-    bs_stove: { name: '传下来的汤勺与钥匙', desc: '从灶尾帮厨一路熬到独立掌勺，从老厨师手里接过了面馆的铜钥匙。', tier: 'uncommon', group: '后巷' },
-    bs_bench: { name: '靠窗的独立台位', desc: '在后巷铁匠工坊里熬出资历，分到了那张采光最好的独立接单工作台。', tier: 'common', group: '后巷' },
-    bs_case: { name: '焚毁病历之夜', desc: '当帮派旧账找上门清算时，果断烧空病历柜，提着出诊箱消失在夜色里。', tier: 'rare', group: '后巷', hidden: true, hint: '有些地下黑诊所，关门远比开门更凶险。' },
-    bs_dawn: { name: '熬到四点三十四分', desc: '在凌晨三点十三分降临的后巷深宵与清道夫浪潮下，死死守住防线活到了黎明。', tier: 'uncommon', group: '后巷' },
-    bs_receipt: { name: '人情与本息两清', desc: '在吃人的后巷里结清了一笔救命旧债，或等到了昔日挚友连本带息的归还。', tier: 'uncommon', group: '后巷' },
-    bs_missing: { name: '空缺的肋下', desc: '卖掉一颗原生脏器三年后，再次躺上黑诊所的手术台复查那道隐隐作痛的旧疤。', tier: 'rare', group: '后巷', hidden: true, hint: '从自己身上割出去的肉，几年后仍会向你讨要利息。' },
-    bs_joint: { name: '四十五万眼的铁关节', desc: '在地下黑诊所咬牙掏出四十五万眼，为自己换上一处沉甸甸的改装义体。', tier: 'uncommon', group: '后巷' },
-    bs_silence: { name: '死寂的窗沿以下', desc: '隔着百叶窗缝隙目睹首脑麾下的“爪牙”处决禁忌犯，并在被察觉前屏息退入黑暗。', tier: 'rare', group: '后巷', hidden: true, hint: '当整条街连犬吠声都骤然消失时，千万别把头探出窗外。' },
-    bs_address: { name: '换个区接着活', desc: '卷起全部家当搭上跨区货车，从一片后巷迁徙到另一个区的后巷。', tier: 'common', group: '后巷' },
-    bs_second_bowl: { name: '灶台上的第二只碗', desc: '收留那个快饿死的流浪孩童九年后，收到了他长大成人带回来的厚报。', tier: 'rare', group: '后巷', hidden: true, hint: '碗柜最里面那只缺了口的旧碗，一直没舍得扔掉。' },
+    bs_load: { name: '推车抵账', desc: '在货场关门后，用旧推车抵回一部分欠薪。', tier: 'common', group: '后巷' },
+    bs_counter: { name: '柜台还在', desc: '经历杂货铺易主后，继续留在柜台做事。', tier: 'common', group: '后巷' },
+    bs_stove: { name: '三把钥匙', desc: '从帮厨做到掌勺，接过面馆后厨的钥匙。', tier: 'uncommon', group: '后巷' },
+    bs_bench: { name: '靠窗的工作台', desc: '在工坊熬出资历，分到独立接单的工作台。', tier: 'common', group: '后巷' },
+    bs_case: { name: '空白病历', desc: '旧账找上门时，烧掉病历拎着药箱离开。', tier: 'rare', group: '后巷', hidden: true, hint: '有些诊所，关门比开门更难。' },
+    bs_dawn: { name: '等到天亮', desc: '在后巷深宵的清道夫浪潮下活到天亮。', tier: 'uncommon', group: '后巷' },
+    bs_receipt: { name: '两清', desc: '结清一笔借款，或收到朋友还清的旧债。', tier: 'uncommon', group: '后巷' },
+    bs_missing: { name: '少了一部分', desc: '卖掉器官三年后，回诊所复查旧刀口。', tier: 'rare', group: '后巷', hidden: true, hint: '有些价款会在几年后继续结算。' },
+    bs_joint: { name: '接口保修', desc: '花四十五万眼在黑诊所换上一处义体。', tier: 'uncommon', group: '后巷' },
+    bs_silence: { name: '窗沿以下', desc: '远远目睹爪牙处决禁忌犯后，活着离开窗口。', tier: 'rare', group: '后巷', hidden: true, hint: '街道突然安静时，别站得太高。' },
+    bs_address: { name: '另一块门牌', desc: '从一个区的后巷搬到另一个区的后巷。', tier: 'common', group: '后巷' },
+    bs_second_bowl: { name: '第二只碗', desc: '收留流浪孩子九年后，收到他带回的回报。', tier: 'rare', group: '后巷', hidden: true, hint: '柜子里那只旧碗，还没有扔掉。' },
   });
 })();

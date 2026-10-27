@@ -397,25 +397,25 @@
       ] },
   ]);
   CITY.addAch({
-    lv_repaid: { name: '千金不易的信义', desc: '当年借给患难挚友救命的血汗钱，在多年后连本带息地回到了你手里。', tier: 'uncommon', group: '羁绊' },
-    lv_paper_cup: { name: '捏扁的最后一只纸杯', desc: '在简陋的告别仪式上，为当年共患难的挚友敬完最后一杯浊酒。', tier: 'common', group: '羁绊' },
-    lv_two_names: { name: '并排签下的两个名字', desc: '在婚书上并排按完手印，与相知相伴的那个人正式结为夫妻。', tier: 'common', group: '羁绊' },
-    lv_twelve_leases: { name: '第十二张续租契约', desc: '与同一位伴侣在风雨飘摇的都市里相互扶持，走过了婚后的第十二个年头。', tier: 'rare', group: '羁绊' },
-    lv_mended: { name: '缝补如初的旧袖口', desc: '经历激烈的争吵与冷战两年后，与伴侣重归于好、携手搬进了新的住处。', tier: 'uncommon', group: '羁绊' },
-    lv_closed_account: { name: '迟来多年的结案电话', desc: '在孤身追查伴侣遇害真相的漫长岁月后，终于接到了那通交代始末的旧电话。', tier: 'rare', group: '羁绊', hidden: true, hint: '有些草草结案的死亡通知，隔了几年仍会迎来真相的回响。' },
-    lv_answered: { name: '从低语中唤回的爱人', desc: '当伴侣濒临心象崩溃、即将化作扭曲的瞬间，用死死握紧的双手唤回了ta的应答。', tier: 'epic', group: '羁绊', hidden: true, hint: '当家里的电话听筒传出奇怪的忙音时，千万别放开ta的手。' },
-    lv_gray_together: { name: '共白头', desc: '在这座朝不保夕的都市里，与同一位伴侣相守超过三十年，直到双双鬓染霜白。', tier: 'legend', group: '羁绊' },
-    lv_empty_ampule: { name: '捏碎的空安瓿管', desc: '倾尽积蓄买下昂贵的K公司HP安瓿，将重伤垂死的孩子从鬼门关前抢了回来。', tier: 'uncommon', group: '羁绊' },
-    lv_return_address: { name: '远方寄回的汇款单', desc: '在孩子离家闯荡的第十二年，收到了ta从远方寄回来的第一笔孝敬汇款。', tier: 'rare', group: '羁绊' },
-    lv_found_again: { name: '失而复得的小手', desc: '踏遍暗巷与黑市，终于将走失的孩子平平安安地重新抱回了家门。', tier: 'epic', group: '羁绊' },
-    lv_unwritten_name: { name: '磨平姓氏的旧家书', desc: '顺着磨字家徽的线索追查到底，收到了从拆迁废墟寄来的那封无字回信与半张合照。', tier: 'epic', group: '羁绊', hidden: true, hint: '贴身旧夹袄的内衬里，或许还缝着上一辈人不敢明说的来历。' },
+    lv_repaid: { name: '连本带息', desc: '借给患难朋友的救命钱如约归还。', tier: 'uncommon', group: '羁绊' },
+    lv_paper_cup: { name: '最后一个纸杯', desc: '参加患难朋友的葬礼。', tier: 'common', group: '羁绊' },
+    lv_two_names: { name: '两张签名', desc: '与相识的人登记结婚。', tier: 'common', group: '羁绊' },
+    lv_twelve_leases: { name: '续租十二年', desc: '与同一位伴侣度过婚后的第十二年。', tier: 'rare', group: '羁绊' },
+    lv_mended: { name: '补过的袖口', desc: '争吵两年后，与伴侣一起搬进新住处。', tier: 'uncommon', group: '羁绊' },
+    lv_closed_account: { name: '更正名单', desc: '追查伴侣遇害多年后，收到交代始末的旧电话。', tier: 'rare', group: '羁绊', hidden: true, hint: '有些记录隔了几年仍要更正。' },
+    lv_answered: { name: '有人应声', desc: '在伴侣出现扭曲征兆时唤回了应答。', tier: 'epic', group: '羁绊', hidden: true, hint: '留意家里接不上线的电话。' },
+    lv_gray_together: { name: '共白头', desc: '与同一位伴侣相守三十年以上，见到彼此白发。', tier: 'legend', group: '羁绊' },
+    lv_empty_ampule: { name: '空玻璃管', desc: '花钱买下HP安瓿救活受伤的孩子。', tier: 'uncommon', group: '羁绊' },
+    lv_return_address: { name: '回信地址', desc: '收到离家十二年的孩子寄回的汇款单。', tier: 'rare', group: '羁绊' },
+    lv_found_again: { name: '失而复得', desc: '把走失的孩子平安接回家。', tier: 'epic', group: '羁绊' },
+    lv_unwritten_name: { name: '没有填上的名字', desc: '追查磨字家徽，收到拆迁旧楼寄来的无字回信。', tier: 'epic', group: '羁绊', hidden: true, hint: '旧衣内衬里或许还缝着东西。' },
   });
 })();
 
 /* 补充：第二个孩子（可重复） */
 CITY.addEvents('love', [
   { id: 'lv_another_child', age: [23, 44], force: true, req: { spouse: true, nojob: ['distorted', 'book'], kids: [1, 2], fn: (S) => S.rng.chance(0.15) }, repeat: true, cd: 4, w: 25, title: '又一张小木床',
-    text: '夜里哄睡了老大，你借着窗外透进来的微光丈量着屋里仅剩的半步过道。{spouse}轻轻碰了碰你的手肘，压低声音问：咱们这间屋，还挤得下第二张小床吗？',
+    text: '夜里哄睡了老大，你借着窗外透进来的微光丈量着屋里仅剩的半步过道。\n\n{spouse}轻轻碰了碰你的手肘，压低声音问：咱们这间屋，还挤得下第二张小床吗？',
     choices: [
       { t: '再要一个孩子', r: '你们咬牙从牙缝里省出了三万眼。十个月后，狭窄的屋子里又多了一道洪亮的啼哭声，老大睡过的那张旧木床拿铁丝加固了一遍，顺顺当当地传给了老二。', eff: { kid: 1, money: -30000, mind: 2, fn: S => CITY.initLoveChild(S) } },
       { t: '一个就够了', r: '看着在这座都市里拉扯一个孩子的艰辛，你们最终还是打消了这个念头，将省下来的五千眼塞进了给老大攒学费的铁皮盒里。', eff: { money: 5000, mind: 1 } },

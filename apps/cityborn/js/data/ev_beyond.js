@@ -370,14 +370,14 @@ CITY.addEvents('beyond', [
 ]);
 
 CITY.addAch({
-  by_neighbor: { name: '闪烁街灯的两端', desc: '化身非人扭曲体后，在废墟暗巷中与另一头扭曲体划定了互不侵犯的界线。', tier: 'rare', group: '扭曲与光', hidden: true, hint: '漆黑的地下通道里，回荡着两种截然不同的沉重呼吸。' },
-  by_name: { name: '塑料袋里的旧外套', desc: '即使身躯已化作可怖的扭曲怪物，依然在警戒线外认出了哭喊着你名字的家人。', tier: 'epic', group: '扭曲与光', hidden: true, hint: '武装封锁带外，还有人死死攥着你穿过的旧衣服不肯走。' },
-  by_rating: { name: '攀升的灾害悬赏令', desc: '作为扭曲体在都市暗处游荡数年，亲历自身威胁评级从“都市怪谈”一路升至“都市恶疾”。', tier: 'epic', group: '扭曲与光', hidden: false },
-  by_human: { name: '剥落怪壳的第一口呼吸', desc: '在最后一次录音唤醒实验中挣脱心象泥潭，奇迹般地褪去扭曲外壳、重返人形。', tier: 'myth', group: '扭曲与光', hidden: true, hint: '哪怕变成了怪物，磁带里那声熟悉的呼唤仍在等你回答。' },
-  by_ledger: { name: '心象具现的战损单', desc: '在动用自我E.G.O轰平街区后，凭原始作战记录与协会逐条核清了高昂的市政赔偿。', tier: 'uncommon', group: '扭曲与光', hidden: false },
-  by_answer: { name: '与耳畔之声共处', desc: '直面三年前深埋心底的创伤答卷，在拒绝卡门低语的同时稳住了自我E.G.O的边界。', tier: 'epic', group: '扭曲与光', hidden: true, hint: '有些发黄的旧纸页上，写着一句你始终不敢再读第二遍的话。' },
-  by_book: { name: '留在椅背上的风衣', desc: '即便做足了死战的准备，最终仍在废墟图书馆的舞台上化作了一册精装的书。', tier: 'rare', group: '扭曲与光', hidden: true, hint: '推开那扇红门前，你的旧外套还整整齐齐搭在椅背上。' },
-  by_pages: { name: '带着战利书页重返人间', desc: '在废墟图书馆的生死接待中博弈胜出，揣着赢得的珍贵书页重新踏上都市的街道。', tier: 'legend', group: '扭曲与光', hidden: true, hint: '唯有真正赌上性命与执念的宾客，才能带着书页走出迷雾。' },
-  by_unfinished: { name: '未写完的半截乐谱', desc: '在光之种散播三年后，领回了那张记录着昔日邻居哼唱旋律的旧纸板。', tier: 'uncommon', group: '扭曲与光', hidden: false },
-  by_box_return: { name: '断扣工具箱的归宿', desc: '替消失在白雾中的故人保管工具箱整整三年，终将其亲手交还给通过核验的后人。', tier: 'uncommon', group: '扭曲与光', hidden: false },
+  by_neighbor: { name: '坏灯的两端', desc: '与另一个扭曲体暂时划定各自停留的界线。', tier: 'rare', group: '扭曲与光', hidden: true, hint: '通道里有两种呼吸声。' },
+  by_name: { name: '袋子里的旧衣服', desc: '扭曲后，在封锁线外回应认出自己的家人。', tier: 'epic', group: '扭曲与光', hidden: true, hint: '封锁带外，有人还在喊你的名字。' },
+  by_rating: { name: '第三张通告', desc: '在数年间经历都市怪谈到都市恶疾的评级变化。', tier: 'epic', group: '扭曲与光', hidden: false },
+  by_human: { name: '再次吸气', desc: '在最后一次录音试验中极罕见地恢复人形。', tier: 'myth', group: '扭曲与光', hidden: true, hint: '墙上的灯还留着一个小洞。' },
+  by_ledger: { name: '九栏之外', desc: '靠原始记录核清E.G.O使用后的战损赔偿。', tier: 'uncommon', group: '扭曲与光', hidden: false },
+  by_answer: { name: '先修水管', desc: '面对三年前的答复，学会与耳畔的声音共处。', tier: 'epic', group: '扭曲与光', hidden: true, hint: '旧纸张上，有一句让你不愿再读。' },
+  by_book: { name: '椅背上的外衣', desc: '做足准备后，仍在图书馆接待中化作一本书。', tier: 'rare', group: '扭曲与光', hidden: true, hint: '出门前，椅背上还搭着一件衣服。' },
+  by_pages: { name: '街上的书页', desc: '经历完整接待后，带着想要的书页回到街上。', tier: 'legend', group: '扭曲与光', hidden: true, hint: '先收好清单，再决定落笔。' },
+  by_unfinished: { name: '少了几拍', desc: '三年后领回记着昔日邻居曲调的旧纸板。', tier: 'uncommon', group: '扭曲与光', hidden: false },
+  by_box_return: { name: '断扣的那一侧', desc: '保管三年后，将工具箱交给核实过的领取人。', tier: 'uncommon', group: '扭曲与光', hidden: false },
 });

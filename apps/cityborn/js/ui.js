@@ -13,19 +13,16 @@
     sfx('click');
   }, true);
   const QUOTES = [
-    '在都市，活到自然老死本身就是一种罕见的才能。',
-    '凌晨三点十三分之后，听见任何敲门声都别开锁。',
-    '翼的羽翼之下是温暖的巢，羽毛照不到的阴影里全是后巷。',
-    '收尾人只认白纸黑字的委托与眼，不问善恶。',
-    '所有人都在拼命抢夺着什么，哪怕只是锅里多出的一颗卤蛋。',
-    '这座都市从不缺奇点与奇迹，只是每一份奇迹都在暗中标好了血肉的价码。',
-    '规矩就是规矩。触犯首脑禁忌的人，连后悔的时间都不会有。',
-    '十秒钟的WARP列车准点到站，没人关心车厢在次元缝隙里熬过了多少年。',
-    '食指的纺织机永不停歇，只要照着黑纸条上的指令去做，就不必再为选择而痛苦。',
-    'K公司的翠绿安瓿能长出被打碎的骨肉，只要你还得起下个月的分期账单。',
-    '在T公司的街道上，连抬头看一眼彩色的天空都是富人的特权。',
-    '当耳边响起那个温柔得让人想哭的声音时，握紧你手里的刀，或者顺从地化作怪物。',
-    '如果收到了一封烫着金印的红色邀请函——愿你在那里找到想要的书。',
+    '在都市，活下去本身就是一种才能。',
+    '凌晨三点十三分之后，别出门。',
+    '翼的庇护之下是巢，巢的阴影之下是后巷。',
+    '收尾人收下报酬，便替人了结一切。',
+    '所有人都在争夺着什么，哪怕只是明天的一顿饭。',
+    '这座都市不缺奇迹，只是每一份奇迹都标好了价码。',
+    '规矩就是规矩。违反禁忌的人，会被爪牙找上门来。',
+    'WARP列车十秒钟就能到站，没人过问中间的漫长岁月。',
+    '只要照着食指的指令去做，就不必再为选择而痛苦。',
+    '愿你在那里找到想要的书。',
   ];
   const ERA_NAME = { lob: '脑叶公司时代', fall: 'L公司崩溃', lib: '图书馆时期', dist: '扭曲时代' };
   const ERA_SHORT = { lob: '脑叶', fall: '白夜黑昼', lib: '图书馆', dist: '扭曲' };
@@ -58,14 +55,14 @@
   let pendingChoice = null;
   let lastOpt = null;
   // 每一年的长度按这一年产生的文字量计算（×1 时约每字 45 毫秒），速度档位只是倍率
-  let yearDur = 4500, yearT = 0, yearStepped = false, stepMode = false, timedChoices = false, resultPending = null, DEMO_MS = 0;
+  let yearDur = 4500, yearT = 0, yearStepped = false, stepMode = false, timedChoices = true, resultPending = null, DEMO_MS = 0;
   const MODAL_KINDS = { q: 1, pick: 1, r: 1 };
   function calcYearDur(age) {
     let chars = 0;
     for (const l of S.log) if (l.age === age) chars += MODAL_KINDS[l.kind] ? l.text.length * 0.25 : l.text.length;
     if (DEMO_MS) return DEMO_MS * 4;
-    if (S.rulesVersion >= 2 && !chars) return 1500;
-    return Math.max(4200, Math.min(12000, 3000 + chars * 40));
+    if (S.rulesVersion >= 2 && !chars) return 1100;
+    return Math.max(2600, Math.min(9500, 2000 + chars * 32));
   }
   function updateBar() {
     const f = $('#yb-fill'), lb = $('#yb-label');
@@ -97,7 +94,7 @@
     const myRun = runId;
     // 第一段人生受童年保护；这个判断写进存档，读档重放时保持一致。
     const firstLife = opt.firstLife != null ? opt.firstLife : !(CITY.store.load().total || 0);
-    S = CITY.newState(Object.assign({}, opt, { rulesVersion: opt.rulesVersion || 7, firstLife }));
+    S = CITY.newState(Object.assign({}, opt, { rulesVersion: opt.rulesVersion || 8, firstLife }));
     REC = { format: S.rulesVersion >= 6 ? 6 : 5, o: { name: opt.name || '', gender: opt.gender || null, era: opt.era || null, seed: S.seed,
       rulesVersion: S.rulesVersion, firstLife, memory: CITY.copyMemory(S.memory) }, p: [], y: [], x: [] };
     $('#log').innerHTML = '';
@@ -257,7 +254,7 @@
     if (REPLAY || !yearBusy || !S0 || S0.age <= 0) return;
     renderInventory();
     const myRun = runId;
-    const budget = DEMO_MS ? 120 : Math.min(3000, Math.max(800, yearDur * (e.choices ? 0.3 : 0.18)));
+    const budget = DEMO_MS ? 120 : Math.min(2000, Math.max(550, yearDur * (e.choices ? 0.24 : 0.14)));
     let spent = 0;
     while (spent < budget) {
       if (myRun !== runId || !S0.alive) return;
@@ -392,7 +389,7 @@
     p.textContent = prose(ent.text);
     if (!REPLAY && !MODAL_KINDS[ent.kind]) {
       const n = (blk._n = (blk._n || 0) + 1) - 1;
-      p.style.animationDelay = Math.round(n * 520 / Math.max(1, speed)) + 'ms';
+      p.style.animationDelay = Math.round(n * 280 / Math.max(1, speed)) + 'ms';
     } else p.style.animationDelay = '0ms';
     host.appendChild(p);
     if (ent.choice && ent.impacts && ent.impacts.length) {
@@ -442,12 +439,13 @@
     });
     if (body) body.appendChild(wrap); else $('#log').appendChild(wrap);
     stickBottom();
-    const duration = CITY.choiceSeconds(text, opts);
+    const duration = CITY.choiceSeconds(text, opts, S);
+    const recIdx = CITY.smartPickChoice ? CITY.smartPickChoice(S, opts) : 0;
     let left = duration, autoWait = 0, lastTick = performance.now();
     const fill = $('.ic-timer i', wrap), leftEl = $('.ic-left', wrap), timerBar = $('.ic-timer', wrap), label = $('.ic-label', wrap);
     const showClock = () => {
       timerBar.hidden = !timedChoices && !auto;
-      label.textContent = auto ? '日常选择 · 自动' : '日常选择';
+      label.textContent = auto ? '日常选择 · 自动' : timedChoices ? '日常选择 · 超时自动顺延' : '日常选择';
       leftEl.textContent = auto || !timedChoices ? '' : Math.max(0, Math.ceil(left)) + 's';
       fill.style.width = (auto ? 100 : Math.max(0, left / duration * 100)).toFixed(1) + '%';
     };
@@ -465,15 +463,15 @@
     pendingChoice = { done, n: opts.length, major: false, timer: 0, clock: 0 };
     const timerId = setInterval(() => {
       if (!pendingChoice || pendingChoice.done !== done) { clearInterval(timerId); return; }
-      const now = performance.now(), dt = Math.min(1, (now - lastTick) / 1000); lastTick = now;
+      const now = performance.now(), dt = Math.min(1, (now - lastTick) / 1000) * Math.max(1, speed * 0.65); lastTick = now;
       showClock();
       if (speed <= 0 || !$('#menu').hidden) return;
       if (auto) autoWait += dt;
       else if (timedChoices) left -= dt;
       if (auto && autoWait >= 1.1 || !auto && timedChoices && left <= 0) {
         clearInterval(timerId);
-        const i = Math.floor(Math.random() * opts.length);
-        if (!auto) toast('时间到 · 自动选择「' + (opts[i] ? opts[i].t : '') + '」');
+        const i = S && S.rulesVersion >= 8 ? recIdx : Math.floor(Math.random() * opts.length);
+        if (!auto) toast('日常顺延 · 选择「' + (opts[i] ? opts[i].t : '') + '」');
         done(i);
       }
     }, 100);
@@ -766,11 +764,11 @@
     el._raf = requestAnimationFrame(step);
   }
   function fameName(f) {
-    if (f >= 90) return '整座都市都流传着这个名字';
-    if (f >= 70) return '各区事务所与堂口皆知其名';
-    if (f >= 45) return '在几条街区与同行间叫得响字号';
-    if (f >= 20) return '附近街坊与熟客认得你的脸';
-    return '芸芸众生里的无名之辈';
+    if (f >= 90) return '整座都市都知道这个名字';
+    if (f >= 70) return '声名远扬';
+    if (f >= 45) return '小有名气';
+    if (f >= 20) return '附近有人认识你';
+    return '无名之辈';
   }
   function renderFocus() {
     const list = CITY.focusList(S);
@@ -784,7 +782,7 @@
   function renderActs() {
     const list = CITY.actionList ? CITY.actionList(S) : [];
     if (S.act && !list.includes(S.act)) S.act = null;
-    let html = list.length ? list.map((k) => { const A = CITY.ACTIONS[k]; return '<button data-a="' + k + '" class="' + (S.act === k ? 'on' : '') + '" title="' + esc(A.desc) + '">' + A.name + '</button>'; }).join('') : '<span class="muted" style="font-size:12px">眼下没有多余的门路可走，只能先熬过今年。</span>';
+    let html = list.length ? list.map((k) => { const A = CITY.ACTIONS[k]; return '<button data-a="' + k + '" class="' + (S.act === k ? 'on' : '') + '" title="' + esc(A.desc) + '">' + A.name + '</button>'; }).join('') : '<span class="muted" style="font-size:12px">现在没有什么能做的。</span>';
     // 路线线索：把还锁着的入口写清缺什么，不代替玩家作决定。
     const tips = S.alive && CITY.actionHints ? CITY.actionHints(S, 3) : [];
     if (tips.length) html += '<div class="act-tips">' + tips.map((t) => '<span><b>' + esc(t.name) + '</b>' + esc(t.why) + '</span>').join('') + '</div>';
@@ -827,13 +825,14 @@
       }
     }
     c.push('时代：' + ERA_NAME[CITY.eraOf(S.wy)]);
-    c.push('收入：约 ' + CITY.fmtMoney(CITY.income(S)) + ' / 年');
+    const netInc = CITY.income(S) - (CITY.upkeep ? CITY.upkeep(S) : 0);
+    c.push('收支：约 ' + (netInc >= 0 ? '+' : '') + CITY.fmtMoney(netInc) + ' / 年');
     if (S.pros) c.push('义体：' + S.pros + ' 处');
-    if (S.flags.debt) c.push('<span class="warnc">负债累累（催收人随时登门）</span>');
-    if (S.dist >= 70) c.push('<span class="violet">耳畔正回荡着那个温柔如暖阳的劝诱声</span>');
-    else if (S.dist >= 40) c.push('<span class="violet">心底的裂隙正渗出挥之不去的执念与低语</span>');
-    if (CITY.stat(S, 'body') < 20) c.push('<span class="warnc">肉体濒临油尽灯枯</span>');
-    if (CITY.stat(S, 'mind') < 20) c.push('<span class="warnc">理智之弦濒临崩断</span>');
+    if (S.flags.debt) c.push('<span class="warnc">负债中</span>');
+    if (S.dist >= 70) c.push('<span class="violet">耳畔正回荡着那个温柔的声音</span>');
+    else if (S.dist >= 40) c.push('<span class="violet">最近，你常常做同一个梦</span>');
+    if (CITY.stat(S, 'body') < 20) c.push('<span class="warnc">身体很差</span>');
+    if (CITY.stat(S, 'mind') < 20) c.push('<span class="warnc">精神濒临崩溃</span>');
     $('#cond').innerHTML = c.join('<br>');
   }
 
@@ -964,13 +963,13 @@
       }
       h += '</div></div>';
     }
-    $('#codex').innerHTML = h || '<div class="empty">书页尚空，你还未在这座都市留下任何见闻。</div>';
+    $('#codex').innerHTML = h || '<div class="empty">还没有任何见闻。</div>';
     $('#codex-count').textContent = got + ' / ' + tot;
   }
   function renderLives() {
     const d = CITY.store.load();
     $('#lives-count').textContent = '共 ' + (d.total || 0) + ' 次人生';
-    $('#lives').innerHTML = d.lives.length ? d.lives.map((l) => '<div class="life"><b>' + esc(l.name) + '</b>　' + esc(l.job) + ' · 享年' + l.age + '岁<div>' + esc(l.death) + '</div>' + (l.titles && l.titles.length ? '<div class="meta">名号：' + l.titles.map(esc).join('、') + '</div>' : '') + (l.words ? '<div class="words">“' + esc(l.words) + '”</div>' : '') + '<div class="meta">生于' + esc(l.home) + ' · ' + new Date(l.t).toLocaleString() + ' · 种子 ' + esc(l.seed) + '</div></div>').join('') : '<div class="empty">名录尚空，还没有人走完这一生。</div>';
+    $('#lives').innerHTML = d.lives.length ? d.lives.map((l) => '<div class="life"><b>' + esc(l.name) + '</b>　' + esc(l.job) + ' · 享年' + l.age + '岁<div>' + esc(l.death) + '</div>' + (l.titles && l.titles.length ? '<div class="meta">名号：' + l.titles.map(esc).join('、') + '</div>' : '') + (l.words ? '<div class="words">“' + esc(l.words) + '”</div>' : '') + '<div class="meta">生于' + esc(l.home) + ' · ' + new Date(l.t).toLocaleString() + ' · 种子 ' + esc(l.seed) + '</div></div>').join('') : '<div class="empty">还没有人在这里活过。</div>';
   }
 
   function renderSfxBtn() { const b = $('#btn-sfx'); if (!b || !window.SFX) return; b.classList.toggle('on', window.SFX.on); b.textContent = window.SFX.on ? '♪' : '♪̸'; b.title = window.SFX.on ? '音效：开' : '音效：关'; }
@@ -982,7 +981,10 @@
     for (const [id, on] of [['#m-step', stepMode], ['#m-timed', timedChoices]]) { $(id).classList.toggle('on', on); $(id).setAttribute('aria-pressed', on); }
   }
   try { stepMode = localStorage.getItem('citylife.step') === '1'; } catch (_) {}
-  try { timedChoices = localStorage.getItem('citylife.timed-choices') === '1'; } catch (_) {}
+  try {
+    const tc = localStorage.getItem('citylife.timed-choices');
+    timedChoices = tc == null ? true : tc === '1';
+  } catch (_) {}
   renderSwitches();
   go('title');
 

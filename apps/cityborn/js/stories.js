@@ -61,11 +61,18 @@
   }
   const gate = (S, A) => (C.storyRoutes[A.route] || human)(S) && (!A.req || C.test(S, A.req))
     && (!A.window || A.window.includes(C.worldStage(S)));
+  const isFactionRoute = r => !['human', 'child', 'family', 'late', 'none', 'student'].includes(r);
   C.storyCanRun = (S, e) => {
     if (S.rulesVersion < 4 || !S.alive) return false;
     const A = C.STORIES[e.story.id], x = C.storyData(S, A.id);
-    if (e.story.step === 0) return !x && gate(S, A) && S.age >= A.age[0] && S.age <= A.age[1]
-      && active(S).length < 2 && S.storyYear.age !== S.age;
+    if (e.story.step === 0) {
+      const act = active(S);
+      const maxSlots = S.rulesVersion >= 8
+        ? (isFactionRoute(A.route) ? (act.filter(s => isFactionRoute(C.STORIES[s.id]?.route)).length < 2 && act.length < 4) : act.length < 3)
+        : act.length < 2;
+      return !x && gate(S, A) && S.age >= A.age[0] && S.age <= A.age[1]
+        && maxSlots && S.storyYear.age !== S.age;
+    }
     return !!(x && x.status === 'active' && x.next === e.story.step && x.due <= S.age && gate(S, A)
       && (A.route !== 'family' || x.family === familyKey(S)));
   };
@@ -84,7 +91,8 @@
     const group = e.story ? e.story.id : e.content ? e.content.group : e.id;
     const seen = S.memory.groups[group] || 0;
     const theme = e.story ? e.story.theme : e.content && e.content.theme;
-    return 1 / Math.pow(1 + seen, 0.8) * (theme && S.storyRhythm.slice(-2).includes(theme) ? 0.35 : 1);
+    const boost = S.rulesVersion >= 8 && e.story && isFactionRoute(e.story.route) ? (S.job.years <= 3 ? 2.8 : 1.7) : 1;
+    return boost / Math.pow(1 + seen, 0.8) * (theme && S.storyRhythm.slice(-2).includes(theme) ? 0.35 : 1);
   };
   C.rememberStoryEvent = (S, e) => {
     if (S.rulesVersion < 4) return;
@@ -126,9 +134,11 @@
     if (S.rulesVersion < 4) return;
     for (const x of active(S)) {
       const A = C.STORIES[x.id];
+      const stale = S.rulesVersion >= 8 && x.due && S.age - x.due >= 5 && !S.queue.some(q => q.id === A.nodes[x.next]?.id);
       const reason = !S.alive ? '未竟' : !gate(S, A) ? '离开' : A.local && x.home !== S.home ? '迁居'
         : A.route === 'syndicate' && x.employer !== S.job.org ? '改换帮派'
-        : A.route === 'family' && x.family !== familyKey(S) ? '关系改变' : '';
+        : A.route === 'family' && x.family !== familyKey(S) ? '关系改变'
+        : stale ? '搁置' : '';
       if (!reason) continue;
       close(S, A, 'interrupted', reason);
       if (S.alive) C.log(S, '「' + A.title + '」暂告一段落。' + (A.exit || ''), 'sys');
@@ -161,12 +171,15 @@
       x.next = spec.goto == null ? step + 1 : typeof spec.goto === 'function' ? spec.goto(S, x.data) : spec.goto;
       if (!Number.isInteger(x.next) || x.next <= step || x.next >= A.nodes.length) throw new Error('无效剧情分歧：' + A.id);
       // 规则7：一段故事一年只走一步，除非作者明确写了 gap: 0（同一个晚上接着发生的事）。
+      // 规则8：阵营故事与短篇允许在同一年推进两步（step % 2 === 0 时紧接推进），让玩家在有限寿命内走完更多写好的故事。
       // 图书馆一类只存在一年的窗口仍按旧节奏，否则故事会在窗口关闭时被打断。
-      const v7 = S.rulesVersion >= 7 && A.route !== 'library' && !(A.window && A.window.every(w => ['fall', 'lib'].includes(w)));
-      const delay = A.nodes[step].gap == null ? (v7 ? 1 : step % 3 === 2 ? 1 : 0) : A.nodes[step].gap;
+      const fastWindow = A.route === 'library' || (A.window && A.window.every(w => ['fall', 'lib'].includes(w)));
+      const v8 = S.rulesVersion >= 8 && !fastWindow;
+      const v7 = S.rulesVersion === 7 && !fastWindow;
+      const delay = A.nodes[step].gap == null ? (v8 ? (step % 2 === 1 ? 1 : 0) : v7 ? 1 : step % 3 === 2 ? 1 : 0) : A.nodes[step].gap;
       x.due = S.age + delay;
       const next = A.nodes[x.next].id;
-      if (!delay && S.storyYear.steps < (v7 ? 2 : 3)) out.next = next;
+      if (!delay && S.storyYear.steps < (v8 || v7 ? 2 : 3)) out.next = next;
       else { x.due = Math.max(x.due, S.age + 1); S.queue.push({ id: next, at: x.due }); }
     };
     const option = (spec, step) => {
@@ -213,10 +226,10 @@
     return x ? '你与' + C.storyPerson(S, x.id) + '经历过「' + C.STORIES[x.id].title + '」。' + (x.summary === '完成' ? '' : x.summary) : '';
   };
   C.installStoryActions = () => {
-    C.ACTIONS.visit = { name: '处理手头的约定', desc: '赴约去见那个还在等你的人，把未了的承诺办完', req: { fn: S => S.rulesVersion >= 4 && !!C.storyNext(S) }, ev: S => C.storyNext(S)?.id, cd: 1 };
-    C.ACTIONS.findstory = { name: '打听身边的事', desc: '在如今混迹的圈子里留心风声，看看有什么找上门来的因果', req: { fn: S => S.rulesVersion >= 4 && C.storyEntries(S).length > 0 },
+    C.ACTIONS.visit = { name: '处理手头的约定', desc: '回到已经接下的事情里', req: { fn: S => S.rulesVersion >= 4 && !!C.storyNext(S) }, ev: S => C.storyNext(S)?.id, cd: 1 };
+    C.ACTIONS.findstory = { name: '打听身边的事', desc: '寻找当前身份能参与的新经历', req: { fn: S => S.rulesVersion >= 4 && C.storyEntries(S).length > 0 },
       ev: S => S.rng.wpick(C.storyEntries(S), e => C.eventWeight(S, e))?.id, cd: 2 };
-    C.ACTIONS.associations = { name: '打听协会的招募', desc: '带着过往的委托履历，主动接触各大收尾人协会的考官', req: { age: [20, 55], job: 'fixer', rank: [1, 6], noflag: ['assoc', 'office_own'], fn: S => S.rulesVersion >= 4 }, ev: 'fx_assoc_invite', cd: 3 };
-    C.ACTIONS.beastwork = { name: '打听H公司方向的运货差事', desc: '去H巢外围的车马行揽活，替鸿园深宅押送不许开封的黑漆货箱', req: { age: [18, 70], wing: 'H', loc: 'backstreet', nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'distorted', 'book'], noflag: ['finger_quit'], fn: S => S.rulesVersion >= 4 && !S.used.sy_beast_road }, ev: 'sy_beast_road', cd: 3 };
+    C.ACTIONS.associations = { name: '打听协会的招募', desc: '达到条件后，主动接触愿意面谈的协会', req: { age: [20, 55], job: 'fixer', rank: [1, 6], noflag: ['assoc', 'office_own'], fn: S => S.rulesVersion >= 4 }, ev: 'fx_assoc_invite', cd: 3 };
+    C.ACTIONS.beastwork = { name: '打听H公司方向的运货差事', desc: '以普通帮工的身份接触外围运输', req: { age: [18, 70], loc: 'backstreet', nojob: ['syndicate', 'finger', 'kurokumo', 'blade', 'heishou', 'distorted', 'book'], noflag: ['finger_quit'], fn: S => (S.rulesVersion >= 8 || S.wing === 'H') && S.rulesVersion >= 4 && !S.used.sy_beast_road }, ev: 'sy_beast_road', cd: 3 };
   };
 })();
